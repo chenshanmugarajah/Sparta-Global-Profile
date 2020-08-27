@@ -102,16 +102,16 @@ An admin can register other users. If a user is a student can create, view and e
 
 ### Definition of Done - Project
 
-Completed code uploaded to GitHub and merged into master branch
-README file provides thorough documentation of the application
-Code is concise and clear, following good naming conventions Application encapsulated behind a well designed and easy to use user interface.
+* Completed code uploaded to GitHub and merged into master branch
+* README file provides thorough documentation of the application
+* Code is concise and clear, following good naming conventions Application encapsulated behind a well designed and easy to use user interface.
 
 ### Definition of Done - User Stories
-Code build with no error
-Code review is complete
-Acceptance criteria are met
-The user story is both implemented in Model and GUI
-80% of unit test passing
+* Code build with no error
+* Code review is complete
+* Acceptance criteria are met
+* The user story is both implemented in Model and GUI
+* 80% of unit test passing
 
 ---
 
