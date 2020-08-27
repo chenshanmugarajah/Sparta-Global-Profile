@@ -131,7 +131,8 @@ Thursday
 - 11:30 - 12:20 - Call with Astha and improved acceptance criteria
 - 12:20 - 12:30 - Review of call with Astha
 - 12:30 - 13:30 - Lunch
-- 13:30 - ... - Create GitHub
+- 13:30 - 13:40 - Created Github and added team members as collaborators
+- 13:40 - 14:30 - Acceptance criteria updated to follow Gherkin Cucumber syntax
 
 Notes: 
 - Summary due monday and CV
