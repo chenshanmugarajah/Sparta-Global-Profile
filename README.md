@@ -53,18 +53,15 @@ The proof of concept project has a deadline of 2 weeks to be completed, from pla
 ### Functional Requirements
 * Display Spartan Profiles
 * Filter Spartan Profiles by academy stream
-* **ADD MORE**
 
 ### Non functional Requirements
 * The page should be easy to navigate
-* **ADD MORE**
 
 ### Types of Users
 * Admin
 * Resource manager
 * Client
 * Spartan Student
-* **ADD MORE**
 
 ### Profile sections
 * Name
@@ -171,7 +168,7 @@ Notes:
 
 * Monday 7th - Wednesday 9th 
 * Scrum Master: **Bryn** 
-* Task: 
+* Task: Profile displays, Exporting
 
 * **Review Conclusion: ... ??** with Richard and Emer
 * **Retro Conclusion: ... ??** with Whole Team
@@ -191,5 +188,4 @@ Notes:
 ## MVP
 
 ### MVP Description
-* Creating a page with input boxes to create a online Sparta Profile and view all the profiles based on the layout given by product owner 
-* **ADD**
+* Creating a page with input boxes to create a online Sparta Profile and view all the profiles based on the layout given by product owner
