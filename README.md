@@ -48,7 +48,7 @@ The proof of concept project has a deadline of 2 weeks to be completed, from pla
 
 ---
 
-## Product
+## Product - Key Details
 
 ### Functional Requirements
 * Display Spartan Profiles
@@ -96,11 +96,22 @@ This Entity Relationship Diagram shows a blueprint of the database used for the 
 
 ## Conclusion
 
-### Project - Definition of Done
-* **ADD**
+### Description
 
-### User stroy - Definition of Done
-* **ADD**
+An admin can register other users. If a user is a student can create, view and edit their own profile page. If a user is a resource manager they can approve and disapprove a profile, if is approved their profile is live. If a user is a client, can be registered by admin, can search with a filter and view Sparta profiles and export them.
+
+### Definition of Done - Project
+
+Completed code uploaded to GitHub and merged into master branch
+README file provides thorough documentation of the application
+Code is concise and clear, following good naming conventions Application encapsulated behind a well designed and easy to use user interface.
+
+### Definition of Done - User Stories
+Code build with no error
+Code review is complete
+Acceptance criteria are met
+The user story is both implemented in Model and GUI
+80% of unit test passing
 
 ---
 
