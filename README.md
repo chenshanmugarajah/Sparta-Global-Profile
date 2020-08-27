@@ -21,6 +21,8 @@
   - [Sprint Layouts](#sprint-layouts)
     - [Sprint 0 - Planning](#sprint-0---planning)
       - [Overview:](#overview)
+      - [Sprint Review:](#sprint-review)
+      - [Sprint Retrospective](#sprint-retrospective)
       - [What was done:](#what-was-done)
     - [Sprint 1 - MVP](#sprint-1---mvp)
     - [Sprint 2 - Permissions implementation](#sprint-2---permissions-implementation)
@@ -116,14 +118,19 @@ This Entity Relationship Diagram shows a blueprint of the database used for the 
 
 * Wednesday 26th - Thursday 27th 
 * Scrum Master: **Chen** 
-* Task: Project planning and proposing 
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
+* Task: Project planning and proposing
+
+#### Sprint Review:
+- What was accomplished ...
+
+#### Sprint Retrospective
+- What went well, what could be improve ...
 
 #### What was done:
 
 Wednesday 
-- 9:30 - 16:00 - Meeting with Emer and initial plans 
+- 9:30 - 16:00 - Meeting with Emer and initial plans
+
 Thursday
 - 9:30 - 11:00 - Created acceptance criteria
 - 11:00 - 11:15 - Creating project document
