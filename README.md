@@ -153,7 +153,7 @@ Notes:
   
 ---
 
-### Sprint 1 - MVP
+### Sprint 1 - Project setup and MVP
 
 * Friday 28th - Wednesday 2nd 
 * Scrum Master: **Alex** 
@@ -175,18 +175,18 @@ Notes:
 
 ---
 
-### Sprint 3 - ...
+### Sprint 3 - Exporting, Admin Panel, Viewing
 
 * Monday 7th - Wednesday 9th 
 * Scrum Master: **Bryn** 
-* Task: Profile displays, Exporting
+* Task: Profile displays, Exporting, Client viewing in teams format
 
 * **Review Conclusion: ... ??** with Richard and Emer
 * **Retro Conclusion: ... ??** with Whole Team
 
 ---
 
-### Sprint 4 - ...
+### Sprint 4 - Clean up
 * Thursday 10th - Friday 11th 
 * Scrum Master: **Harry** 
 * Task: Polishing, Testings and Presentation
