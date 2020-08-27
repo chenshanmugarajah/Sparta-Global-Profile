@@ -105,9 +105,6 @@ This Entity Relationship Diagram shows a blueprint of the database used for the 
 ### User stroy - Definition of Done
 * **ADD**
 
-### Gantt Chart???
-* **ADD**
-
 ---
 
 ## Sprint Layouts 
