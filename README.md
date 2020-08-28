@@ -126,10 +126,13 @@ An admin can register other users. If a user is a student can create, view and e
 * Task: Project planning and proposing
 
 #### Sprint Review:
-- What was accomplished ...
+* Work getting along well
+* Update acceptance criteria into Gherkin syntax
+* Add sub tasks to user stories
 
 #### Sprint Retrospective
-- What went well, what could be improve ...
+* Work completed on time
+* Follow correct syntax for documentations
 
 #### What was done:
 
