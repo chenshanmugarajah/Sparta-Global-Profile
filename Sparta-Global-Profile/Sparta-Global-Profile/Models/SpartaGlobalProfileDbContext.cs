@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
 namespace Sparta_Global_Profile.Models
@@ -28,7 +29,13 @@ namespace Sparta_Global_Profile.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserType> UserTypes { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Profile>()
+                .HasOne(p => p.User)
+                .WithOne(p => p.Profile)
+                .HasForeignKey<Profile>(p => p.UserId);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

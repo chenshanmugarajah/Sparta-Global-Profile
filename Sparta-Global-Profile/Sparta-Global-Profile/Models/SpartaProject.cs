@@ -11,7 +11,7 @@ namespace Sparta_Global_Profile.Models
         {
             ProjectLinks = new HashSet<ProjectLink>();
         }
-        public int ProjectId { get; set; }
+        public int SpartaProjectId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectBio { get; set; }
         public int ProfileId { get; set; }
