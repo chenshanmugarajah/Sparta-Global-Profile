@@ -25,7 +25,7 @@ namespace Sparta_Global_Profile
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SpartaGlobalProfileDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SpartaGlobalProfileDb"));
+            services.AddDbContext<SpartaGlobalProfileDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SpartaGlobalProfileDb")));
             services.AddControllersWithViews();
         }
 
