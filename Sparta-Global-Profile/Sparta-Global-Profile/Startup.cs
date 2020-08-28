@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile
 {
@@ -23,6 +25,7 @@ namespace Sparta_Global_Profile
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SpartaGlobalProfileDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SpartaGlobalProfileDb"));
             services.AddControllersWithViews();
         }
 
