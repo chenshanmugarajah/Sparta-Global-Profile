@@ -1,6 +1,7 @@
 <space><space>
 
 # Sparta Profiles Viewer
+![Project logo](images/logo.png)
 
 - [Sparta Profiles Viewer](#sparta-profiles-viewer)
   - [Project Description](#project-description)
