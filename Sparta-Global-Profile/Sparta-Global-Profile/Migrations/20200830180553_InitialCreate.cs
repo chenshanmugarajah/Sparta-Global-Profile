@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sparta_Global_Profile.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -183,7 +183,7 @@ namespace Sparta_Global_Profile.Migrations
                     Establishment = table.Column<string>(nullable: true),
                     Qualification = table.Column<string>(nullable: true),
                     Grade = table.Column<string>(nullable: true),
-                    ProfileId = table.Column<int>(nullable: true)
+                    ProfileId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,7 +193,7 @@ namespace Sparta_Global_Profile.Migrations
                         column: x => x.ProfileId,
                         principalTable: "Profiles",
                         principalColumn: "ProfileId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,6 +322,89 @@ namespace Sparta_Global_Profile.Migrations
                         principalTable: "SpartaProjects",
                         principalColumn: "SpartaProjectId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "CourseId", "AcademyExperience", "CourseName" },
+                values: new object[] { 1, "all the academy pre filled stuff will be here", "C#" });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "StatusId", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Training" },
+                    { 2, "Pre employment" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserTypes",
+                columns: new[] { "UserTypeId", "UserTypeName" },
+                values: new object[] { 1, "student" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "ProfileId", "UserEmail", "UserPassword", "UserTypeId" },
+                values: new object[] { 1, null, "bruno@gmail.com", "123", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Profiles",
+                columns: new[] { "ProfileId", "Approved", "CourseId", "ProfileName", "ProfilePicture", "StatusId", "Summary", "UserId" },
+                values: new object[] { 1, false, 1, "Bruno Silva", "urlpath", 1, "this is a summary for my profile", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Educations",
+                columns: new[] { "EducationId", "EndDate", "Establishment", "Grade", "ProfileId", "Qualification", "StartDate" },
+                values: new object[] { 1, new DateTime(2019, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Royal Holloway University Of London", "2.1", 1, "BA Hons Drama & Theatre Studies", new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Employment",
+                columns: new[] { "EmploymentId", "CompanyName", "EndDate", "Position", "ProfileId", "StartDate", "Summary" },
+                values: new object[] { 1, "Timberland", new DateTime(2020, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sales Assistant", 1, new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Was boring retail" });
+
+            migrationBuilder.InsertData(
+                table: "Hobbies",
+                columns: new[] { "HobbyId", "HobbyDescription", "HobbyName", "ProfileId" },
+                values: new object[,]
+                {
+                    { 1, "Like to play games", "Gaming", 1 },
+                    { 2, "Like to keep fit", "Gym", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Skills",
+                columns: new[] { "SkillId", "ProfileId", "SkillName" },
+                values: new object[,]
+                {
+                    { 1, 1, "Agile" },
+                    { 2, 1, "C#" },
+                    { 3, 1, "SQL" },
+                    { 4, 1, "Javascript" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SpartaProjects",
+                columns: new[] { "SpartaProjectId", "ProfileId", "ProjectBio", "ProjectName" },
+                values: new object[] { 1, 1, "A fullstack project using ASP.NET API and React", "Games Collector" });
+
+            migrationBuilder.InsertData(
+                table: "Modules",
+                columns: new[] { "ModuleId", "CourseYear", "EducationId", "ModuleName" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "Performance Making" },
+                    { 2, 2, 1, "Staging The Real" },
+                    { 3, 3, 1, "Race Relations" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProjectLinks",
+                columns: new[] { "ProjectLinkId", "LinkText", "SpartaProjectId", "Url" },
+                values: new object[,]
+                {
+                    { 1, "Backend", 1, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/labs/GameBackend" },
+                    { 2, "Frontend", 1, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" }
                 });
 
             migrationBuilder.CreateIndex(
