@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Sparta_Global_Profile.Models.Profile>
+﻿@*@model IEnumerable<Sparta_Global_Profile.Models.Profile>*@
+@model Sparta_Global_Profile.Controllers.PaginatedList<Sparta_Global_Profile.Models.Profile>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,16 +23,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProfileName)
+               Profile Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProfilePicture)
+               Profile Image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Summary)
+                Summary
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course)
+                Course
             </th>
             <th></th>
         </tr>
@@ -63,3 +64,18 @@
 }
     </tbody>
 </table>
+
+@{ 
+    var previousDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disable" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @previousDisabled">Previous</a>
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">Next</a>

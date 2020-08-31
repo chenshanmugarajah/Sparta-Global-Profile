@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Controllers
@@ -19,9 +21,19 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Profile
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter)
         {
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentFilter"] = searchString;
+
+            if(searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var profiles = from profile in _context.Profiles.Include(p => p.Course)
                            select profile;
@@ -30,8 +42,9 @@ namespace Sparta_Global_Profile.Controllers
             {
                 profiles = profiles.Where(p => p.Course.CourseName.Contains(searchString));
             }
+            int pageSize = 3;
 
-            return View(await profiles.AsNoTracking().ToListAsync());
+            return View(await PaginatedList<Profile>.CreateAsync(profiles.AsNoTracking(), pageNumber ?? 1, pageSize));
             //var spartaGlobalProfileDbContext = _context.Profiles.Include(p => p.Course).Include(p => p.Status).Include(p => p.User);
             //return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
