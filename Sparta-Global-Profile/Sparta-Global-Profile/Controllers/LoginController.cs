@@ -14,6 +14,7 @@ namespace Sparta_Global_Profile.Controllers
 {
     public class LoginController : Controller
     {
+        SpartaGlobalProfileDbContext db = new SpartaGlobalProfileDbContext();
 
         public IActionResult Index()
         {
@@ -24,21 +25,17 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(Sparta_Global_Profile.Models.User userModel)
         {
-            using(SpartaGlobalProfileDbContext db = new SpartaGlobalProfileDbContext())
+            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault();
+            if (userDetails == null)
             {
-                var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault();
-                if (userDetails == null)
-                {
-                    ModelState.AddModelError("UserPassword", "Invalid login attempt.");
-                    return View("Index");
-                }
+                ModelState.AddModelError("UserPassword", "Invalid login attempt.");
+                return View("Index");
+            }
                 
-                else 
-                {
-                    HttpContext.Session.SetString("UserId", userDetails.UserEmail);
-                    return RedirectToAction("Index", "Home");
-                }
-         
+            else 
+            {
+                HttpContext.Session.SetString("UserId", userDetails.UserEmail);
+                return RedirectToAction("Index", "Home");
             }
         }
 
