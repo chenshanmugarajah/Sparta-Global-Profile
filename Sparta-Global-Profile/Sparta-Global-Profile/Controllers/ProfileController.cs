@@ -19,10 +19,21 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Profile
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var spartaGlobalProfileDbContext = _context.Profiles.Include(p => p.Course).Include(p => p.Status).Include(p => p.User);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var profiles = from profile in _context.Profiles.Include(p => p.Course)
+                           select profile;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                profiles = profiles.Where(p => p.Course.CourseName.Contains(searchString));
+            }
+
+            return View(await profiles.AsNoTracking().ToListAsync());
+            //var spartaGlobalProfileDbContext = _context.Profiles.Include(p => p.Course).Include(p => p.Status).Include(p => p.User);
+            //return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
         // GET: Profile/Details/5
