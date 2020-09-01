@@ -24,10 +24,12 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(User userModel)
         {
-            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault();
-            if (userDetails == null)
+            var password = db.Users.Where(u => u.UserEmail == userModel.UserEmail).Select(u => u.UserPassword).FirstOrDefault();
+            var decryptedPassword = Helper.DecryptCipherTextToPlainText(password);
+            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
+            if (userDetails == null || (userModel.UserPassword != decryptedPassword))
             {
-                ModelState.AddModelError("UserPassword", "Invalid login attempt.");
+                ModelState.AddModelError("UserEmail", "Invalid login attempt.");
                 return View("Index");
             }
                 

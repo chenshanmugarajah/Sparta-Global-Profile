@@ -176,8 +176,7 @@ namespace Sparta_Global_Profile.Controllers
                     var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
                     if (checkUser == null)
                     {
-                        var keyNew = Helper.GeneratePassword(10);
-                        var password = Helper.EncodePassword(objNewUser.UserPassword, keyNew);
+                        var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
                         objNewUser.UserPassword = password;
                         //objNewUser.VCode = keyNew;
                         context.Users.Add(objNewUser);
