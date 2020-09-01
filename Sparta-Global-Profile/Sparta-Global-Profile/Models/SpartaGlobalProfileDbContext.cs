@@ -38,7 +38,8 @@ namespace Sparta_Global_Profile.Models
 
             modelBuilder.Entity<UserType>().HasData
                 (
-                    new UserType { UserTypeId = 1, UserTypeName = "student" }
+                    new UserType { UserTypeId = 1, UserTypeName = "Student" } ,
+                    new UserType { UserTypeId = 1, UserTypeName = "Client"}
                 );
 
             modelBuilder.Entity<Status>().HasData
@@ -55,7 +56,8 @@ namespace Sparta_Global_Profile.Models
 
             modelBuilder.Entity<User>().HasData
                 (
-                    new User { UserId = 1, UserEmail = "bruno@gmail.com", UserPassword = "123", UserTypeId = 1 }
+                    new User { UserId = 1, UserEmail = "bruno@gmail.com", UserPassword = "123", UserTypeId = 1 },
+                    new User { UserId = 2, UserEmail = "client@gmail.com", UserPassword = "123", UserTypeId = 2}
                 );
 
             modelBuilder.Entity<Profile>().HasData
