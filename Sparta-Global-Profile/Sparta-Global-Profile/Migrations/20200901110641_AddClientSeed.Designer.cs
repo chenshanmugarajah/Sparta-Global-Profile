@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    partial class SpartaGlobalProfileDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200901110641_AddClientSeed")]
+    partial class AddClientSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -555,13 +557,11 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserTypeId = 1,
-
                             UserTypeName = "student"
                         },
                         new
                         {
                             UserTypeId = 2,
-
                             UserTypeName = "client"
                         },
                         new
@@ -578,7 +578,6 @@ namespace Sparta_Global_Profile.Migrations
                         {
                             UserTypeId = 5,
                             UserTypeName = "admin"
-
                         });
                 });
 

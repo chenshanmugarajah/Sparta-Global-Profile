@@ -12,13 +12,12 @@
     @{
 
         var userId = Context.Session.GetString("UserId");
-        if (userId == null)
-        {
-            //Context.Response.Redirect("/Home");
+        var userTypeId = Context.Session.GetString("UserTypeId");
+        var userEmail = Context.Session.GetString("UserEmail");
 
-        }
     }
     <header>
+        
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sparta_Global_Profile</a>
@@ -26,28 +25,32 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Sparta Profiles</a>
-                      </li> 
-                      <li class ="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Admin Panel</a>
-                        </li>
-
-                    </ul>
-                </div>
+                @{
+                    if (@userId != null)
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                            <ul class="navbar-nav flex-grow-1">
+                                @if (@userTypeId != "1")
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Sparta Profiles</a>
+                                    </li>
+                                }
+                                <li class ="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Admin Panel</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                }
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         @if (@userId != null)
                         {
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <strong>@userId</strong>
+                                    <strong asp-action="Index" method="get">@userEmail</strong>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a asp-area="" asp-controller="Userdetails" asp-action="index">My Profile</a></li>
