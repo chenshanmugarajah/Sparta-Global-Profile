@@ -12,11 +12,8 @@
     @{
 
         var userId = Context.Session.GetString("UserId");
-        if (userId == null)
-        {
-            //Context.Response.Redirect("/Home");
-        }
-
+        var UserTypeId = Context.Session.GetString("UserTypeId");
+        
     }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -31,9 +28,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Sparta Profiles</a>
-                        </li>
+                        @if (@UserTypeId != "1")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Sparta Profiles</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse">
