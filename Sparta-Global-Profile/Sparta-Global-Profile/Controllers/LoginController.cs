@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sparta_Global_Profile.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sparta_Global_Profile.Controllers
 {
@@ -24,7 +25,8 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(Sparta_Global_Profile.Models.User userModel)
         {
-            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault();
+            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(x=> x.UserType).FirstOrDefault();
+            ViewData["UserEmail"] = userDetails.UserEmail;
             if (userDetails == null)
             {
                 ModelState.AddModelError("UserPassword", "Invalid login attempt.");
@@ -33,8 +35,9 @@ namespace Sparta_Global_Profile.Controllers
                 
             else 
             {
-                HttpContext.Session.SetString("UserId", userDetails.UserEmail); 
-                return RedirectToAction("Index", "Home");
+                HttpContext.Session.SetString("UserId", userDetails.UserId.ToString());
+                if(userDetails.UserType.UserTypeName == "client") return RedirectToAction("Index", "Profile");
+                return View("Index");
             }
         }
 

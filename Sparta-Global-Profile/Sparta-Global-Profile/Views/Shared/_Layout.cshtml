@@ -15,8 +15,8 @@
         if (userId == null)
         {
             //Context.Response.Redirect("/Home");
-
         }
+
     }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -40,9 +40,10 @@
                     <ul class="nav navbar-nav navbar-right">
                         @if (@userId != null)
                         {
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <strong>@userId</strong>
+                                    <strong asp-action="Index" method="get">@userId</strong>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a asp-area="" asp-controller="Userdetails" asp-action="index">My Profile</a></li>
