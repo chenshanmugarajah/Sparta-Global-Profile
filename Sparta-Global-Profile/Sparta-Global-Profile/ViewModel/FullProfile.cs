@@ -10,6 +10,18 @@ namespace Sparta_Global_Profile.ViewModel
 {
     public class FullProfile
     {
+        public FullProfile()
+        {
+            Certifications = new HashSet<Certification>();
+            Assignments = new HashSet<Assignment>();
+            Skills = new HashSet<Skill>();
+            Comments = new HashSet<Comment>();
+            Educations = new HashSet<Education>();
+            Employments = new HashSet<Employment>();
+            Hobbies = new HashSet<Hobby>();
+            SpartaProjects = new HashSet<SpartaProject>();
+        }
+
         public int ProfileUserId { get; set; }
         public string ProfilePic { get; set; }
         public string ProfileFullName { get; set; }

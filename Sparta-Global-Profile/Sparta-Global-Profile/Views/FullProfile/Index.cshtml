@@ -1,13 +1,13 @@
-﻿
+﻿@model Sparta_Global_Profile.ViewModel.FullProfile
+
 @{
     ViewData["Title"] = "FullProfileView";
 }
 
-@model Sparta_Global_Profile.ViewModel.FullProfile
 
 <h1>FullProfileView</h1>
 
-<h4> Profile </h4>
+<h3> Profile </h3>
 <p>
     Full Name: @Model.ProfileFullName
 </p>
@@ -27,7 +27,15 @@
     Academy Status: @Model.ProfileAcademyStatus
 </p>
 
-@foreach(var item in Model.Assignments)
+<h3>Projects</h3>
+@foreach(var project in Model.SpartaProjects)
 {
-    <p> Company name: @item.CompanyName </p>
+    <h4> @project.ProjectName </h4>
+    <p> @project.ProjectBio </p>
+}
+
+<h3>Skills</h3>
+@foreach(var userSkill in Model.Skills)
+{
+    <h4> @userSkill.SkillName </h4>
 }
