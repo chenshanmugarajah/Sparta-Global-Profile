@@ -162,5 +162,38 @@ namespace Sparta_Global_Profile.Controllers
         {
             return _context.Users.Any(e => e.UserId == id);
         }
+
+
+        // encrypt functionality
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Registration(User objNewUser)
+        {
+            try
+            {
+                using (var context = new SpartaGlobalProfileDbContext())
+                {
+                    var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
+                    if (checkUser == null)
+                    {
+                        var keyNew = Helper.GeneratePassword(10);
+                        var password = Helper.EncodePassword(objNewUser.UserPassword, keyNew);
+                        objNewUser.UserPassword = password;
+                        //objNewUser.VCode = keyNew;
+                        context.Users.Add(objNewUser);
+                        context.SaveChanges();
+                        ModelState.Clear();
+                        return RedirectToAction("Login", "Index");
+                    }
+                    ViewBag.ErrorMessage = "User Already Exists!";
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "Some exception occured" + e;
+                return View();
+            }
+        }
     }
 }
