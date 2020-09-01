@@ -26,7 +26,7 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(Sparta_Global_Profile.Models.User userModel)
         {
-            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(x=> x.UserType).FirstOrDefault();
+            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(u => u.Profile).FirstOrDefault();
            
             if (userDetails == null)
             {
@@ -38,7 +38,13 @@ namespace Sparta_Global_Profile.Controllers
             {
                 ViewData["UserEmail"] = userDetails.UserEmail;
                 HttpContext.Session.SetString("UserId", userDetails.UserId.ToString());
-                if(userDetails.UserType.UserTypeName == "client") return RedirectToAction("Index", "Profile");
+                if(userDetails.UserTypeId == 2) return RedirectToAction("Index", "Profile");
+                if (userDetails.UserTypeId == 1)
+                {
+                    var routeId = userDetails.Profile.ProfileId;
+                    return RedirectToAction("Details", "Profile", new { id = routeId  });
+                }
+
                 return View("Index");
             }
         }
