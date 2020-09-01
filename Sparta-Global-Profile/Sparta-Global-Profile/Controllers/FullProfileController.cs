@@ -11,9 +11,9 @@ namespace Sparta_Global_Profile.Controllers
 {
     public class FullProfileController : Controller
     {
+        SpartaGlobalProfileDbContext _context = new SpartaGlobalProfileDbContext();
         public IActionResult Index()
         {
-            SpartaGlobalProfileDbContext _context = new SpartaGlobalProfileDbContext();
 
             int TESTUSERID = 1; // session
 
@@ -46,6 +46,25 @@ namespace Sparta_Global_Profile.Controllers
             fullProfile.SpartaProjects = _context.SpartaProjects.Where(a => a.ProfileId == profile.ProfileId).ToList();
 
             return View(fullProfile);
+        }
+
+        // POST: Profile/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(profile);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", profile.CourseId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusId", profile.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", profile.UserId);
+            return View(profile);
         }
     }
 }
