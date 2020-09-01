@@ -39,6 +39,7 @@ namespace Sparta_Global_Profile.Controllers
                 ViewData["UserEmail"] = userDetails.UserEmail;
                 HttpContext.Session.SetString("UserId", userDetails.UserId.ToString());
                 HttpContext.Session.SetString("UserTypeId", userDetails.UserTypeId.ToString());
+                HttpContext.Session.SetString("UserEmail", userDetails.UserEmail);
 
                 if (userDetails.UserTypeId == 2) return RedirectToAction("Index", "Profile");
                 if (userDetails.UserTypeId == 1)
