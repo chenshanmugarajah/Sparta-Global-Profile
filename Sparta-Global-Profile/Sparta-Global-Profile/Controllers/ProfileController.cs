@@ -34,10 +34,11 @@ namespace Sparta_Global_Profile.Controllers
 
             using (var db = new SpartaGlobalProfileDbContext())
             {
-                var user = db.Users.First(user => user.UserId == Int32.Parse(userId));
+                var user = db.Users.Where(user => user.UserId == Int32.Parse(userId)).Include(user => user.Profile).First();
                 if(user.UserTypeId == 1)
                 {
-                    return RedirectToAction("Index", "Login");
+                    var routeId = user.Profile.ProfileId;
+                    return RedirectToAction("Details", "Profile", new { id = routeId });
                 }
 
             }
