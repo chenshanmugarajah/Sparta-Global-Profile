@@ -22,6 +22,8 @@ namespace Sparta_Global_Profile.Models
         public string Establishment { get; set; }
         public string Qualification { get; set; }
         public string Grade { get; set; }
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; }
         public ICollection<Module> Modules { get; set; }
     }
 }

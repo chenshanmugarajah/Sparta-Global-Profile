@@ -10,8 +10,8 @@ using Sparta_Global_Profile.Models;
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    [Migration("20200828154436_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200830180553_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -115,6 +115,14 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            CourseId = 1,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "C#"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Education", b =>
@@ -133,7 +141,7 @@ namespace Sparta_Global_Profile.Migrations
                     b.Property<string>("Grade")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfileId")
+                    b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
                     b.Property<string>("Qualification")
@@ -147,6 +155,18 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Educations");
+
+                    b.HasData(
+                        new
+                        {
+                            EducationId = 1,
+                            EndDate = new DateTime(2019, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Establishment = "Royal Holloway University Of London",
+                            Grade = "2.1",
+                            ProfileId = 1,
+                            Qualification = "BA Hons Drama & Theatre Studies",
+                            StartDate = new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Employment", b =>
@@ -179,6 +199,18 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Employment");
+
+                    b.HasData(
+                        new
+                        {
+                            EmploymentId = 1,
+                            CompanyName = "Timberland",
+                            EndDate = new DateTime(2020, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Position = "Sales Assistant",
+                            ProfileId = 1,
+                            StartDate = new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Summary = "Was boring retail"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Hobby", b =>
@@ -202,6 +234,22 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Hobbies");
+
+                    b.HasData(
+                        new
+                        {
+                            HobbyId = 1,
+                            HobbyDescription = "Like to play games",
+                            HobbyName = "Gaming",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            HobbyId = 2,
+                            HobbyDescription = "Like to keep fit",
+                            HobbyName = "Gym",
+                            ProfileId = 1
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Module", b =>
@@ -225,6 +273,29 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("EducationId");
 
                     b.ToTable("Modules");
+
+                    b.HasData(
+                        new
+                        {
+                            ModuleId = 1,
+                            CourseYear = 1,
+                            EducationId = 1,
+                            ModuleName = "Performance Making"
+                        },
+                        new
+                        {
+                            ModuleId = 2,
+                            CourseYear = 2,
+                            EducationId = 1,
+                            ModuleName = "Staging The Real"
+                        },
+                        new
+                        {
+                            ModuleId = 3,
+                            CourseYear = 3,
+                            EducationId = 1,
+                            ModuleName = "Race Relations"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Profile", b =>
@@ -265,6 +336,19 @@ namespace Sparta_Global_Profile.Migrations
                         .IsUnique();
 
                     b.ToTable("Profiles");
+
+                    b.HasData(
+                        new
+                        {
+                            ProfileId = 1,
+                            Approved = false,
+                            CourseId = 1,
+                            ProfileName = "Bruno Silva",
+                            ProfilePicture = "urlpath",
+                            StatusId = 1,
+                            Summary = "this is a summary for my profile",
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.ProjectLink", b =>
@@ -288,6 +372,22 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("SpartaProjectId");
 
                     b.ToTable("ProjectLinks");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectLinkId = 1,
+                            LinkText = "Backend",
+                            SpartaProjectId = 1,
+                            Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/labs/GameBackend"
+                        },
+                        new
+                        {
+                            ProjectLinkId = 2,
+                            LinkText = "Frontend",
+                            SpartaProjectId = 1,
+                            Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Skill", b =>
@@ -308,6 +408,32 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            SkillId = 1,
+                            ProfileId = 1,
+                            SkillName = "Agile"
+                        },
+                        new
+                        {
+                            SkillId = 2,
+                            ProfileId = 1,
+                            SkillName = "C#"
+                        },
+                        new
+                        {
+                            SkillId = 3,
+                            ProfileId = 1,
+                            SkillName = "SQL"
+                        },
+                        new
+                        {
+                            SkillId = 4,
+                            ProfileId = 1,
+                            SkillName = "Javascript"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.SpartaProject", b =>
@@ -331,6 +457,15 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("SpartaProjects");
+
+                    b.HasData(
+                        new
+                        {
+                            SpartaProjectId = 1,
+                            ProfileId = 1,
+                            ProjectBio = "A fullstack project using ASP.NET API and React",
+                            ProjectName = "Games Collector"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Status", b =>
@@ -346,6 +481,18 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasKey("StatusId");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = 1,
+                            StatusName = "Training"
+                        },
+                        new
+                        {
+                            StatusId = 2,
+                            StatusName = "Pre employment"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.User", b =>
@@ -372,6 +519,15 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("UserTypeId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            UserEmail = "bruno@gmail.com",
+                            UserPassword = "123",
+                            UserTypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.UserType", b =>
@@ -387,6 +543,13 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasKey("UserTypeId");
 
                     b.ToTable("UserTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            UserTypeId = 1,
+                            UserTypeName = "student"
+                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Assignment", b =>
@@ -418,9 +581,11 @@ namespace Sparta_Global_Profile.Migrations
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Education", b =>
                 {
-                    b.HasOne("Sparta_Global_Profile.Models.Profile", null)
+                    b.HasOne("Sparta_Global_Profile.Models.Profile", "Profile")
                         .WithMany("Education")
-                        .HasForeignKey("ProfileId");
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Employment", b =>
