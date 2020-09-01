@@ -22,7 +22,7 @@ namespace Sparta_Global_Profile.Controllers
 
         // GET: Users
 
-        //[Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
 
@@ -32,7 +32,7 @@ namespace Sparta_Global_Profile.Controllers
 
         // GET: Users/Details/5
 
-        //[Authorize(Roles = "Admin,Employee")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
