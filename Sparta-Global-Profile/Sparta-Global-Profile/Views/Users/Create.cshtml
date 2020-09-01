@@ -2,7 +2,9 @@
 
 @{
     ViewData["Title"] = "Create";
+
 }
+
 
 <h1>Create</h1>
 
@@ -23,13 +25,19 @@
                 <span asp-validation-for="UserEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserPassword" class="control-label"></label>
-                <input asp-for="UserPassword" class="form-control" />
-                <span asp-validation-for="UserPassword" class="text-danger"></span>
+                <div>
+                    <label>Custom Password?</label>
+                    <input name="customPasswordCheckbox" type="checkbox" />
+                </div>
+                @{ if (true)
+                    { <label asp-for="UserPassword" class="control-label"></label>
+                        <input asp-for="UserPassword" class="form-control" />
+                        <span asp-validation-for="UserPassword" class="text-danger"></span>} }
+
             </div>
             <div class="form-group">
                 <label asp-for="UserTypeId" class="control-label"></label>
-                <select asp-for="UserTypeId" class ="form-control" asp-items="ViewBag.UserTypeId"></select>
+                <select asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
