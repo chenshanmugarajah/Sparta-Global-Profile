@@ -22,7 +22,7 @@ namespace Sparta_Global_Profile.Controllers
 
         // GET: Users
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
 

@@ -38,7 +38,8 @@ namespace Sparta_Global_Profile.Models
 
             modelBuilder.Entity<UserType>().HasData
                 (
-                    new UserType { UserTypeId = 1, UserTypeName = "student" }
+                    new UserType { UserTypeId = 1, UserTypeName = "Student" },
+                    new UserType { UserTypeId = 2, UserTypeName = "Admin" }
                 );
 
             modelBuilder.Entity<Status>().HasData
