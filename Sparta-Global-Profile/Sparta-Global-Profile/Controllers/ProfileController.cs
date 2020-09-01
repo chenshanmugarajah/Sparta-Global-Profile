@@ -27,20 +27,17 @@ namespace Sparta_Global_Profile.Controllers
         {
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
-
-            using (var db = new SpartaGlobalProfileDbContext())
+            
+            if(userTypeId == "1")
             {
-                var user = db.Users.Where(user => user.UserId == Int32.Parse(userId)).Include(user => user.Profile).First();
-                if(user.UserTypeId == 1)
-                {
-                    var routeId = user.Profile.ProfileId;
-                    return RedirectToAction("Details", "Profile", new { id = routeId });
-                }
-
+                return RedirectToAction("Details", "Profile", new { id = profileId });
             }
 
             ViewData["CurrentFilter"] = searchString;

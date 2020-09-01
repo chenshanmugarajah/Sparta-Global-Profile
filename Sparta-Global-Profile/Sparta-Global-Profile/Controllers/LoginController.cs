@@ -26,9 +26,9 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(Sparta_Global_Profile.Models.User userModel)
         {
-            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(u => u.Profile).FirstOrDefault();
+            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(u => u.Profile).FirstOrDefault();
            
-            if (userDetails == null)
+            if (user == null)
             {
                 ModelState.AddModelError("UserPassword", "Invalid login attempt.");
                 return View("Index");
@@ -36,15 +36,19 @@ namespace Sparta_Global_Profile.Controllers
                 
             else 
             {
-                ViewData["UserEmail"] = userDetails.UserEmail;
-                HttpContext.Session.SetString("UserId", userDetails.UserId.ToString());
-                HttpContext.Session.SetString("UserTypeId", userDetails.UserTypeId.ToString());
-                HttpContext.Session.SetString("UserEmail", userDetails.UserEmail);
-
-                if (userDetails.UserTypeId == 2) return RedirectToAction("Index", "Profile");
-                if (userDetails.UserTypeId == 1)
+                ViewData["UserEmail"] = user.UserEmail;
+                HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                HttpContext.Session.SetString("UserTypeId", user.UserTypeId.ToString());
+                HttpContext.Session.SetString("UserEmail", user.UserEmail);
+                if(user.ProfileId != null)
                 {
-                    var routeId = userDetails.Profile.ProfileId;
+                    HttpContext.Session.SetString("ProfileId", user.Profile.ProfileId.ToString());
+                }
+                
+                if (user.UserTypeId == 2) return RedirectToAction("Index", "Profile");
+                if (user.UserTypeId == 1)
+                {
+                    var routeId = user.Profile.ProfileId;
                     return RedirectToAction("Details", "Profile", new { id = routeId  });
                 }
 
