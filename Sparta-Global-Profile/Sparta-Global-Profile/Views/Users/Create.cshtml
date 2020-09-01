@@ -4,97 +4,45 @@
     ViewData["Title"] = "Create";
 }
 <style>
+.col{
+    width: 350px;
 
-    .field-validation-error {
-        color: red;
-    }
+}
+    
 </style>
 <h1>Create</h1>
 
 <h4>User</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProfileId" class="control-label"></label>
-                <input asp-for="ProfileId" class="form-control" />
-                <span asp-validation-for="ProfileId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserEmail" class="control-label"></label>
-                <input asp-for="UserEmail" class="form-control" />
-                <span asp-validation-for="UserEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserPassword" class="control-label"></label>
-                <input asp-for="UserPassword" class="form-control" />
-                <span asp-validation-for="UserPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserTypeId" class="control-label"></label>
-                <select asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-<div class="panel panel-default mb0">
-    <div class="panel-heading ui-draggable-handle">
-        <h3 class="panel-title"><strong>New User </strong>  Registration</h3>
-    </div> @using (Html.BeginForm("Registration", "Users", null, FormMethod.Post))
+    @using (Html.BeginForm("Registration", "Users", null, FormMethod.Post))
     {@Html.AntiForgeryToken()
-    <div class="panel-body">
+    <div class="col">
         <div class="form-group">
-            <label class="col-md-3 col-xs-12 control-label align-right pt7">Email</label>
-            <div class="col-md-6 col-xs-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                    <input type="text" class="form-control form-group" required="" name="UserEmail"> @*Getting value by name and the name should be the name given in database column*@
-                </div> <span class="help-block"> @Html.ValidationMessageFor(model => model.UserEmail)</span>
-
-            </div>
-            <div class="clearfix"></div>
+            <label asp-for="UserEmail" class="control-label"></label>
+            <input asp-for="UserEmail" class="form-control" />
+            <span asp-validation-for="UserEmail" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label class="col-md-3 col-xs-12 control-label align-right pt7">Password</label>
-            <div class="col-md-6 col-xs-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
-                    <input type="password" class="form-control" required="" name="UserPassword">
-                </div> <span class="help-block"> @Html.ValidationMessageFor(model => model.UserPassword)</span>
-            </div>
-            <div class="clearfix"></div>
+            <label asp-for="UserPassword" class="control-label"></label>
+            <input asp-for="UserPassword" class="form-control" />
+            <span asp-validation-for="UserPassword" class="text-danger"></span>
         </div>
-        @*<div class="form-group">
-            <label class="col-md-3 col-xs-12 control-label align-right pt7">Confirm Password</label>
-            <div class="col-md-6 col-xs-12">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
-                    <input type="password" class="form-control" required="" name="ConfirmPassword">
-                </div> <span class="help-block"> @Html.ValidationMessageFor(model => model.UserPassword)</span>
-            </div>
-            <div class="clearfix"></div>
-        </div>*@
         <div class="form-group">
             <label asp-for="UserTypeId" class="control-label"></label>
             <select asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId"></select>
         </div>
-
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
     </div>
-    <div class="panel-footer">
-        <input type="reset" value="Clear Form" name="btnReset" class="btn btn-default" />
-        <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" class="btn btn-primary pull-right" />
-    </div>}
+
+}
 </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

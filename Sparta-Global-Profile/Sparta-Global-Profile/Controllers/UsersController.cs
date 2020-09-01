@@ -183,7 +183,7 @@ namespace Sparta_Global_Profile.Controllers
                         context.Users.Add(objNewUser);
                         context.SaveChanges();
                         ModelState.Clear();
-                        return RedirectToAction("Index", "Login");
+                        return RedirectToAction("Index", "Users");
                     }
                     ModelState.AddModelError("UserPassword", "User Already Exists!");
                     return View("Create");

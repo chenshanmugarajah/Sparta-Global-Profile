@@ -22,7 +22,7 @@ namespace Sparta_Global_Profile.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Authorize(.User userModel)
+        public ActionResult Authorize(User userModel)
         {
             var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault();
             if (userDetails == null)
