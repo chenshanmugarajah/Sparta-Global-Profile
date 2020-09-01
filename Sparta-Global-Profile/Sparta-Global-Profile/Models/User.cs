@@ -14,7 +14,7 @@ namespace Sparta_Global_Profile.Models
         public Profile Profile { get; set; }
 
         [DisplayName("Email")]
-        [RegularExpression(@"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$", ErrorMessage = "Email no not valid")]
+        [RegularExpression(@"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$", ErrorMessage = "Email not valid")]
         [Required(ErrorMessage="This field is required.")]
         public string UserEmail { get; set; }
 

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Sparta_Global_Profile.Models;
-using Sparta_Global_Profile.Models.Errors;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 
@@ -34,7 +33,7 @@ namespace Sparta_Global_Profile.Controllers
                 
             else 
             {
-                HttpContext.Session.SetString("UserId", userDetails.UserEmail);
+                HttpContext.Session.SetString("UserId", userDetails.UserEmail); 
                 return RedirectToAction("Index", "Home");
             }
         }
