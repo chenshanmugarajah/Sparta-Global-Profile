@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "FullProfileView";
+}
+
+@model Sparta_Global_Profile.ViewModel.FullProfile
+
+<h1>FullProfileView</h1>
+
+<select>
+    @foreach(var user in Model.Users)
+    {
+        <option value="@user.UserId">
+            @user.UserId
+        </option>
+    }
+</select>
