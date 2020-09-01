@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +9,15 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    @{
+
+        var userId = Context.Session.GetString("UserId");
+        if (userId == null)
+        {
+            //Context.Response.Redirect("/Home");
+
+        }
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -26,6 +36,27 @@
                         </li>
                     </ul>
                 </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (@userId != null)
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <strong>@userId</strong>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Userdetails" asp-action="index">My Profile</a></li>
+                                    <li><a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Login" asp-action="Index">Login</a></li>
+
+                        }
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
@@ -40,9 +71,11 @@
             &copy; 2020 - Sparta_Global_Profile - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
