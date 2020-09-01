@@ -7,11 +7,27 @@
 
 <h1>FullProfileView</h1>
 
-<select>
-    @foreach(var user in Model.Users)
-    {
-        <option value="@user.UserId">
-            @user.UserId
-        </option>
-    }
-</select>
+<h4> Profile </h4>
+<p>
+    Full Name: @Model.ProfileFullName
+</p>
+<p>
+    Picture Url: @Model.ProfilePic
+</p>
+<p>
+    Summary: @Model.ProfileSummary
+</p>
+<p>
+    Stream: @Model.ProfileStream
+</p>
+<p>
+    Approved: @Model.ProfileApprovalStatus
+</p>
+<p>
+    Academy Status: @Model.ProfileAcademyStatus
+</p>
+
+@foreach(var item in Model.Assignments)
+{
+    <p> Company name: @item.CompanyName </p>
+}
