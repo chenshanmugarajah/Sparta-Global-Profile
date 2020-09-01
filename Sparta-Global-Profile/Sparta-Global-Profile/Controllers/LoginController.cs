@@ -9,6 +9,7 @@ using Sparta_Global_Profile.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 
 namespace Sparta_Global_Profile.Controllers
 {
@@ -26,7 +27,7 @@ namespace Sparta_Global_Profile.Controllers
         public ActionResult Authorize(Sparta_Global_Profile.Models.User userModel)
         {
             var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(x=> x.UserType).FirstOrDefault();
-            ViewData["UserEmail"] = userDetails.UserEmail;
+           
             if (userDetails == null)
             {
                 ModelState.AddModelError("UserPassword", "Invalid login attempt.");
@@ -35,11 +36,13 @@ namespace Sparta_Global_Profile.Controllers
                 
             else 
             {
+                ViewData["UserEmail"] = userDetails.UserEmail;
                 HttpContext.Session.SetString("UserId", userDetails.UserId.ToString());
                 if(userDetails.UserType.UserTypeName == "client") return RedirectToAction("Index", "Profile");
                 return View("Index");
             }
         }
+
 
         public  IActionResult Logout()
         {

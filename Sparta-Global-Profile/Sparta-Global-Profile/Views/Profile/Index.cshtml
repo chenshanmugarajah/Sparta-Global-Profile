@@ -1,8 +1,10 @@
 ﻿@*@model IEnumerable<Sparta_Global_Profile.Models.Profile>*@
 @model Sparta_Global_Profile.Controllers.PaginatedList<Sparta_Global_Profile.Models.Profile>
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "Index";
+    
 }
 
 <h1>Index</h1>
@@ -14,7 +16,7 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find By Course: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]"/> |
+            Find By Course: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
@@ -23,10 +25,10 @@
     <thead>
         <tr>
             <th>
-               Profile Name
+                Profile Name
             </th>
             <th>
-               Profile Image
+                Profile Image
             </th>
             <th>
                 Summary
@@ -38,34 +40,35 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfilePicture)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Approved)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProfileId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProfileId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfilePicture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Approved)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProfileId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProfileId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-@{ 
+@{
     var previousDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }

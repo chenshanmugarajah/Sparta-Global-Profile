@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,27 @@ namespace Sparta_Global_Profile.Controllers
             _context = context;
         }
 
+
         // GET: Profile
         public async Task<IActionResult> Index(string searchString,  int? pageNumber, string currentFilter)
         {
-         
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            using (var db = new SpartaGlobalProfileDbContext())
+            {
+                var user = db.Users.First(user => user.UserId == Int32.Parse(userId));
+                if(user.UserTypeId == 1)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+            }
+
             ViewData["CurrentFilter"] = searchString;
 
             if(searchString != null)
