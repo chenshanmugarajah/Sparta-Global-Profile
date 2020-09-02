@@ -52,6 +52,10 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Approved)
         </dd>
+        @foreach(var item in Model.Education)
+        {
+            <p> @item.Establishment </p>
+        }
     </dl>
 </div>
 <div>

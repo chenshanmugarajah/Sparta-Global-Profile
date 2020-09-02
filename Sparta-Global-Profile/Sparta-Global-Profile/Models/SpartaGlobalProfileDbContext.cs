@@ -65,7 +65,8 @@ namespace Sparta_Global_Profile.Models
                     new User { UserId = 2, UserEmail = "client@gmail.com", UserPassword = password, UserTypeId = 2 },
                     new User { UserId = 3, UserEmail = "staff@gmail.com", UserPassword = password, UserTypeId = 3},
                     new User { UserId = 4, UserEmail = "resource@gmail.com", UserPassword = password, UserTypeId = 4 },
-                    new User { UserId = 5, UserEmail = "admin@gmail.com", UserPassword = password, UserTypeId = 5 }
+                    new User { UserId = 5, UserEmail = "admin@gmail.com", UserPassword = password, UserTypeId = 5 },
+                    new User { UserId = 6, UserEmail = "student2@gmail.com", UserPassword = password, UserTypeId = 1 }
                 ); 
 
             modelBuilder.Entity<Profile>().HasData
@@ -74,8 +75,18 @@ namespace Sparta_Global_Profile.Models
                     {
                         ProfileId = 1,
                         UserId = 1,
-                        ProfileName = "Bruno Silva",
+                        ProfileName = "Student Bruno Silva",
                         ProfilePicture = "urlpath",
+                        Summary = "this is a summary for my profile",
+                        StatusId = 1,
+                        CourseId = 1
+                    },
+                    new Profile
+                    {
+                        ProfileId = 2,
+                        UserId = 6,
+                        ProfileName = "Student Chen Shan",
+                        ProfilePicture = "This is a url to a picture",
                         Summary = "this is a summary for my profile",
                         StatusId = 1,
                         CourseId = 1
@@ -87,13 +98,18 @@ namespace Sparta_Global_Profile.Models
                     new Skill { SkillId = 1, SkillName = "Agile", ProfileId = 1 },
                     new Skill { SkillId = 2, SkillName = "C#", ProfileId = 1 },
                     new Skill { SkillId = 3, SkillName = "SQL", ProfileId = 1 },
-                    new Skill { SkillId = 4, SkillName = "Javascript", ProfileId = 1 }
+                    new Skill { SkillId = 4, SkillName = "Javascript", ProfileId = 1 },
+                    new Skill { SkillId = 5, SkillName = "Agile", ProfileId = 2 },
+                    new Skill { SkillId = 6, SkillName = "C#", ProfileId = 2 },
+                    new Skill { SkillId = 7, SkillName = "SQL", ProfileId = 2 }
                 );
 
             modelBuilder.Entity<Hobby>().HasData
                 (
                     new Hobby { HobbyId = 1, HobbyName = "Gaming", HobbyDescription = "Like to play games", ProfileId = 1 },
-                    new Hobby { HobbyId = 2, HobbyName = "Gym", HobbyDescription = "Like to keep fit", ProfileId = 1 }
+                    new Hobby { HobbyId = 2, HobbyName = "Gym", HobbyDescription = "Like to keep fit", ProfileId = 1 },
+                    new Hobby { HobbyId = 3, HobbyName = "ESporter", HobbyDescription = "COD Games!", ProfileId = 2 },
+                    new Hobby { HobbyId = 4, HobbyName = "Climbing", HobbyDescription = "Boulder", ProfileId = 2 }
                 );
 
             modelBuilder.Entity<SpartaProject>().HasData
@@ -104,13 +120,29 @@ namespace Sparta_Global_Profile.Models
                         ProjectName = "Games Collector",
                         ProjectBio = "A fullstack project using ASP.NET API and React",
                         ProfileId = 1
+                    },
+                    new SpartaProject
+                    {
+                        SpartaProjectId = 2,
+                        ProjectName = "Blog app",
+                        ProjectBio = "A fullstack project using ASP.NET API and React",
+                        ProfileId = 2
+                    },
+                    new SpartaProject
+                    {
+                        SpartaProjectId = 3,
+                        ProjectName = "Safari Park",
+                        ProjectBio = "A fullstack project using ASP.NET API and React",
+                        ProfileId = 2
                     }
                 );
 
             modelBuilder.Entity<ProjectLink>().HasData
                 (
                     new ProjectLink { ProjectLinkId = 1, SpartaProjectId = 1, LinkText = "Backend", Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/labs/GameBackend" },
-                    new ProjectLink { ProjectLinkId = 2, SpartaProjectId = 1, LinkText = "Frontend", Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" }
+                    new ProjectLink { ProjectLinkId = 2, SpartaProjectId = 1, LinkText = "Frontend", Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" },
+                    new ProjectLink { ProjectLinkId = 3, SpartaProjectId = 2, LinkText = "Frontend", Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" },
+                    new ProjectLink { ProjectLinkId = 4, SpartaProjectId = 2, LinkText = "Frontend", Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" }
                 );
 
             modelBuilder.Entity<Education>().HasData
@@ -124,6 +156,16 @@ namespace Sparta_Global_Profile.Models
                         StartDate = new DateTime(2015, 08, 21),
                         EndDate = new DateTime(2019, 06, 15),
                         ProfileId = 1
+                    },
+                    new Education
+                    {
+                        EducationId = 2,
+                        Establishment = "Brunel University",
+                        Qualification = "Computer Science",
+                        Grade = "1",
+                        StartDate = new DateTime(2015, 08, 21),
+                        EndDate = new DateTime(2019, 06, 15),
+                        ProfileId = 2
                     }
                 );
 
@@ -131,7 +173,7 @@ namespace Sparta_Global_Profile.Models
                 (
                     new Module { ModuleId = 1, EducationId = 1, CourseYear = 1, ModuleName = "Performance Making" },
                     new Module { ModuleId = 2, EducationId = 1, CourseYear = 2, ModuleName = "Staging The Real" },
-                    new Module { ModuleId = 3, EducationId = 1, CourseYear = 3, ModuleName = "Race Relations" }
+                    new Module { ModuleId = 3, EducationId = 2, CourseYear = 1, ModuleName = "Race Relations" }
                 );
 
             modelBuilder.Entity<Employment>().HasData
@@ -143,6 +185,16 @@ namespace Sparta_Global_Profile.Models
                         CompanyName = "Timberland",
                         Position = "Sales Assistant",
                         Summary = "Was boring retail",
+                        StartDate = new DateTime(2019, 09, 21),
+                        EndDate = new DateTime(2020, 01, 03)
+                    },
+                    new Employment
+                    {
+                        EmploymentId = 2,
+                        ProfileId = 2,
+                        CompanyName = "Saver",
+                        Position = "Supervisor",
+                        Summary = "Stress",
                         StartDate = new DateTime(2019, 09, 21),
                         EndDate = new DateTime(2020, 01, 03)
                     }

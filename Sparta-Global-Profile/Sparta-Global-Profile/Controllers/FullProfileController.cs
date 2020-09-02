@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sparta_Global_Profile.Models;
@@ -15,9 +16,10 @@ namespace Sparta_Global_Profile.Controllers
         public IActionResult Index()
         {
 
-            int TESTUSERID = 1; // session
+            HttpContext context = HttpContext;
+            var userId = Convert.ToInt32(context.Session.GetString("UserId"));
 
-            User currentUser = _context.Users.Where(u => u.UserId == TESTUSERID).FirstOrDefault();
+            User currentUser = _context.Users.Where(u => u.UserId == userId).FirstOrDefault();
 
             Profile profile = _context.Profiles.Where(p => p.UserId == currentUser.UserId).FirstOrDefault();
 
@@ -51,9 +53,10 @@ namespace Sparta_Global_Profile.Controllers
         public IActionResult Edit()
         {
 
-            int TESTUSERID = 1; // session
+            HttpContext context = HttpContext;
+            var userId = Convert.ToInt32(context.Session.GetString("UserId"));
 
-            User currentUser = _context.Users.Where(u => u.UserId == TESTUSERID).FirstOrDefault();
+            User currentUser = _context.Users.Where(u => u.UserId == userId).FirstOrDefault();
 
             Profile profile = _context.Profiles.Where(p => p.UserId == currentUser.UserId).FirstOrDefault();
 

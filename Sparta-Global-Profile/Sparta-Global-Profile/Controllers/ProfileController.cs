@@ -75,6 +75,14 @@ namespace Sparta_Global_Profile.Controllers
                 .Include(p => p.Course)
                 .Include(p => p.Status)
                 .Include(p => p.User)
+                .Include(p => p.Assignments)
+                .Include(p => p.SpartaProjects)
+                .Include(p => p.Employment)
+                .Include(p => p.Education)
+                .Include(p => p.Skills)
+                .Include(p => p.Hobbies)
+                .Include(p => p.Comments)
+                .Include(p => p.Certifications)
                 .FirstOrDefaultAsync(m => m.ProfileId == id);
             if (profile == null)
             {

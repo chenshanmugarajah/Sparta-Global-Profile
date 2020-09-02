@@ -164,6 +164,16 @@ namespace Sparta_Global_Profile.Migrations
                             ProfileId = 1,
                             Qualification = "BA Hons Drama & Theatre Studies",
                             StartDate = new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EducationId = 2,
+                            EndDate = new DateTime(2019, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Establishment = "Brunel University",
+                            Grade = "1",
+                            ProfileId = 2,
+                            Qualification = "Computer Science",
+                            StartDate = new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -208,6 +218,16 @@ namespace Sparta_Global_Profile.Migrations
                             ProfileId = 1,
                             StartDate = new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Summary = "Was boring retail"
+                        },
+                        new
+                        {
+                            EmploymentId = 2,
+                            CompanyName = "Saver",
+                            EndDate = new DateTime(2020, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Position = "Supervisor",
+                            ProfileId = 2,
+                            StartDate = new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Summary = "Stress"
                         });
                 });
 
@@ -247,6 +267,20 @@ namespace Sparta_Global_Profile.Migrations
                             HobbyDescription = "Like to keep fit",
                             HobbyName = "Gym",
                             ProfileId = 1
+                        },
+                        new
+                        {
+                            HobbyId = 3,
+                            HobbyDescription = "COD Games!",
+                            HobbyName = "ESporter",
+                            ProfileId = 2
+                        },
+                        new
+                        {
+                            HobbyId = 4,
+                            HobbyDescription = "Boulder",
+                            HobbyName = "Climbing",
+                            ProfileId = 2
                         });
                 });
 
@@ -290,8 +324,8 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             ModuleId = 3,
-                            CourseYear = 3,
-                            EducationId = 1,
+                            CourseYear = 1,
+                            EducationId = 2,
                             ModuleName = "Race Relations"
                         });
                 });
@@ -341,11 +375,22 @@ namespace Sparta_Global_Profile.Migrations
                             ProfileId = 1,
                             Approved = false,
                             CourseId = 1,
-                            ProfileName = "Bruno Silva",
+                            ProfileName = "Student Bruno Silva",
                             ProfilePicture = "urlpath",
                             StatusId = 1,
                             Summary = "this is a summary for my profile",
                             UserId = 1
+                        },
+                        new
+                        {
+                            ProfileId = 2,
+                            Approved = false,
+                            CourseId = 1,
+                            ProfileName = "Student Chen Shan",
+                            ProfilePicture = "This is a url to a picture",
+                            StatusId = 1,
+                            Summary = "this is a summary for my profile",
+                            UserId = 6
                         });
                 });
 
@@ -384,6 +429,20 @@ namespace Sparta_Global_Profile.Migrations
                             ProjectLinkId = 2,
                             LinkText = "Frontend",
                             SpartaProjectId = 1,
+                            Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web"
+                        },
+                        new
+                        {
+                            ProjectLinkId = 3,
+                            LinkText = "Frontend",
+                            SpartaProjectId = 2,
+                            Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web"
+                        },
+                        new
+                        {
+                            ProjectLinkId = 4,
+                            LinkText = "Frontend",
+                            SpartaProjectId = 2,
                             Url = "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web"
                         });
                 });
@@ -431,6 +490,24 @@ namespace Sparta_Global_Profile.Migrations
                             SkillId = 4,
                             ProfileId = 1,
                             SkillName = "Javascript"
+                        },
+                        new
+                        {
+                            SkillId = 5,
+                            ProfileId = 2,
+                            SkillName = "Agile"
+                        },
+                        new
+                        {
+                            SkillId = 6,
+                            ProfileId = 2,
+                            SkillName = "C#"
+                        },
+                        new
+                        {
+                            SkillId = 7,
+                            ProfileId = 2,
+                            SkillName = "SQL"
                         });
                 });
 
@@ -463,6 +540,20 @@ namespace Sparta_Global_Profile.Migrations
                             ProfileId = 1,
                             ProjectBio = "A fullstack project using ASP.NET API and React",
                             ProjectName = "Games Collector"
+                        },
+                        new
+                        {
+                            SpartaProjectId = 2,
+                            ProfileId = 2,
+                            ProjectBio = "A fullstack project using ASP.NET API and React",
+                            ProjectName = "Blog app"
+                        },
+                        new
+                        {
+                            SpartaProjectId = 3,
+                            ProfileId = 2,
+                            ProjectBio = "A fullstack project using ASP.NET API and React",
+                            ProjectName = "Safari Park"
                         });
                 });
 
@@ -555,6 +646,13 @@ namespace Sparta_Global_Profile.Migrations
                             UserEmail = "admin@gmail.com",
                             UserPassword = "vxFh7ubhh0Q=",
                             UserTypeId = 5
+                        },
+                        new
+                        {
+                            UserId = 6,
+                            UserEmail = "student2@gmail.com",
+                            UserPassword = "vxFh7ubhh0Q=",
+                            UserTypeId = 1
                         });
                 });
 
