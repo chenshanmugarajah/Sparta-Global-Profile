@@ -62,19 +62,20 @@
         </h5>
         @foreach (var item in Model.Education)
         {
-            <p> Establishment: @item.Establishment <a href="~/Educations/Edit/@item.EducationId">EDIT</a> </p>
-            @if (item.Modules.Count > 0)
-            {
-                <p> Modules </p>
-                <ul>
-                    @foreach (var module in item.Modules)
-                    {
-                        <li> @module.ModuleName <a href="~/modules/edit/@module.ModuleId">EDIT</a> <a href="~/modules/delete/@module.ModuleId">DELETE</a> </li>
-                    }
-                    <a href="~/modules/create"> ADD MODULE </a>
-                </ul>
-            }
-
+            <p>
+                Establishment: @item.Establishment
+                <a href="~/Educations/Edit/@item.EducationId">Edit</a>
+                <a href="~/Educations/delete/@item.EducationId">Delete</a>
+            </p>
+            <p> Modules </p>
+            <ul>
+                @foreach (var module in item.Modules)
+                {
+                    <li> @module.ModuleName <a href="~/modules/edit/@module.ModuleId">Edit</a> <a href="~/modules/delete/@module.ModuleId">Delete</a> </li>
+                }
+            </ul>
+            <a href="~/modules/create"> Create new Module </a>
+            <br />
         }
 
     </div>
