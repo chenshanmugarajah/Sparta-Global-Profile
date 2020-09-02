@@ -57,11 +57,16 @@ namespace Sparta_Global_Profile.Models
                    new Course { CourseId = 1, CourseName = "C#", AcademyExperience = "all the academy pre filled stuff will be here" }
                );
 
+            var password = Helper.EncryptPlainTextToCipherText("123");
+
             modelBuilder.Entity<User>().HasData
                 (
-                    new User { UserId = 1, UserEmail = "bruno@gmail.com", UserPassword = "123", UserTypeId = 1 },
-                    new User { UserId = 2, UserEmail = "client@gmail.com", UserPassword = "123", UserTypeId = 2}
-                );
+                    new User { UserId = 1, UserEmail = "student@gmail.com", UserPassword = password, UserTypeId = 1 },
+                    new User { UserId = 2, UserEmail = "client@gmail.com", UserPassword = password, UserTypeId = 2 },
+                    new User { UserId = 3, UserEmail = "staff@gmail.com", UserPassword = password, UserTypeId = 3},
+                    new User { UserId = 4, UserEmail = "resource@gmail.com", UserPassword = password, UserTypeId = 4 },
+                    new User { UserId = 5, UserEmail = "admin@gmail.com", UserPassword = password, UserTypeId = 5 }
+                ); 
 
             modelBuilder.Entity<Profile>().HasData
                 (

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    partial class SpartaGlobalProfileDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200902092147_EncrypSeededUserPasswords")]
+    partial class EncrypSeededUserPasswords
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -524,7 +526,7 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 1,
-                            UserEmail = "student@gmail.com",
+                            UserEmail = "bruno@gmail.com",
                             UserPassword = "vxFh7ubhh0Q=",
                             UserTypeId = 1
                         },
@@ -534,27 +536,6 @@ namespace Sparta_Global_Profile.Migrations
                             UserEmail = "client@gmail.com",
                             UserPassword = "vxFh7ubhh0Q=",
                             UserTypeId = 2
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            UserEmail = "staff@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
-                            UserTypeId = 3
-                        },
-                        new
-                        {
-                            UserId = 4,
-                            UserEmail = "resource@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
-                            UserTypeId = 4
-                        },
-                        new
-                        {
-                            UserId = 5,
-                            UserEmail = "admin@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
-                            UserTypeId = 5
                         });
                 });
 
