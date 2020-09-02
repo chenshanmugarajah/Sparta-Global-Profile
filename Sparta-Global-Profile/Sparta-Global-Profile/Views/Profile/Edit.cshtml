@@ -43,16 +43,40 @@
                 <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
                 <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
                 </label>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+
+        @* add education *@
+        <h5>
+            Education
+            <a href="~/Educations/Create">CREATE</a>
+        </h5>
+        @foreach (var item in Model.Education)
+        {
+            <p> Establishment: @item.Establishment <a href="~/Educations/Edit/@item.EducationId">EDIT</a> </p>
+            @if (item.Modules.Count > 0)
+            {
+                <p> Modules </p>
+                <ul>
+                    @foreach (var module in item.Modules)
+                    {
+                        <li> @module.ModuleName <a href="~/modules/edit/@module.ModuleId">EDIT</a> <a href="~/modules/delete/@module.ModuleId">DELETE</a> </li>
+                    }
+                    <a href="~/modules/create"> ADD MODULE </a>
+                </ul>
+            }
+
+        }
+
     </div>
 </div>
 
