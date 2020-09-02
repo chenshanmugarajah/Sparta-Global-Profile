@@ -22,7 +22,7 @@ namespace Sparta_Global_Profile.Controllers
 
         // GET: Users
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
 
@@ -161,6 +161,38 @@ namespace Sparta_Global_Profile.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
+        }
+
+
+        // encrypt functionality
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Registration(User objNewUser)
+        {
+            try
+            {
+                using (var context = new SpartaGlobalProfileDbContext())
+                {
+                    var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
+                    if (checkUser == null)
+                    {
+                        var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
+                        objNewUser.UserPassword = password;
+                        //objNewUser.VCode = keyNew;
+                        context.Users.Add(objNewUser);
+                        context.SaveChanges();
+                        ModelState.Clear();
+                        return RedirectToAction("Index", "Users");
+                    }
+                    ModelState.AddModelError("UserPassword", "User Already Exists!");
+                    return View("Create");
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "Some exception occured" + e;
+                return View();
+            }
         }
     }
 }

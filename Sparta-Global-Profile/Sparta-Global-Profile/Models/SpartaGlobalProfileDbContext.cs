@@ -43,6 +43,7 @@ namespace Sparta_Global_Profile.Models
                     new UserType { UserTypeId = 3, UserTypeName = "staff" },
                     new UserType { UserTypeId = 4, UserTypeName = "resource manager" },
                     new UserType { UserTypeId = 5, UserTypeName = "admin" }
+
                 );
 
             modelBuilder.Entity<Status>().HasData
