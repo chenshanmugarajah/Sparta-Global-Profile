@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sparta_Global_Profile.Models
 {
-    public partial class User
+    public class NewUser
     {
         public int UserId { get; set; }
         public int? ProfileId { get; set; } //nullable
@@ -15,16 +15,17 @@ namespace Sparta_Global_Profile.Models
 
         [DisplayName("Email")]
         [RegularExpression(@"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$", ErrorMessage = "Email not valid")]
-        [Required(ErrorMessage="This field is required.")]
+        [Required(ErrorMessage = "This field is required.")]
         public string UserEmail { get; set; }
 
         [DisplayName("Password")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "This field is required.")]
-     
+
         public string UserPassword { get; set; }
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
-       
+
     }
 }
+

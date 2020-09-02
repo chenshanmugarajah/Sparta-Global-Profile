@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,25 @@ namespace Sparta_Global_Profile.Controllers
             _context = context;
         }
 
+
         // GET: Profile
-        public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber, string currentFilter)
+        public async Task<IActionResult> Index(string searchString,  int? pageNumber, string currentFilter)
         {
-            ViewData["CurrentSort"] = sortOrder;
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
+            if(userTypeId == "1")
+            {
+                return RedirectToAction("Details", "Profile", new { id = profileId });
+            }
+
             ViewData["CurrentFilter"] = searchString;
 
             if(searchString != null)
@@ -45,8 +61,6 @@ namespace Sparta_Global_Profile.Controllers
             int pageSize = 3;
 
             return View(await PaginatedList<Profile>.CreateAsync(profiles.AsNoTracking(), pageNumber ?? 1, pageSize));
-            //var spartaGlobalProfileDbContext = _context.Profiles.Include(p => p.Course).Include(p => p.Status).Include(p => p.User);
-            //return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
         // GET: Profile/Details/5
