@@ -83,8 +83,14 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,ProfileId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
+            var profile = new Profile()
+            {
+                UserId = user.UserId,
+                StatusId = 2
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -117,7 +123,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,ProfileId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
             if (id != user.UserId)
             {
