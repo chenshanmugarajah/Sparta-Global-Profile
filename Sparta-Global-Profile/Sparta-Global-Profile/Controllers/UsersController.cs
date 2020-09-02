@@ -85,11 +85,42 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(user);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
+            //return View(user);
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var checkUser = _context.Users.FirstOrDefault(u => u.UserEmail == user.UserEmail);
+                if (checkUser == null)
+                {
+                    var password = Helper.EncryptPlainTextToCipherText(user.UserPassword);
+                    user.UserPassword = password;
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                    var newUser = _context.Users.First(u => u.UserEmail == user.UserEmail);
+                    var newUserId = newUser.UserId;
+                    var profile = new Profile()
+                    {
+                        UserId = newUserId,
+                        StatusId = 1,
+                        ProfileName = "Your Name",
+                        ProfilePicture = "",
+                        Summary = "Your Summary Here",
+                        CourseId = 1,
+                        Approved = false
+                    };
+                    _context.Profiles.Add(profile);
+                    await _context.SaveChangesAsync();
+                    //ModelState.Clear();
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("UserEmail", "User Already Exists!");
+                return View("Create");
             }
             ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
             return View(user);
