@@ -31,11 +31,6 @@ namespace Sparta_Global_Profile.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Profile>()
-                .HasOne(p => p.User)
-                .WithOne(p => p.Profile)
-                .HasForeignKey<Profile>(p => p.UserId);
-
             modelBuilder.Entity<UserType>().HasData
                 (
                     new UserType { UserTypeId = 1, UserTypeName = "student" },

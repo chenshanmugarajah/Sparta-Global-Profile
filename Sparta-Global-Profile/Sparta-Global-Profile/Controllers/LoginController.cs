@@ -26,7 +26,7 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(User userModel)
         {
-            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).Include(u => u.Profile).FirstOrDefault();
+            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
             var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
             if (user == null)
             {
