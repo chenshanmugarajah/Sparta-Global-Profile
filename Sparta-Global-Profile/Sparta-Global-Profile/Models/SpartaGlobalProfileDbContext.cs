@@ -199,6 +199,29 @@ namespace Sparta_Global_Profile.Models
                         EndDate = new DateTime(2020, 01, 03)
                     }
                 );
+            modelBuilder.Entity<Assignment>().HasData
+                (
+                    new Assignment
+                    {
+                        AssignmentId = 1,
+                        StartDate = new DateTime(2019, 09, 02),
+                        EndDate = new DateTime(2020, 09, 02),
+                        CompanyName = "Home Office",
+                        Position = "C# Backend Developer",
+                        Summary = "Lots of text about how amazing this job was and what I did during it",
+                        ProfileId = 1
+                    },
+                    new Assignment
+                    {
+                        AssignmentId = 2,
+                        StartDate = new DateTime(2019, 05, 14),
+                        EndDate = new DateTime(2020, 05, 14),
+                        CompanyName = "MI6",
+                        Position = "C# Frontend Developer",
+                        Summary = "Very exciting secretive job that I cannot talk about",
+                        ProfileId = 2
+                    }
+                );
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

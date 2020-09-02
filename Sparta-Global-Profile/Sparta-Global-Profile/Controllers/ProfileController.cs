@@ -84,7 +84,7 @@ namespace Sparta_Global_Profile.Controllers
                 .Include(p => p.Status)
                 .Include(p => p.User)
                 .Include(p => p.Assignments)
-                .Include(p => p.SpartaProjects)
+                .Include(p => p.SpartaProjects).ThenInclude(l => l.ProjectLinks)
                 .Include(p => p.Employment)
                 .Include(p => p.Education).ThenInclude(e => e.Modules)
                 .Include(p => p.Skills)

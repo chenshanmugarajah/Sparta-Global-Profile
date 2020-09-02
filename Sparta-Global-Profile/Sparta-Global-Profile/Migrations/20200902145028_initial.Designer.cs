@@ -10,8 +10,8 @@ using Sparta_Global_Profile.Models;
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    [Migration("20200902100050_Initial")]
-    partial class Initial
+    [Migration("20200902145028_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -26,13 +26,14 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(User userModel)
         {
-            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).Include(u => u.Profile).FirstOrDefault();
-            var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
+            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
+                      
             if (user == null)
             {
                 ModelState.AddModelError("UserEmail", "User with that Email does not exist!");
                 return View("Index");
             }
+            var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
             var password = user.UserPassword;
             var decryptedPassword = Helper.DecryptCipherTextToPlainText(password);
 
