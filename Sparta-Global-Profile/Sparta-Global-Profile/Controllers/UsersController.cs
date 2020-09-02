@@ -105,7 +105,9 @@ namespace Sparta_Global_Profile.Controllers
                             StatusId = 1,
                             ProfileName = "Your Name",
                             ProfilePicture = "",
-                            Summary = "Your Summary Here",
+                            Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
+                            + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
+                            + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
                             CourseId = 1,
                             Approved = false
                         };
@@ -206,8 +208,6 @@ namespace Sparta_Global_Profile.Controllers
             {
                 var profile = _context.Profiles.First(p => p.UserId == id);
                 _context.Profiles.Remove(profile);
-
-
             }
             await _context.SaveChangesAsync();
 
