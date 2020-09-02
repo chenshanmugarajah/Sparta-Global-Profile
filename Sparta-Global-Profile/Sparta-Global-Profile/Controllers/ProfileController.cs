@@ -133,10 +133,16 @@ namespace Sparta_Global_Profile.Controllers
         {
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
 
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
+            }
+
+            if(userTypeId == "2")
+            {
+                return RedirectToAction("Index", "Profile");
             }
 
             if (id == null)
