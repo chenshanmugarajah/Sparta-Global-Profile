@@ -1,7 +1,9 @@
 ﻿@model Sparta_Global_Profile.Models.Profile
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "Details";
+    var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
 <h1>Details</h1>
@@ -72,6 +74,13 @@
         }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (userTypeId != "2")
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a> 
+    }
+    
+    @if (@userTypeId != "1")
+    {
+        <a asp-action="Index">Back to List</a>
+    }
 </div>

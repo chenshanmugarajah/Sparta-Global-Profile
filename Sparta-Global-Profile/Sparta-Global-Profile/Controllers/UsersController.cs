@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,25 @@ namespace Sparta_Global_Profile.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if (userTypeId == "1")
+            {
+                return RedirectToAction("Details", "Profile", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId != "5")
+            {
+                return RedirectToAction("Index", "Profile");
+            }
 
             var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
