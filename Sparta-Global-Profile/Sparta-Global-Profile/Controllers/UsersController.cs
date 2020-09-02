@@ -85,12 +85,6 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
-            var profile = new Profile()
-            {
-                UserId = user.UserId,
-                StatusId = 2
-            };
-
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -205,7 +199,18 @@ namespace Sparta_Global_Profile.Controllers
                         var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
                         objNewUser.UserPassword = password;
                         //objNewUser.VCode = keyNew;
+                        var profile = new Profile()
+                        {
+                            UserId = objNewUser.UserId,
+                            StatusId = 1,
+                            ProfileName = "Your Name",
+                            ProfilePicture = "",
+                            Summary = "Your Summary Here",
+                            CourseId = 1,
+                            Approved = false
+                        };
                         context.Users.Add(objNewUser);
+                        context.Profiles.Add(profile);
                         context.SaveChanges();
                         ModelState.Clear();
                         return RedirectToAction("Index", "Users");

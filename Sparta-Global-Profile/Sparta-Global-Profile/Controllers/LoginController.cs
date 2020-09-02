@@ -27,21 +27,19 @@ namespace Sparta_Global_Profile.Controllers
         public ActionResult Authorize(User userModel)
         {
             var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
-            var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
             if (user == null)
             {
                 ModelState.AddModelError("UserEmail", "User with that Email does not exist!");
                 return View("Index");
             }
+            var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
             var password = user.UserPassword;
             var decryptedPassword = Helper.DecryptCipherTextToPlainText(password);
-
             if ((userModel.UserPassword != decryptedPassword))
             {
                 ModelState.AddModelError("UserPassword", "Incorrect Password");
                 return View("Index");
             }
-                
             else 
             {
                 ViewData["UserEmail"] = user.UserEmail;
@@ -62,8 +60,6 @@ namespace Sparta_Global_Profile.Controllers
                     var routeId = profile.ProfileId;
                     return RedirectToAction("Details", "Profile", new { id = routeId  });
                 }
-                
-
                 return View("Index");
             }
         }
