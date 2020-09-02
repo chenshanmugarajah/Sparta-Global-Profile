@@ -27,6 +27,7 @@ namespace Sparta_Global_Profile.Controllers
         public ActionResult Authorize(User userModel)
         {
             var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).Include(u => u.Profile).FirstOrDefault();
+            var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
             if (user == null)
             {
                 ModelState.AddModelError("UserEmail", "User with that Email does not exist!");
@@ -47,17 +48,21 @@ namespace Sparta_Global_Profile.Controllers
                 HttpContext.Session.SetString("UserId", user.UserId.ToString());
                 HttpContext.Session.SetString("UserTypeId", user.UserTypeId.ToString());
                 HttpContext.Session.SetString("UserEmail", user.UserEmail);
-                if(user.ProfileId != null)
+                if(profile != null)
                 {
-                    HttpContext.Session.SetString("ProfileId", user.Profile.ProfileId.ToString());
+                    HttpContext.Session.SetString("ProfileId", profile.ProfileId.ToString());
                 }
-                
-                if (user.UserTypeId == 2) return RedirectToAction("Index", "Profile");
+
+                if (user.UserTypeId == 2 || user.UserTypeId == 3 || user.UserTypeId == 4 || user.UserTypeId == 5)
+                {
+                    return RedirectToAction("Index", "Profile");
+                }
                 if (user.UserTypeId == 1)
                 {
-                    var routeId = user.Profile.ProfileId;
+                    var routeId = profile.ProfileId;
                     return RedirectToAction("Details", "Profile", new { id = routeId  });
                 }
+                
 
                 return View("Index");
             }
