@@ -201,7 +201,16 @@ namespace Sparta_Global_Profile.Controllers
         {
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
+            
+            if(user.UserTypeId == 1)
+            {
+                var profile = _context.Profiles.First(p => p.UserId == id);
+                _context.Profiles.Remove(profile);
+
+
+            }
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
