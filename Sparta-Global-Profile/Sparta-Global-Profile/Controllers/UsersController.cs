@@ -85,14 +85,6 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(user);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
-            //return View(user);
             if (ModelState.IsValid)
             {
                 var checkUser = _context.Users.FirstOrDefault(u => u.UserEmail == user.UserEmail);
@@ -102,21 +94,25 @@ namespace Sparta_Global_Profile.Controllers
                     user.UserPassword = password;
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
-                    var newUser = _context.Users.First(u => u.UserEmail == user.UserEmail);
-                    var newUserId = newUser.UserId;
-                    var profile = new Profile()
+
+                    if (user.UserTypeId == 1)
                     {
-                        UserId = newUserId,
-                        StatusId = 1,
-                        ProfileName = "Your Name",
-                        ProfilePicture = "",
-                        Summary = "Your Summary Here",
-                        CourseId = 1,
-                        Approved = false
-                    };
-                    _context.Profiles.Add(profile);
-                    await _context.SaveChangesAsync();
-                    //ModelState.Clear();
+                        var newUser = _context.Users.First(u => u.UserEmail == user.UserEmail);
+                        var newUserId = newUser.UserId;
+                        var profile = new Profile()
+                        {
+                            UserId = newUserId,
+                            StatusId = 1,
+                            ProfileName = "Your Name",
+                            ProfilePicture = "",
+                            Summary = "Your Summary Here",
+                            CourseId = 1,
+                            Approved = false
+                        };
+                        _context.Profiles.Add(profile);
+                        await _context.SaveChangesAsync();
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
                 ModelState.AddModelError("UserEmail", "User Already Exists!");
@@ -216,45 +212,45 @@ namespace Sparta_Global_Profile.Controllers
 
 
         // encrypt functionality
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult Registration(User objNewUser)
-        {
-            try
-            {
-                using (var context = new SpartaGlobalProfileDbContext())
-                {
-                    var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
-                    if (checkUser == null)
-                    {
-                        var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
-                        objNewUser.UserPassword = password;
-                        //objNewUser.VCode = keyNew;
-                        var profile = new Profile()
-                        {
-                            UserId = objNewUser.UserId,
-                            StatusId = 1,
-                            ProfileName = "Your Name",
-                            ProfilePicture = "",
-                            Summary = "Your Summary Here",
-                            CourseId = 1,
-                            Approved = false
-                        };
-                        context.Users.Add(objNewUser);
-                        context.Profiles.Add(profile);
-                        context.SaveChanges();
-                        ModelState.Clear();
-                        return RedirectToAction("Index", "Users");
-                    }
-                    ModelState.AddModelError("UserPassword", "User Already Exists!");
-                    return View("Create");
-                }
-            }
-            catch (Exception e)
-            {
-                ViewBag.ErrorMessage = "Some exception occured" + e;
-                return View();
-            }
-        }
+        //[ValidateAntiForgeryToken]
+        //[HttpPost]
+        //public ActionResult Registration(User objNewUser)
+        //{
+        //    try
+        //    {
+        //        using (var context = new SpartaGlobalProfileDbContext())
+        //        {
+        //            var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
+        //            if (checkUser == null)
+        //            {
+        //                var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
+        //                objNewUser.UserPassword = password;
+        //                //objNewUser.VCode = keyNew;
+        //                var profile = new Profile()
+        //                {
+        //                    UserId = objNewUser.UserId,
+        //                    StatusId = 1,
+        //                    ProfileName = "Your Name",
+        //                    ProfilePicture = "",
+        //                    Summary = "Your Summary Here",
+        //                    CourseId = 1,
+        //                    Approved = false
+        //                };
+        //                context.Users.Add(objNewUser);
+        //                context.Profiles.Add(profile);
+        //                context.SaveChanges();
+        //                ModelState.Clear();
+        //                return RedirectToAction("Index", "Users");
+        //            }
+        //            ModelState.AddModelError("UserPassword", "User Already Exists!");
+        //            return View("Create");
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.ErrorMessage = "Some exception occured" + e;
+        //        return View();
+        //    }
+        //}
     }
 }
