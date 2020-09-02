@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Sparta_Global_Profile.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 
 namespace Sparta_Global_Profile.Controllers
 {
@@ -24,10 +26,15 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Authorize(User userModel)
         {
+
             var password = db.Users.Where(u => u.UserEmail == userModel.UserEmail).Select(u => u.UserPassword).FirstOrDefault();
             var decryptedPassword = Helper.DecryptCipherTextToPlainText(password);
             var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
             if (userDetails == null || (userModel.UserPassword != decryptedPassword))
+
+            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).Include(u => u.Profile).FirstOrDefault();
+           
+            if (user == null)
             {
                 ModelState.AddModelError("UserEmail", "Invalid login attempt.");
                 return View("Index");
@@ -35,10 +42,26 @@ namespace Sparta_Global_Profile.Controllers
                 
             else 
             {
-                HttpContext.Session.SetString("UserId", userDetails.UserEmail); 
-                return RedirectToAction("Index", "Home");
+                ViewData["UserEmail"] = user.UserEmail;
+                HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                HttpContext.Session.SetString("UserTypeId", user.UserTypeId.ToString());
+                HttpContext.Session.SetString("UserEmail", user.UserEmail);
+                if(user.ProfileId != null)
+                {
+                    HttpContext.Session.SetString("ProfileId", user.Profile.ProfileId.ToString());
+                }
+                
+                if (user.UserTypeId == 2) return RedirectToAction("Index", "Profile");
+                if (user.UserTypeId == 1)
+                {
+                    var routeId = user.Profile.ProfileId;
+                    return RedirectToAction("Details", "Profile", new { id = routeId  });
+                }
+
+                return View("Index");
             }
         }
+
 
         public  IActionResult Logout()
         {

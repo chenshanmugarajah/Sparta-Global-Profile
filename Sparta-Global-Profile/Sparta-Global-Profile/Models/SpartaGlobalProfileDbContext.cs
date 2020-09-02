@@ -38,8 +38,12 @@ namespace Sparta_Global_Profile.Models
 
             modelBuilder.Entity<UserType>().HasData
                 (
-                    new UserType { UserTypeId = 1, UserTypeName = "Student" },
-                    new UserType { UserTypeId = 2, UserTypeName = "Admin" }
+                    new UserType { UserTypeId = 1, UserTypeName = "student" },
+                    new UserType { UserTypeId = 2, UserTypeName = "client" },
+                    new UserType { UserTypeId = 3, UserTypeName = "staff" },
+                    new UserType { UserTypeId = 4, UserTypeName = "resource manager" },
+                    new UserType { UserTypeId = 5, UserTypeName = "admin" }
+
                 );
 
             modelBuilder.Entity<Status>().HasData
@@ -51,12 +55,12 @@ namespace Sparta_Global_Profile.Models
             modelBuilder.Entity<Course>().HasData
                (
                    new Course { CourseId = 1, CourseName = "C#", AcademyExperience = "all the academy pre filled stuff will be here" }
-
                );
 
             modelBuilder.Entity<User>().HasData
                 (
-                    new User { UserId = 1, UserEmail = "bruno@gmail.com", UserPassword = "123", UserTypeId = 1 }
+                    new User { UserId = 1, UserEmail = "bruno@gmail.com", UserPassword = "123", UserTypeId = 1 },
+                    new User { UserId = 2, UserEmail = "client@gmail.com", UserPassword = "123", UserTypeId = 2}
                 );
 
             modelBuilder.Entity<Profile>().HasData
