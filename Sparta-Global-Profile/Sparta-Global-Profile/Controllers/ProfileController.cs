@@ -66,6 +66,14 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Profile/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -100,6 +108,14 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(profile);
@@ -115,6 +131,20 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Profile/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if(userTypeId == "2")
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
             if (id == null)
             {
                 return NotFound();
