@@ -71,6 +71,18 @@
     }
 </ul>
 
+@if (userTypeId != "2")
+    {
+    <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Approved)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Approved)
+            </dd>
+      </d1>
+    }
+
 @*<div>
         <h4>Profile</h4>
         <hr />
@@ -137,7 +149,7 @@
         <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a>
     }
 
-    @if (@userTypeId != "1")
+    @if (userTypeId != "1")
     {
         <a asp-action="Index">Back to List</a>
     }
