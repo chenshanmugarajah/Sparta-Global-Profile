@@ -6,88 +6,109 @@
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
-<h1>Edit</h1>
 
-<h4>Profile</h4>
+<h1>Welcome @Html.DisplayFor(model => model.ProfileName), Edit Your Profile Here</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProfileId" />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
-                <span asp-validation-for="StatusId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileName" class="control-label"></label>
-                <input asp-for="ProfileName" class="form-control" />
-                <span asp-validation-for="ProfileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfilePicture" class="control-label"></label>
-                <input asp-for="ProfilePicture" class="form-control" />
-                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
-                <span asp-validation-for="Summary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
-                <span asp-validation-for="CourseId" class="text-danger"></span>
-            </div>
+<h2><span class="spartaBrightPink">Your Academy Stream: </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
 
-            @if (userTypeId != "1")
-            {
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
-                    </label>
-                </div>
-            }
-          
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
 
-        @* add education *@
-        <h5>
-            Education
-            <a href="~/Educations/Create">CREATE</a>
-        </h5>
-        @foreach (var item in Model.Education)
-        {
-            <p>
-                Establishment: @item.Establishment
-                <a href="~/Educations/Edit/@item.EducationId">Edit</a>
-                <a href="~/Educations/delete/@item.EducationId">Delete</a>
-            </p>
-            <p> Modules </p>
-            <ul>
-                @foreach (var module in item.Modules)
-                {
-                    <li> @module.ModuleName <a href="~/modules/edit/@module.ModuleId">Edit</a> <a href="~/modules/delete/@module.ModuleId">Delete</a> </li>
-                }
-            </ul>
-            <a href="~/modules/create"> Create new Module </a>
-            <br />
-        }
-
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ProfileId" />
+    @*<div class="form-group">
+            <label asp-for="UserId" class="control-label"></label>
+            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>*@
+    <div class="form-group">
+        <label asp-for="StatusId" class="control-label"></label>
+        <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+        <span asp-validation-for="StatusId" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="ProfileName" class="control-label"></label>
+        <input asp-for="ProfileName" class="form-control" />
+        <span asp-validation-for="ProfileName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProfilePicture" class="control-label"></label>
+        <input asp-for="ProfilePicture" class="form-control" />
+        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Summary" class="control-label"></label>
+        <input asp-for="Summary" class="form-control" />
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CourseId" class="control-label"></label>
+        <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
+        <span asp-validation-for="CourseId" class="text-danger"></span>
+    </div>
+
+    @if (userTypeId != "1")
+    {
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
+            </label>
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<div id="skillsDiv">
+    <h2 style="text-decoration:underline">Your skills</h2>
+    @if (Model.Skills.Count != 0)
+    {
+        <ul>
+            @foreach (var skill in Model.Skills)
+            {
+                <li>@skill.SkillName</li>
+            }
+        </ul>
+        <a href="~/skills/index"><button>EDIT SECTION</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no skills</p>
+    }
+    @if (Model.Skills.Count < 8)
+    {
+        <a href="~/skills/create"><button>ADD</button></a>
+    }
 </div>
+<hr />
+<div id="assignmentsDiv">
+    <h2 style="text-decoration:underline">Your client assignments</h2>
+    @if (Model.Assignments.Count != 0)
+    {
+        @foreach (var assignment in Model.Assignments)
+        {
+            <h4>@assignment.StartDate.ToString("dd MMMM yyyy") - @assignment.EndDate.ToString("dd MMMM yyyy")</h4>
+            <h4>@assignment.CompanyName</h4>
+            <h4>@assignment.Position</h4>
+            <p>@assignment.Summary</p>
+        }
+        <a href="~/assignments/index"><button>EDIT SECTION</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no assignments</p>
+    }
+    @if (Model.Assignments.Count < 5)
+    {
+        <a href="~/assignments/create"><button>ADD</button></a>
+    }
+    <br />
+</div>
+<hr />
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">View profile</a>
 </div>
 
 @section Scripts {

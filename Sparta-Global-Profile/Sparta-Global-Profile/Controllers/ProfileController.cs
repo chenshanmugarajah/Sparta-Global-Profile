@@ -186,8 +186,27 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
+        public async Task<IActionResult> Edit(int id, int ProfileId, int StatusId, string ProfileName, string ProfilePicture, string Summary, int CourseId, bool Approved)
         {
+            //public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
+
+            HttpContext context = HttpContext;
+            var userId = Int32.Parse(context.Session.GetString("UserId"));
+            //var dbProfile = _context.Profiles.Where(p => p.ProfileId == ProfileId).FirstOrDefault();
+            //var courseId = dbProfile.CourseId;
+
+            Profile profile = new Profile()
+            {
+                UserId = userId, // from session
+                ProfileId = ProfileId,
+                StatusId = StatusId,
+                ProfileName = ProfileName,
+                ProfilePicture = ProfilePicture,
+                Summary = Summary,
+                CourseId = CourseId,
+                Approved = true
+            };
+
             if (id != profile.ProfileId)
             {
                 return NotFound();
