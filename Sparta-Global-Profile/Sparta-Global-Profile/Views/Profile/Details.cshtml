@@ -5,66 +5,150 @@
     ViewData["Title"] = "Details";
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Profile</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.UserId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status.StatusId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProfileName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProfileName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProfilePicture)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProfilePicture)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.CourseId)
-        </dd>
-        @if (userTypeId != "1" && userTypeId != "2")
+<h1>Meet @Html.DisplayFor(model => model.ProfileName)</h1>
+<hr />
+<h2><span class="spartaBrightPink">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
+<p>@Html.DisplayFor(model => model.Summary)</p>
+<h3 style="font-weight:bold">Skills:</h3>
+<button onclick="testMe()">I am a button</button>
+<ul>
+    @foreach (var skill in Model.Skills)
+    {
+        <li>@skill.SkillName</li>
+    }
+</ul>
+<h2 style="text-decoration:underline">Client Assignments</h2>
+@foreach (var assignment in Model.Assignments)
+{
+    <h4>@assignment.StartDate.ToString("dd MMMM yyyy") - @assignment.EndDate.ToString("dd MMMM yyyy")</h4>
+    <h4>@assignment.CompanyName</h4>
+    <h4>@assignment.Position</h4>
+    <p>@assignment.Summary</p>
+    <br />
+}
+<h2 style="text-decoration:underline">Academy Projects</h2>
+@foreach (var project in Model.SpartaProjects)
+{
+    <h4>@project.ProjectName</h4>
+    <p>@project.ProjectBio</p>
+    <ul>
+        @foreach (var link in project.ProjectLinks)
         {
+            <li><a href=@link.Url>@link.LinkText</a></li>
+        }
+    </ul> 
+}
+
+<h2 style="text-decoration:underline">Employment History</h2>
+@foreach(var employment in Model.Employment)
+{
+    <h4>@employment.StartDate.ToString("dd MMMM yyyy") - @employment.EndDate.ToString("dd MMMM yyyy")</h4>
+    <h4>@employment.CompanyName</h4>
+    <h4>@employment.Position</h4>
+    <p>@employment.Summary</p>
+}
+
+<h2 style="text-decoration:underline">Education</h2>
+@foreach(var education in Model.Education)
+{
+    <h4>@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h4>
+    <h4>@education.Establishment</h4>
+
+}
+
+<h2 style="text-decoration:underline">Certifications</h2>
+@foreach(var certification in Model.Certifications)
+{
+    <h4>@certification.CertificationName</h4>
+    <p>@certification.Summary</p>
+}
+
+<h2 style="text-decoration:underline">Hobbiees/Extra Curricular Activities</h2>
+<ul>
+    @foreach (var hobby in Model.Hobbies)
+    {
+        <li><span style="font-weight:bold">@hobby.HobbyName</span> - @hobby.HobbyDescription</li>
+    }
+</ul>
+
+@if (userTypeId != "2")
+    {
+    <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Approved)
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Approved)
             </dd>
-        }
-    </dl>
-</div>
+      </d1>
+    }
+
+@*<div>
+        <h4>Profile</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Status.StatusName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProfileName)
+            </dt>
+            <dd class="col-sm-10">
+               @Html.DisplayFor(model => model.ProfileName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProfilePicture)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProfilePicture)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Course)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Course.CourseName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Approved)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Approved)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Summary)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Summary)
+            </dd>
+        </dl>
+            <h5>Education</h5>
+            @foreach(var item in Model.Education)
+            {
+                <p> Establishment: @item.Establishment </p>
+                <p> Grade: @item.Grade </p>
+                @if( item.Modules.Count > 0)
+                {
+                    <p> Modules </p>
+                    <ul>
+                        @foreach(var module in item.Modules)
+                        {
+                            <li> @module.ModuleName - Course year: @module.CourseYear </li>
+                        }
+                    </ul>
+                }
+
+            }
+    </div>*@
+
 <div>
     @if (userTypeId != "2")
     {
-        <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a> 
+        <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a>
     }
-    
+
     @if (userTypeId != "1")
     {
         <a asp-action="Index">Back to List</a>

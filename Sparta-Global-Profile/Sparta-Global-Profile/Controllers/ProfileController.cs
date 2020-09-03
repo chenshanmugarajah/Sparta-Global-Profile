@@ -83,6 +83,14 @@ namespace Sparta_Global_Profile.Controllers
                 .Include(p => p.Course)
                 .Include(p => p.Status)
                 .Include(p => p.User)
+                .Include(p => p.Assignments)
+                .Include(p => p.SpartaProjects).ThenInclude(l => l.ProjectLinks)
+                .Include(p => p.Employment)
+                .Include(p => p.Education).ThenInclude(e => e.Modules)
+                .Include(p => p.Skills)
+                .Include(p => p.Hobbies)
+                .Include(p => p.Comments)
+                .Include(p => p.Certifications)
                 .FirstOrDefaultAsync(m => m.ProfileId == id);
             if (profile == null)
             {
@@ -150,7 +158,19 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var profile = await _context.Profiles.FindAsync(id);
+            var profile = await _context.Profiles
+                .Include(p => p.Course)
+                .Include(p => p.Status)
+                .Include(p => p.User)
+                .Include(p => p.Assignments)
+                .Include(p => p.SpartaProjects)
+                .Include(p => p.Employment)
+                .Include(p => p.Education).ThenInclude(e => e.Modules)
+                .Include(p => p.Skills)
+                .Include(p => p.Hobbies)
+                .Include(p => p.Comments)
+                .Include(p => p.Certifications)
+                .FirstOrDefaultAsync(m => m.ProfileId == id);
             if (profile == null)
             {
                 return NotFound();

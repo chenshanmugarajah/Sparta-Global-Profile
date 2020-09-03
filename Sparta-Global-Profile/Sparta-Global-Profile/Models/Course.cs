@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sparta_Global_Profile.Models
 {
-    public class Course
+    public class Course // c# , java , sdet
     {
         public Course()
         {
@@ -16,4 +16,6 @@ namespace Sparta_Global_Profile.Models
         public string AcademyExperience { get; set; }
         public ICollection<Profile> Profiles { get; set; }
     }
+
+    // class stream { } eng66 data14 sdet12
 }

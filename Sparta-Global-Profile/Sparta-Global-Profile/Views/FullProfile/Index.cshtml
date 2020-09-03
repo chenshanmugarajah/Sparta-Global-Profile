@@ -1,0 +1,41 @@
+﻿@model Sparta_Global_Profile.ViewModel.FullProfile
+
+@{
+    ViewData["Title"] = "FullProfileView";
+}
+
+
+<h1>FullProfileView</h1>
+
+<h3> Profile </h3>
+<p>
+    Full Name: @Model.ProfileFullName
+</p>
+<p>
+    Picture Url: @Model.ProfilePic
+</p>
+<p>
+    Summary: @Model.ProfileSummary
+</p>
+<p>
+    Stream: @Model.ProfileStream
+</p>
+<p>
+    Approved: @Model.ProfileApprovalStatus
+</p>
+<p>
+    Academy Status: @Model.ProfileAcademyStatus
+</p>
+
+<h3>Projects</h3>
+@foreach(var project in Model.SpartaProjects)
+{
+    <h4> @project.ProjectName </h4>
+    <p> @project.ProjectBio </p>
+}
+
+<h3>Skills</h3>
+@foreach(var userSkill in Model.Skills)
+{
+    <p> @userSkill.SkillName </p>
+}

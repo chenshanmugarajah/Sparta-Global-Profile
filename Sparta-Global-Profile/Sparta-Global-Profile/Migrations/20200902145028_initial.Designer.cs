@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    partial class SpartaGlobalProfileDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200902145028_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,28 +51,6 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Assignments");
-
-                    b.HasData(
-                        new
-                        {
-                            AssignmentId = 1,
-                            CompanyName = "Home Office",
-                            EndDate = new DateTime(2020, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Position = "C# Backend Developer",
-                            ProfileId = 1,
-                            StartDate = new DateTime(2019, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Summary = "Lots of text about how amazing this job was and what I did during it"
-                        },
-                        new
-                        {
-                            AssignmentId = 2,
-                            CompanyName = "MI6",
-                            EndDate = new DateTime(2020, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Position = "C# Frontend Developer",
-                            ProfileId = 2,
-                            StartDate = new DateTime(2019, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Summary = "Very exciting secretive job that I cannot talk about"
-                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Certification", b =>
@@ -94,22 +74,6 @@ namespace Sparta_Global_Profile.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Certifications");
-
-                    b.HasData(
-                        new
-                        {
-                            CertificationId = 1,
-                            CertificationName = "C# Basics course",
-                            ProfileId = 1,
-                            Summary = "A course that taught us about the basics of C# and how to apply them to real life scenarios"
-                        },
-                        new
-                        {
-                            CertificationId = 2,
-                            CertificationName = "C# OOP course",
-                            ProfileId = 1,
-                            Summary = "A course that taught us about the fundamentals of object orientated programming and how it it used within C#"
-                        });
                 });
 
             modelBuilder.Entity("Sparta_Global_Profile.Models.Comment", b =>
@@ -157,49 +121,7 @@ namespace Sparta_Global_Profile.Migrations
                         {
                             CourseId = 1,
                             AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "C# Software Developer"
-                        },
-                        new
-                        {
-                            CourseId = 2,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "C# Software Development Engineer in Test (SDET)"
-                        },
-                        new
-                        {
-                            CourseId = 3,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "Data Engineer"
-                        },
-                        new
-                        {
-                            CourseId = 4,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "DevOps Consultant"
-                        },
-                        new
-                        {
-                            CourseId = 5,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "Java Software Developer"
-                        },
-                        new
-                        {
-                            CourseId = 6,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "Java Software Developer Engineer in Test (SDET)"
-                        },
-                        new
-                        {
-                            CourseId = 7,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "Software Developer"
-                        },
-                        new
-                        {
-                            CourseId = 8,
-                            AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "Technology Consultant Graduate Scheme"
+                            CourseName = "C#"
                         });
                 });
 
@@ -444,7 +366,8 @@ namespace Sparta_Global_Profile.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Profiles");
 
@@ -654,22 +577,12 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             StatusId = 1,
-                            StatusName = "In Training"
+                            StatusName = "Training"
                         },
                         new
                         {
                             StatusId = 2,
-                            StatusName = "Preassignment"
-                        },
-                        new
-                        {
-                            StatusId = 3,
-                            StatusName = "On Assignment"
-                        },
-                        new
-                        {
-                            StatusId = 4,
-                            StatusName = "On Bench"
+                            StatusName = "Pre employment"
                         });
                 });
 
@@ -679,6 +592,9 @@ namespace Sparta_Global_Profile.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
@@ -750,7 +666,6 @@ namespace Sparta_Global_Profile.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserTypeName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserTypeId");
@@ -761,27 +676,27 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserTypeId = 1,
-                            UserTypeName = "Student"
+                            UserTypeName = "student"
                         },
                         new
                         {
                             UserTypeId = 2,
-                            UserTypeName = "Client"
+                            UserTypeName = "client"
                         },
                         new
                         {
                             UserTypeId = 3,
-                            UserTypeName = "Staff"
+                            UserTypeName = "staff"
                         },
                         new
                         {
                             UserTypeId = 4,
-                            UserTypeName = "Resource Manager"
+                            UserTypeName = "resource manager"
                         },
                         new
                         {
                             UserTypeId = 5,
-                            UserTypeName = "Admin"
+                            UserTypeName = "admin"
                         });
                 });
 
@@ -863,8 +778,8 @@ namespace Sparta_Global_Profile.Migrations
                         .IsRequired();
 
                     b.HasOne("Sparta_Global_Profile.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Profile")
+                        .HasForeignKey("Sparta_Global_Profile.Models.Profile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
