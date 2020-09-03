@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    
+    var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
 <h1>Index</h1>
@@ -27,33 +27,36 @@
                 Profile Image
             </th>
             <th>
-                Summary
-            </th>
-            <th>
                 Course
             </th>
+            @if (userTypeId != "1" && userTypeId != "2")
+            {
+                <th>
+                    Approved
+                </th>
+            }
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProfileName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProfilePicture)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Summary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Course.CourseName)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfilePicture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
+            </td>
+            @if (userTypeId != "1" && userTypeId != "2")
+            {
                 <td>
                     @Html.DisplayFor(modelItem => item.Approved)
                 </td>
+            }
                 <td>
                     <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a>
                 </td>
