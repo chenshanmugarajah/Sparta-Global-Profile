@@ -31,6 +31,13 @@ namespace Sparta_Global_Profile.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserType>()
+                .HasKey(userType => userType.UserTypeId);
+
+            modelBuilder.Entity<UserType>()
+                .Property(userType => userType.UserTypeName)
+                .IsRequired();
+
             modelBuilder.Entity<UserType>().HasData
                 (
                     new UserType { UserTypeId = 1, UserTypeName = "Student" },
@@ -51,7 +58,14 @@ namespace Sparta_Global_Profile.Models
 
             modelBuilder.Entity<Course>().HasData
                (
-                   new Course { CourseId = 1, CourseName = "C#", AcademyExperience = "all the academy pre filled stuff will be here" }
+                   new Course { CourseId = 1, CourseName = "C# Software Developer", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 2, CourseName = "C# Software Development Engineer in Test (SDET)", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 3, CourseName = "Data Engineer", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 4, CourseName = "DevOps Consultant", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 5, CourseName = "Java Software Developer", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 6, CourseName = "Java Software Developer Engineer in Test (SDET)", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 7, CourseName = "Software Developer", AcademyExperience = "all the academy pre filled stuff will be here" },
+                   new Course { CourseId = 8, CourseName = "Technology Consultant Graduate Scheme", AcademyExperience = "all the academy pre filled stuff will be here" }
                );
 
             var password = Helper.EncryptPlainTextToCipherText("123");

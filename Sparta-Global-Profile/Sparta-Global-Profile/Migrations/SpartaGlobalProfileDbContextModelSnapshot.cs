@@ -119,7 +119,49 @@ namespace Sparta_Global_Profile.Migrations
                         {
                             CourseId = 1,
                             AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "C#"
+                            CourseName = "C# Software Developer"
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "C# Software Development Engineer in Test (SDET)"
+                        },
+                        new
+                        {
+                            CourseId = 3,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Data Engineer"
+                        },
+                        new
+                        {
+                            CourseId = 4,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "DevOps Consultant"
+                        },
+                        new
+                        {
+                            CourseId = 5,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Java Software Developer"
+                        },
+                        new
+                        {
+                            CourseId = 6,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Java Software Developer Engineer in Test (SDET)"
+                        },
+                        new
+                        {
+                            CourseId = 7,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Software Developer"
+                        },
+                        new
+                        {
+                            CourseId = 8,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Technology Consultant Graduate Scheme"
                         });
                 });
 
@@ -572,6 +614,7 @@ namespace Sparta_Global_Profile.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserTypeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserTypeId");

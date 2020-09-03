@@ -10,8 +10,8 @@ using Sparta_Global_Profile.Models;
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    [Migration("20200901110641_AddClientSeed")]
-    partial class AddClientSeed
+    [Migration("20200903100036_SeedingCourseData")]
+    partial class SeedingCourseData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,7 +121,49 @@ namespace Sparta_Global_Profile.Migrations
                         {
                             CourseId = 1,
                             AcademyExperience = "all the academy pre filled stuff will be here",
-                            CourseName = "C#"
+                            CourseName = "C# Software Developer"
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "C# Software Development Engineer in Test (SDET)"
+                        },
+                        new
+                        {
+                            CourseId = 3,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Data Engineer"
+                        },
+                        new
+                        {
+                            CourseId = 4,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "DevOps Consultant"
+                        },
+                        new
+                        {
+                            CourseId = 5,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Java Software Developer"
+                        },
+                        new
+                        {
+                            CourseId = 6,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Java Software Developer Engineer in Test (SDET)"
+                        },
+                        new
+                        {
+                            CourseId = 7,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Software Developer"
+                        },
+                        new
+                        {
+                            CourseId = 8,
+                            AcademyExperience = "all the academy pre filled stuff will be here",
+                            CourseName = "Technology Consultant Graduate Scheme"
                         });
                 });
 
@@ -332,8 +374,7 @@ namespace Sparta_Global_Profile.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Profiles");
 
@@ -486,12 +527,22 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             StatusId = 1,
-                            StatusName = "Training"
+                            StatusName = "In Training"
                         },
                         new
                         {
                             StatusId = 2,
-                            StatusName = "Pre employment"
+                            StatusName = "Preassignment"
+                        },
+                        new
+                        {
+                            StatusId = 3,
+                            StatusName = "On Assignment"
+                        },
+                        new
+                        {
+                            StatusId = 4,
+                            StatusName = "On Bench"
                         });
                 });
 
@@ -501,9 +552,6 @@ namespace Sparta_Global_Profile.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ProfileId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
@@ -526,16 +574,37 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 1,
-                            UserEmail = "bruno@gmail.com",
-                            UserPassword = "123",
+                            UserEmail = "student@gmail.com",
+                            UserPassword = "vxFh7ubhh0Q=",
                             UserTypeId = 1
                         },
                         new
                         {
                             UserId = 2,
                             UserEmail = "client@gmail.com",
-                            UserPassword = "123",
+                            UserPassword = "vxFh7ubhh0Q=",
                             UserTypeId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            UserEmail = "staff@gmail.com",
+                            UserPassword = "vxFh7ubhh0Q=",
+                            UserTypeId = 3
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            UserEmail = "resource@gmail.com",
+                            UserPassword = "vxFh7ubhh0Q=",
+                            UserTypeId = 4
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            UserEmail = "admin@gmail.com",
+                            UserPassword = "vxFh7ubhh0Q=",
+                            UserTypeId = 5
                         });
                 });
 
@@ -547,6 +616,7 @@ namespace Sparta_Global_Profile.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserTypeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserTypeId");
@@ -557,27 +627,27 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserTypeId = 1,
-                            UserTypeName = "student"
+                            UserTypeName = "Student"
                         },
                         new
                         {
                             UserTypeId = 2,
-                            UserTypeName = "client"
+                            UserTypeName = "Client"
                         },
                         new
                         {
                             UserTypeId = 3,
-                            UserTypeName = "staff"
+                            UserTypeName = "Staff"
                         },
                         new
                         {
                             UserTypeId = 4,
-                            UserTypeName = "resource manager"
+                            UserTypeName = "Resource Manager"
                         },
                         new
                         {
                             UserTypeId = 5,
-                            UserTypeName = "admin"
+                            UserTypeName = "Admin"
                         });
                 });
 
@@ -659,8 +729,8 @@ namespace Sparta_Global_Profile.Migrations
                         .IsRequired();
 
                     b.HasOne("Sparta_Global_Profile.Models.User", "User")
-                        .WithOne("Profile")
-                        .HasForeignKey("Sparta_Global_Profile.Models.Profile", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
