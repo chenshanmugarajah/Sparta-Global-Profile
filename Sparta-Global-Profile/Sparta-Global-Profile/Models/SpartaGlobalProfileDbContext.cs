@@ -31,25 +31,22 @@ namespace Sparta_Global_Profile.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Profile>()
-                .HasOne(p => p.User)
-                .WithOne(p => p.Profile)
-                .HasForeignKey<Profile>(p => p.UserId);
-
             modelBuilder.Entity<UserType>().HasData
                 (
-                    new UserType { UserTypeId = 1, UserTypeName = "student" },
-                    new UserType { UserTypeId = 2, UserTypeName = "client" },
-                    new UserType { UserTypeId = 3, UserTypeName = "staff" },
-                    new UserType { UserTypeId = 4, UserTypeName = "resource manager" },
-                    new UserType { UserTypeId = 5, UserTypeName = "admin" }
+                    new UserType { UserTypeId = 1, UserTypeName = "Student" },
+                    new UserType { UserTypeId = 2, UserTypeName = "Client" },
+                    new UserType { UserTypeId = 3, UserTypeName = "Staff" },
+                    new UserType { UserTypeId = 4, UserTypeName = "Resource Manager" },
+                    new UserType { UserTypeId = 5, UserTypeName = "Admin" }
 
                 );
 
             modelBuilder.Entity<Status>().HasData
                 (
-                    new Status { StatusId = 1, StatusName = "Training" },
-                    new Status { StatusId = 2, StatusName = "Pre employment" }
+                    new Status { StatusId = 1, StatusName = "In Training" },
+                    new Status { StatusId = 2, StatusName = "Preassignment" },
+                    new Status { StatusId = 3, StatusName = "On Assignment" },
+                    new Status { StatusId = 4, StatusName = "On Bench" }
                 );
 
             modelBuilder.Entity<Course>().HasData

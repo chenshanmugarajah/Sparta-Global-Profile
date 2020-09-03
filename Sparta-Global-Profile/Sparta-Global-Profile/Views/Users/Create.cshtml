@@ -15,7 +15,7 @@
 <h4>User</h4>
 <hr />
 <div class="row">
-    @using (Html.BeginForm("Registration", "Users", null, FormMethod.Post))
+    @using (Html.BeginForm("Create", "Users", null, FormMethod.Post))
     {@Html.AntiForgeryToken()
     <div class="col">
         <div class="form-group">

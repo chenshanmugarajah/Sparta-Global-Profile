@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    partial class SpartaGlobalProfileDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200902124217_RemoveProfileLinkInUserClass")]
+    partial class RemoveProfileLinkInUserClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,22 +485,12 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             StatusId = 1,
-                            StatusName = "In Training"
+                            StatusName = "Training"
                         },
                         new
                         {
                             StatusId = 2,
-                            StatusName = "Preassignment"
-                        },
-                        new
-                        {
-                            StatusId = 3,
-                            StatusName = "On Assignment"
-                        },
-                        new
-                        {
-                            StatusId = 4,
-                            StatusName = "On Bench"
+                            StatusName = "Pre employment"
                         });
                 });
 
@@ -582,27 +574,27 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserTypeId = 1,
-                            UserTypeName = "Student"
+                            UserTypeName = "student"
                         },
                         new
                         {
                             UserTypeId = 2,
-                            UserTypeName = "Client"
+                            UserTypeName = "client"
                         },
                         new
                         {
                             UserTypeId = 3,
-                            UserTypeName = "Staff"
+                            UserTypeName = "staff"
                         },
                         new
                         {
                             UserTypeId = 4,
-                            UserTypeName = "Resource Manager"
+                            UserTypeName = "resource manager"
                         },
                         new
                         {
                             UserTypeId = 5,
-                            UserTypeName = "Admin"
+                            UserTypeName = "admin"
                         });
                 });
 

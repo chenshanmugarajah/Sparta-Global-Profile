@@ -62,12 +62,11 @@ namespace Sparta_Global_Profile.Controllers
 
             var user = await _context.Users
                 .Include(u => u.UserType)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(u => u.UserId == id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return View(user);
         }
 
@@ -83,13 +82,43 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,ProfileId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var checkUser = _context.Users.FirstOrDefault(u => u.UserEmail == user.UserEmail);
+                if (checkUser == null)
+                {
+                    var password = Helper.EncryptPlainTextToCipherText(user.UserPassword);
+                    user.UserPassword = password;
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+
+                    if (user.UserTypeId == 1)
+                    {
+
+                        var newUser = _context.Users.First(u => u.UserEmail == user.UserEmail);
+                        var newUserId = newUser.UserId;
+                        var profile = new Profile()
+                        {
+                            UserId = newUserId,
+                            StatusId = 1,
+                            ProfileName = "New Student",
+                            ProfilePicture = "",
+                            Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
+                            + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
+                            + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
+                            CourseId = 1,
+                            Approved = false
+                        };
+                        _context.Profiles.Add(profile);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("UserEmail", "User Already Exists!");
+                return View("Create");
             }
             ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
             return View(user);
@@ -117,7 +146,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,ProfileId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
         {
             if (id != user.UserId)
             {
@@ -174,7 +203,14 @@ namespace Sparta_Global_Profile.Controllers
         {
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
+            
+            if(user.UserTypeId == 1)
+            {
+                var profile = _context.Profiles.First(p => p.UserId == id);
+                _context.Profiles.Remove(profile);
+            }
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -185,34 +221,45 @@ namespace Sparta_Global_Profile.Controllers
 
 
         // encrypt functionality
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult Registration(User objNewUser)
-        {
-            try
-            {
-                using (var context = new SpartaGlobalProfileDbContext())
-                {
-                    var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
-                    if (checkUser == null)
-                    {
-                        var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
-                        objNewUser.UserPassword = password;
-                        //objNewUser.VCode = keyNew;
-                        context.Users.Add(objNewUser);
-                        context.SaveChanges();
-                        ModelState.Clear();
-                        return RedirectToAction("Index", "Users");
-                    }
-                    ModelState.AddModelError("UserPassword", "User Already Exists!");
-                    return View("Create");
-                }
-            }
-            catch (Exception e)
-            {
-                ViewBag.ErrorMessage = "Some exception occured" + e;
-                return View();
-            }
-        }
+        //[ValidateAntiForgeryToken]
+        //[HttpPost]
+        //public ActionResult Registration(User objNewUser)
+        //{
+        //    try
+        //    {
+        //        using (var context = new SpartaGlobalProfileDbContext())
+        //        {
+        //            var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
+        //            if (checkUser == null)
+        //            {
+        //                var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
+        //                objNewUser.UserPassword = password;
+        //                //objNewUser.VCode = keyNew;
+        //                var profile = new Profile()
+        //                {
+        //                    UserId = objNewUser.UserId,
+        //                    StatusId = 1,
+        //                    ProfileName = "Your Name",
+        //                    ProfilePicture = "",
+        //                    Summary = "Your Summary Here",
+        //                    CourseId = 1,
+        //                    Approved = false
+        //                };
+        //                context.Users.Add(objNewUser);
+        //                context.Profiles.Add(profile);
+        //                context.SaveChanges();
+        //                ModelState.Clear();
+        //                return RedirectToAction("Index", "Users");
+        //            }
+        //            ModelState.AddModelError("UserPassword", "User Already Exists!");
+        //            return View("Create");
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.ErrorMessage = "Some exception occured" + e;
+        //        return View();
+        //    }
+        //}
     }
 }
