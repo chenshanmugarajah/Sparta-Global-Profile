@@ -85,7 +85,6 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId)
         {
-            var test = courseId;
             if (ModelState.IsValid)
             {
                 var checkUser = _context.Users.FirstOrDefault(u => u.UserEmail == user.UserEmail);
