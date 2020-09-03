@@ -5,12 +5,12 @@
     ViewData["Title"] = "Details";
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
-
 <h1>Meet @Html.DisplayFor(model => model.ProfileName)</h1>
 <hr />
-<h2> Academy Stream | @Html.DisplayFor(model => model.Course.CourseName)</h2>
+<h2><span class="spartaBrightPink">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
 <p>@Html.DisplayFor(model => model.Summary)</p>
-<h3>Skills:</h3>
+<h3 style="font-weight:bold">Skills:</h3>
+<button onclick="testMe()">I am a button</button>
 <ul>
     @foreach (var skill in Model.Skills)
     {
@@ -20,7 +20,7 @@
 <h2 style="text-decoration:underline">Client Assignments</h2>
 @foreach (var assignment in Model.Assignments)
 {
-    <h4>@assignment.StartDate - @assignment.EndDate</h4>
+    <h4>@assignment.StartDate.ToString("dd MMMM yyyy") - @assignment.EndDate.ToString("dd MMMM yyyy")</h4>
     <h4>@assignment.CompanyName</h4>
     <h4>@assignment.Position</h4>
     <p>@assignment.Summary</p>
@@ -30,17 +30,46 @@
 @foreach (var project in Model.SpartaProjects)
 {
     <h4>@project.ProjectName</h4>
-    <h4>@project.ProjectBio</h4>
+    <p>@project.ProjectBio</p>
     <ul>
         @foreach (var link in project.ProjectLinks)
         {
             <li><a href=@link.Url>@link.LinkText</a></li>
         }
-    </ul>
-
-   
+    </ul> 
 }
 
+<h2 style="text-decoration:underline">Employment History</h2>
+@foreach(var employment in Model.Employment)
+{
+    <h4>@employment.StartDate.ToString("dd MMMM yyyy") - @employment.EndDate.ToString("dd MMMM yyyy")</h4>
+    <h4>@employment.CompanyName</h4>
+    <h4>@employment.Position</h4>
+    <p>@employment.Summary</p>
+}
+
+<h2 style="text-decoration:underline">Education</h2>
+@foreach(var education in Model.Education)
+{
+    <h4>@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h4>
+    <h4>@education.Establishment</h4>
+
+}
+
+<h2 style="text-decoration:underline">Certifications</h2>
+@foreach(var certification in Model.Certifications)
+{
+    <h4>@certification.CertificationName</h4>
+    <p>@certification.Summary</p>
+}
+
+<h2 style="text-decoration:underline">Hobbiees/Extra Curricular Activities</h2>
+<ul>
+    @foreach (var hobby in Model.Hobbies)
+    {
+        <li><span style="font-weight:bold">@hobby.HobbyName</span> - @hobby.HobbyDescription</li>
+    }
+</ul>
 
 @*<div>
         <h4>Profile</h4>

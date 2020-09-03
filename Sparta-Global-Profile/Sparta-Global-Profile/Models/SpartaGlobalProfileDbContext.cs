@@ -222,6 +222,24 @@ namespace Sparta_Global_Profile.Models
                         ProfileId = 2
                     }
                 );
+
+            modelBuilder.Entity<Certification>().HasData
+                (
+                    new Certification
+                    {
+                        CertificationId = 1,
+                        CertificationName = "C# Basics course",
+                        Summary = "A course that taught us about the basics of C# and how to apply them to real life scenarios",
+                        ProfileId = 1
+                    },
+                    new Certification
+                    {
+                        CertificationId = 2,
+                        CertificationName = "C# OOP course",
+                        Summary = "A course that taught us about the fundamentals of object orientated programming and how it it used within C#",
+                        ProfileId = 1
+                    }
+                );
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
