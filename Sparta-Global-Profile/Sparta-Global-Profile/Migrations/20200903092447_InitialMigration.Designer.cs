@@ -10,8 +10,8 @@ using Sparta_Global_Profile.Models;
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    [Migration("20200902125535_SeededStatusTypes")]
-    partial class SeededStatusTypes
+    [Migration("20200903092447_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -574,6 +574,7 @@ namespace Sparta_Global_Profile.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserTypeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserTypeId");

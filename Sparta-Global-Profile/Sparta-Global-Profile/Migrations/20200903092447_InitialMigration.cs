@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sparta_Global_Profile.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +40,7 @@ namespace Sparta_Global_Profile.Migrations
                 {
                     UserTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserTypeName = table.Column<string>(nullable: true)
+                    UserTypeName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,9 +53,8 @@ namespace Sparta_Global_Profile.Migrations
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProfileId = table.Column<int>(nullable: true),
-                    UserEmail = table.Column<string>(nullable: true),
-                    UserPassword = table.Column<string>(nullable: true),
+                    UserEmail = table.Column<string>(nullable: false),
+                    UserPassword = table.Column<string>(nullable: false),
                     UserTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -334,19 +333,35 @@ namespace Sparta_Global_Profile.Migrations
                 columns: new[] { "StatusId", "StatusName" },
                 values: new object[,]
                 {
-                    { 1, "Training" },
-                    { 2, "Pre employment" }
+                    { 1, "In Training" },
+                    { 2, "Preassignment" },
+                    { 3, "On Assignment" },
+                    { 4, "On Bench" }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserTypes",
                 columns: new[] { "UserTypeId", "UserTypeName" },
-                values: new object[] { 1, "student" });
+                values: new object[,]
+                {
+                    { 1, "Student" },
+                    { 2, "Client" },
+                    { 3, "Staff" },
+                    { 4, "Resource Manager" },
+                    { 5, "Admin" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "ProfileId", "UserEmail", "UserPassword", "UserTypeId" },
-                values: new object[] { 1, null, "bruno@gmail.com", "123", 1 });
+                columns: new[] { "UserId", "UserEmail", "UserPassword", "UserTypeId" },
+                values: new object[,]
+                {
+                    { 1, "student@gmail.com", "vxFh7ubhh0Q=", 1 },
+                    { 2, "client@gmail.com", "vxFh7ubhh0Q=", 2 },
+                    { 3, "staff@gmail.com", "vxFh7ubhh0Q=", 3 },
+                    { 4, "resource@gmail.com", "vxFh7ubhh0Q=", 4 },
+                    { 5, "admin@gmail.com", "vxFh7ubhh0Q=", 5 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Profiles",
@@ -455,8 +470,7 @@ namespace Sparta_Global_Profile.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Profiles_UserId",
                 table: "Profiles",
-                column: "UserId",
-                unique: true);
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectLinks_SpartaProjectId",

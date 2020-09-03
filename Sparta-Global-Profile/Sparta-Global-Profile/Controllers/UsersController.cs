@@ -73,7 +73,7 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId");
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName");
             return View();
         }
 

@@ -31,6 +31,13 @@ namespace Sparta_Global_Profile.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserType>()
+                .HasKey(userType => userType.UserTypeId);
+
+            modelBuilder.Entity<UserType>()
+                .Property(userType => userType.UserTypeName)
+                .IsRequired();
+
             modelBuilder.Entity<UserType>().HasData
                 (
                     new UserType { UserTypeId = 1, UserTypeName = "Student" },
