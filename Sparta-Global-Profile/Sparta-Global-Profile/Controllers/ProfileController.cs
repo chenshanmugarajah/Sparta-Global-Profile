@@ -51,7 +51,7 @@ namespace Sparta_Global_Profile.Controllers
                 searchString = currentFilter;
             }
 
-            var profiles = from profile in _context.Profiles.Include(p => p.Course).Where(p => p.Approved == true)
+            var profiles = from profile in _context.Profiles.Include(p => p.Course)
                            select profile;
 
             if(!String.IsNullOrEmpty(searchString))
