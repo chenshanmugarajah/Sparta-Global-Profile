@@ -62,12 +62,11 @@ namespace Sparta_Global_Profile.Controllers
 
             var user = await _context.Users
                 .Include(u => u.UserType)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(u => u.UserId == id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return View(user);
         }
 
@@ -97,13 +96,14 @@ namespace Sparta_Global_Profile.Controllers
 
                     if (user.UserTypeId == 1)
                     {
+
                         var newUser = _context.Users.First(u => u.UserEmail == user.UserEmail);
                         var newUserId = newUser.UserId;
                         var profile = new Profile()
                         {
                             UserId = newUserId,
                             StatusId = 1,
-                            ProfileName = "Your Name",
+                            ProfileName = "New Student",
                             ProfilePicture = "",
                             Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
                             + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
