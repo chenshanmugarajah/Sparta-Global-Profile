@@ -27,7 +27,7 @@ namespace Sparta_Global_Profile.Controllers
         public ActionResult Authorize(User userModel)
         {
             var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
-                      
+
             if (user == null)
             {
                 ModelState.AddModelError("UserEmail", "User with that Email does not exist!");
