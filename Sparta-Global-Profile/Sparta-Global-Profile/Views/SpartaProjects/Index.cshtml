@@ -6,9 +6,9 @@
 
 <h1>Index</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -33,15 +33,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ProjectBio)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Profile.ProfileId)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.SpartaProjectId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SpartaProjectId">Details</a> |
+                @*<a asp-action="Details" asp-route-id="@item.SpartaProjectId">Details</a>*@ |
                 <a asp-action="Delete" asp-route-id="@item.SpartaProjectId">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<a href="~/profile"><button>Back to your profile</button></a>

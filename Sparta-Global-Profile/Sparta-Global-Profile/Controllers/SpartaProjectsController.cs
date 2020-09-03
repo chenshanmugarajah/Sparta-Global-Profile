@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,10 @@ namespace Sparta_Global_Profile.Controllers
         // GET: SpartaProjects
         public async Task<IActionResult> Index()
         {
-            var spartaGlobalProfileDbContext = _context.SpartaProjects.Include(s => s.Profile);
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
+            var spartaGlobalProfileDbContext = _context.SpartaProjects.Where(sp => sp.ProfileId == profileId).Include(s => s.Profile);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
@@ -56,13 +60,24 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SpartaProjectId,ProjectName,ProjectBio,ProfileId")] SpartaProject spartaProject)
+        public async Task<IActionResult> Create(int SpartaProjectId, string ProjectName, string ProjectBio, int ProfileId)
         {
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
+            SpartaProject spartaProject = new SpartaProject()
+            {
+                SpartaProjectId = SpartaProjectId,
+                ProfileId = profileId,
+                ProjectBio = ProjectBio,
+                ProjectName = ProjectName
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(spartaProject);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "FullProfile");
+                return RedirectToAction("Details", "Profile", new { id = profileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", spartaProject.ProfileId);
             return View(spartaProject);
@@ -90,8 +105,19 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SpartaProjectId,ProjectName,ProjectBio,ProfileId")] SpartaProject spartaProject)
+        public async Task<IActionResult> Edit(int id, int SpartaProjectId, string ProjectName, string ProjectBio, int ProfileId)
         {
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
+            SpartaProject spartaProject = new SpartaProject()
+            {
+                SpartaProjectId = SpartaProjectId,
+                ProfileId = profileId,
+                ProjectBio = ProjectBio,
+                ProjectName = ProjectName
+            };
+
             if (id != spartaProject.SpartaProjectId)
             {
                 return NotFound();

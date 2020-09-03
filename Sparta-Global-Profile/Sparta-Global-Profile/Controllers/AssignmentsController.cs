@@ -22,7 +22,11 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Assignments
         public async Task<IActionResult> Index()
         {
-            var spartaGlobalProfileDbContext = _context.Assignments.Include(a => a.Profile);
+
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
+            var spartaGlobalProfileDbContext = _context.Assignments.Where(a => a.Profile == profileId).Include(a => a.Profile);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
@@ -79,7 +83,7 @@ namespace Sparta_Global_Profile.Controllers
             {
                 _context.Add(assignment);
                 await _context.SaveChangesAsync();
-                return Redirect("~/profile");
+                return RedirectToAction("Edit", "Profile", new { id = profileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
             return View(assignment);

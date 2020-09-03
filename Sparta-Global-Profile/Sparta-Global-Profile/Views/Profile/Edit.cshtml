@@ -106,7 +106,34 @@
     <br />
 </div>
 <hr />
-
+<div>
+    <h2 style="text-decoration:underline">Academy Projects</h2>
+    @if (Model.SpartaProjects.Count != 0)
+    {
+        @foreach (var project in Model.SpartaProjects)
+        {
+            <h4>@project.ProjectName</h4>
+            <p>@project.ProjectBio</p>
+            <ul>
+                @foreach (var link in project.ProjectLinks)
+                {
+                    <li><a href=@link.Url>@link.LinkText</a></li>
+                }
+            </ul>
+        }
+        <a href="~/spartaprojects/index"><button>EDIT SECTION</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no projects</p>
+    }
+    @if (Model.SpartaProjects.Count < 5)
+    {
+        <a href="~/spartaprojects/create"><button>ADD</button></a>
+    }
+    <br />
+</div>
+<hr />
 <div>
     <a asp-action="Index">View profile</a>
 </div>

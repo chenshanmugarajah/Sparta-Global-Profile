@@ -77,7 +77,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 _context.Add(skill);
                 await _context.SaveChangesAsync();
-                return Redirect("~/profile");
+                //return Redirect("~/profile");
+                return RedirectToAction("Edit", "Profile", new { id = profileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", skill.ProfileId);
             return View(skill);
