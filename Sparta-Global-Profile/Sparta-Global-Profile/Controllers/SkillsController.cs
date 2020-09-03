@@ -105,8 +105,19 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SkillId,SkillName,ProfileId")] Skill skill)
+        public async Task<IActionResult> Edit(int id, int SkillId, string SkillName)
         {
+            //public async Task<IActionResult> Create([Bind("SkillId,SkillName,ProfileId")] Skill skill)
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
+            Skill skill = new Skill()
+            {
+                SkillId = SkillId,
+                SkillName = SkillName,
+                ProfileId = profileId
+            };
+
             if (id != skill.SkillId)
             {
                 return NotFound();
