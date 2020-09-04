@@ -73,7 +73,8 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId");
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName");
+            ViewData["Courses"] = _context.Courses.ToList();
             return View();
         }
 
@@ -82,7 +83,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +109,7 @@ namespace Sparta_Global_Profile.Controllers
                             Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
                             + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
                             + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
-                            CourseId = 1,
+                            CourseId =  courseId,
                             Approved = false
                         };
                         _context.Profiles.Add(profile);
@@ -219,48 +220,5 @@ namespace Sparta_Global_Profile.Controllers
         {
             return _context.Users.Any(e => e.UserId == id);
         }
-
-
-        // encrypt functionality
-        //[ValidateAntiForgeryToken]
-        //[HttpPost]
-        //public ActionResult Registration(User objNewUser)
-        //{
-        //    try
-        //    {
-        //        using (var context = new SpartaGlobalProfileDbContext())
-        //        {
-        //            var checkUser = (from u in context.Users where u.UserEmail == objNewUser.UserEmail || u.UserId == objNewUser.UserId select u).FirstOrDefault();
-        //            if (checkUser == null)
-        //            {
-        //                var password = Helper.EncryptPlainTextToCipherText(objNewUser.UserPassword);
-        //                objNewUser.UserPassword = password;
-        //                //objNewUser.VCode = keyNew;
-        //                var profile = new Profile()
-        //                {
-        //                    UserId = objNewUser.UserId,
-        //                    StatusId = 1,
-        //                    ProfileName = "Your Name",
-        //                    ProfilePicture = "",
-        //                    Summary = "Your Summary Here",
-        //                    CourseId = 1,
-        //                    Approved = false
-        //                };
-        //                context.Users.Add(objNewUser);
-        //                context.Profiles.Add(profile);
-        //                context.SaveChanges();
-        //                ModelState.Clear();
-        //                return RedirectToAction("Index", "Users");
-        //            }
-        //            ModelState.AddModelError("UserPassword", "User Already Exists!");
-        //            return View("Create");
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ViewBag.ErrorMessage = "Some exception occured" + e;
-        //        return View();
-        //    }
-        //}
     }
 }
