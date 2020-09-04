@@ -25,6 +25,13 @@ a {
     border-color: #1861ac;
 }
 
+.indexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+   
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

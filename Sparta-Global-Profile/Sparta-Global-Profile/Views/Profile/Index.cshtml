@@ -17,7 +17,29 @@
         </p>
     </div>
 </form>
-<table class="table">
+
+<div class="indexContainer">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProfileName)</h4>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Details" asp-route-id="@item.ProfileId" class="btn btn-primary">Details</a>
+                    @if (userTypeId != "1" && userTypeId != "2")
+                    {
+                        @if(item.Approved) { <a class="btn btn-primary">Approved</a> } else { <a class="btn btn-primary">UnApproved</a>}
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -41,29 +63,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfilePicture)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course.CourseName)
-            </td>
-            @if (userTypeId != "1" && userTypeId != "2")
-            {
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Approved)
+                    @Html.DisplayFor(modelItem => item.ProfileName)
                 </td>
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfilePicture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+                @if (userTypeId != "1" && userTypeId != "2")
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Approved)
+                    </td>
+                }
                 <td>
                     <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a>
                 </td>
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 
 @{
     var previousDisabled = !Model.HasPreviousPage ? "disabled" : "";

@@ -64,7 +64,7 @@ namespace Sparta_Global_Profile.Controllers
             {
                 profiles = profiles.Where(p => p.Course.CourseName.Contains(searchString));
             }
-            int pageSize = 3;
+            int pageSize = 12;
 
             return View(await PaginatedList<Profile>.CreateAsync(profiles.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
