@@ -54,11 +54,17 @@ namespace Sparta_Global_Profile.Controllers
             var profiles = from profile in _context.Profiles.Include(p => p.Course)
                            select profile;
 
+            if(userTypeId == "2")
+            {
+                profiles = from profile in _context.Profiles.Include(p => p.Course).Where(p => p.Approved == true)
+                           select profile;
+            }
+
             if(!String.IsNullOrEmpty(searchString))
             {
                 profiles = profiles.Where(p => p.Course.CourseName.Contains(searchString));
             }
-            int pageSize = 3;
+            int pageSize = 12;
 
             return View(await PaginatedList<Profile>.CreateAsync(profiles.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
