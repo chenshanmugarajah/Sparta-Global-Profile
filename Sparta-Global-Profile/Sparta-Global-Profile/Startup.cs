@@ -34,7 +34,7 @@ namespace Sparta_Global_Profile
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
-            services.AddDbContext<SpartaGlobalProfileDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SpartaGlobalProfileDb")));
+            services.AddDbContext<SpartaGlobalProfileDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SpartaAzure")));
             services.AddControllersWithViews();
         }
 
