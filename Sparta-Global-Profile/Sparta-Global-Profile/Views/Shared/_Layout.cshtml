@@ -14,7 +14,7 @@
         var userId = Context.Session.GetString("UserId");
         var userTypeId = Context.Session.GetString("UserTypeId");
         var userEmail = Context.Session.GetString("UserEmail");
-
+        
     }
     <header>
         
@@ -38,7 +38,7 @@
                                     </li>
                                 }
 
-                                @if (userTypeId == "5")
+                                @if (@userTypeId == "5")
                                 {
                                 <li class ="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Admin Panel</a>
@@ -59,7 +59,9 @@
                                     <strong asp-action="Index" method="get">@userEmail</strong>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="Userdetails" asp-action="index">My Profile</a></li>
+                                    <li><a asp-area="" asp-controller="Users" asp-action="index">My Profile</a></li>
+                                    <li><a asp-area="" asp-controller="Users" asp-action="Edit" asp-route-id="@userId">Edit Account</a></li>
+
                                     <li><a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a></li>
                                 </ul>
                             </li>
