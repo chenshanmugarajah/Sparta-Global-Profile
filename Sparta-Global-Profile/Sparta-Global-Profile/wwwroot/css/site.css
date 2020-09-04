@@ -24,6 +24,13 @@ a {
     border-color: #1861ac;
 }
 
+.indexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+   
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -116,4 +123,9 @@ sparta-midnight: 1B0E1D;
 sparta-green-navbar: #01181B;
 
 */
+
+.navbar-custom{
+    color: white !important;
+    background-color: #01181B !important;
+}
 

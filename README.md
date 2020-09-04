@@ -1,11 +1,12 @@
 <space><space>
 
 # Sparta Profiles Viewer
+![Project logo](images/logo.png)
 
 - [Sparta Profiles Viewer](#sparta-profiles-viewer)
   - [Project Description](#project-description)
   - [Timeline](#timeline)
-  - [Product](#product)
+  - [Product - Key Details](#product---key-details)
     - [Functional Requirements](#functional-requirements)
     - [Non functional Requirements](#non-functional-requirements)
     - [Types of Users](#types-of-users)
@@ -15,19 +16,19 @@
       - [Frontend](#frontend)
   - [ERD](#erd)
   - [Conclusion](#conclusion)
-    - [Project - Definition of Done](#project---definition-of-done)
-    - [User stroy - Definition of Done](#user-stroy---definition-of-done)
-    - [Gantt Chart???](#gantt-chart)
+    - [Description](#description)
+    - [Definition of Done - Project](#definition-of-done---project)
+    - [Definition of Done - User Stories](#definition-of-done---user-stories)
   - [Sprint Layouts](#sprint-layouts)
     - [Sprint 0 - Planning](#sprint-0---planning)
       - [Overview:](#overview)
       - [Sprint Review:](#sprint-review)
       - [Sprint Retrospective](#sprint-retrospective)
       - [What was done:](#what-was-done)
-    - [Sprint 1 - MVP](#sprint-1---mvp)
+    - [Sprint 1 - Project setup and MVP](#sprint-1---project-setup-and-mvp)
     - [Sprint 2 - Permissions implementation](#sprint-2---permissions-implementation)
-    - [Sprint 3 - ...](#sprint-3---)
-    - [Sprint 4 - ...](#sprint-4---)
+    - [Sprint 3 - Exporting, Admin Panel, Viewing](#sprint-3---exporting-admin-panel-viewing)
+    - [Sprint 4 - Clean up](#sprint-4---clean-up)
   - [MVP](#mvp)
     - [MVP Description](#mvp-description)
 
@@ -126,10 +127,13 @@ An admin can register other users. If a user is a student can create, view and e
 * Task: Project planning and proposing
 
 #### Sprint Review:
-- What was accomplished ...
+* Work getting along well
+* Update acceptance criteria into Gherkin syntax
+* Add sub tasks to user stories
 
 #### Sprint Retrospective
-- What went well, what could be improve ...
+* Work completed on time
+* Follow correct syntax for documentations
 
 #### What was done:
 
@@ -146,6 +150,25 @@ Thursday
 - 13:30 - 13:40 - Created Github and added team members as collaborators
 - 13:40 - 14:30 - Acceptance criteria updated to follow Gherkin Cucumber syntax
 
+Friday
+- 9:30 Academy Stand up
+- 9:45 Completed Estimation time
+- 10:00 Meeting with Richard:
+  - When the ticket is just a 'task' doesn't need to give the Acceptance Criteria with Gherkin syntax
+  - The task for the creation of a database can be merged with the first user story
+  - Prioritise user stories
+  - About Authentication: we can use any given package from C#
+- 10:30 Stretched user stories with tasks
+- 12:30 Lunch break
+- 13:30 Updated the name of the columns of the profile table based on the given template
+  - Created a db with "code first" 
+    - Created Models
+    - Created DBContext
+    - Connection string
+  - Installed dependencies
+- 16:00 Made first migration, checked possible bug and made sure that the project was running for everyone before to leave
+
+
 Notes: 
 - Summary due monday and CV
 - Plan revision day
@@ -154,6 +177,60 @@ Notes:
 ---
 
 ### Sprint 1 - Project setup and MVP
+
+Monday
+- Bruno worked on index page
+- Leo worked on login
+- Alex worked on admin panel
+
+Tuesday
+- 9:30 Review of the login, index page admin panel
+- 9:45 Merged the work mentioned above into 'dev' branch
+- 10:30 Each person planned what to work 
+- 11:00 Meeting with Emer
+  - Each of us explained our own task for the sprint
+  - The 'import' functionality is difficult to be done, maybe we can leave it at the end
+  - Planned next meeting for Friday
+- 11:20 Leo and Alex worked on encryption and decryption
+  - Bruno and Chris worked on permissions
+  - Chen worked on showing details of a profile
+  - Bryn worked on randomise the password to change after the first login
+  - Harry worked on viewing profile page
+
+Wednesday
+- 9:30 Stand up
+- 9:45 Merged Leo and Alex encryption/decription
+- 10:00 Leo, Bryn and Alex went revision for the QG
+  - Bruno, Chris, Chen and Harry worked on the project
+- 15:30 Bryn finished the QG
+- 16:10 Alex finished the QG
+- 16:50 Leo finished the QG
+
+Thursday
+- 9:30 Stand up 
+  - Bruno, Chen, Harry and Chris explained what they have done the day before
+    - Chris and Bruno worked on permissions, dependig by which user role is logged in redirects to a determined page
+    - Chen and Harry worked on format of the profile page to edit
+    - Merged 'permissions'
+- 10:00 Bruno, Chris and Chen revision for the QG
+  - Alex and Leo worked on usertype dropdown list
+    - Display user type name instead of an id
+  - Harry and Bryn working on styling and template
+- 12:30 Lunch break
+- 13:30 Chen, Leo, Alex worked on usertype dropdown, and also gives the possibility to display a courses dropdown to select only if the user type is a student
+  - Bruno, Chris worked on if user type is an admin or resource manager can approve a profile
+  - Harry, Bryn worked on actual content page except Education
+- 15:30 Merged: 
+  - Display Courses dropdown list if user type is a student
+  - Approve profile page from only Admin
+  - Profile details
+  - Profile creation form
+- 17:00 Planning for the next day:
+  - Profile view Page
+  - Test
+  - Polish
+  - Index
+  - Encryption for random password
 
 * Friday 28th - Wednesday 2nd 
 * Scrum Master: **Alex** 
