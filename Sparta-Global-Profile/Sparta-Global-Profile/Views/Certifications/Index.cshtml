@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Sparta_Global_Profile.Models.Certification>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CertificationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profile)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CertificationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Summary)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Profile.ProfileId)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CertificationId">Edit</a> |
+                @*<a asp-action="Details" asp-route-id="@item.CertificationId">Details</a>*@ |
+                <a asp-action="Delete" asp-route-id="@item.CertificationId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index"><button>View all Certifications</button></a>
+    <a href="~/profile"><button>View Profiles</button></a>
+</div>

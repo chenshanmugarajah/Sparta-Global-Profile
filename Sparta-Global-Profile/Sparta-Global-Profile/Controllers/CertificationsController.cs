@@ -10,27 +10,26 @@ using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Controllers
 {
-    public class AssignmentsController : Controller
+    public class CertificationsController : Controller
     {
         private readonly SpartaGlobalProfileDbContext _context;
 
-        public AssignmentsController(SpartaGlobalProfileDbContext context)
+        public CertificationsController(SpartaGlobalProfileDbContext context)
         {
             _context = context;
         }
 
-        // GET: Assignments
+        // GET: Certifications
         public async Task<IActionResult> Index()
         {
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            var spartaGlobalProfileDbContext = _context.Assignments.Where(a => a.ProfileId == profileId).Include(a => a.Profile);
+            var spartaGlobalProfileDbContext = _context.Certifications.Where(c => c.ProfileId == profileId).Include(c => c.Profile);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
-        // GET: Assignments/Details/5
+        // GET: Certifications/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,58 +37,53 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
+            var certification = await _context.Certifications
+                .Include(c => c.Profile)
+                .FirstOrDefaultAsync(m => m.CertificationId == id);
+            if (certification == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(certification);
         }
 
-        // GET: Assignments/Create
+        // GET: Certifications/Create
         public IActionResult Create()
         {
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
             return View();
         }
 
-        // POST: Assignments/Create
+        // POST: Certifications/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Create(int CertificationId, string CertificationName, string Summary)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Assignment assignment = new Assignment()
+            Certification certification = new Certification()
             {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
-                StartDate = StartDate,
-                Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
+                ProfileId = profileId,
+                CertificationId = CertificationId,
+                CertificationName = CertificationName,
+                Summary = Summary
             };
 
             if (ModelState.IsValid)
             {
-                _context.Add(assignment);
+                _context.Add(certification);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Edit", "Profile", new { id = profileId });
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", certification.ProfileId);
+            return View(certification);
         }
 
-        // GET: Assignments/Edit/5
+        // GET: Certifications/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,39 +91,34 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments.FindAsync(id);
-            if (assignment == null)
+            var certification = await _context.Certifications.FindAsync(id);
+            if (certification == null)
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", certification.ProfileId);
+            return View(certification);
         }
 
-        // POST: Assignments/Edit/5
+        // POST: Certifications/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Edit(int id, int CertificationId, string CertificationName, string Summary)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Assignment assignment = new Assignment()
+            Certification certification = new Certification()
             {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
-                StartDate = StartDate,
-                Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
+                ProfileId = profileId,
+                CertificationId = CertificationId,
+                CertificationName = CertificationName,
+                Summary = Summary
             };
 
-            if (id != assignment.AssignmentId)
+            if (id != certification.CertificationId)
             {
                 return NotFound();
             }
@@ -138,12 +127,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    _context.Update(assignment);
+                    _context.Update(certification);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssignmentExists(assignment.AssignmentId))
+                    if (!CertificationExists(certification.CertificationId))
                     {
                         return NotFound();
                     }
@@ -154,11 +143,11 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", certification.ProfileId);
+            return View(certification);
         }
 
-        // GET: Assignments/Delete/5
+        // GET: Certifications/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,31 +155,31 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
+            var certification = await _context.Certifications
+                .Include(c => c.Profile)
+                .FirstOrDefaultAsync(m => m.CertificationId == id);
+            if (certification == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(certification);
         }
 
-        // POST: Assignments/Delete/5
+        // POST: Certifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assignment = await _context.Assignments.FindAsync(id);
-            _context.Assignments.Remove(assignment);
+            var certification = await _context.Certifications.FindAsync(id);
+            _context.Certifications.Remove(certification);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssignmentExists(int id)
+        private bool CertificationExists(int id)
         {
-            return _context.Assignments.Any(e => e.AssignmentId == id);
+            return _context.Certifications.Any(e => e.CertificationId == id);
         }
     }
 }

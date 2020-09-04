@@ -10,27 +10,26 @@ using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Controllers
 {
-    public class AssignmentsController : Controller
+    public class EmploymentsController : Controller
     {
         private readonly SpartaGlobalProfileDbContext _context;
 
-        public AssignmentsController(SpartaGlobalProfileDbContext context)
+        public EmploymentsController(SpartaGlobalProfileDbContext context)
         {
             _context = context;
         }
 
-        // GET: Assignments
+        // GET: Employments
         public async Task<IActionResult> Index()
         {
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            var spartaGlobalProfileDbContext = _context.Assignments.Where(a => a.ProfileId == profileId).Include(a => a.Profile);
+            var spartaGlobalProfileDbContext = _context.Employment.Where(e => e.ProfileId == profileId).Include(e => e.Profile);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
-        // GET: Assignments/Details/5
+        // GET: Employments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,58 +37,56 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
+            var employment = await _context.Employment
+                .Include(e => e.Profile)
+                .FirstOrDefaultAsync(m => m.EmploymentId == id);
+            if (employment == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(employment);
         }
 
-        // GET: Assignments/Create
+        // GET: Employments/Create
         public IActionResult Create()
         {
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
             return View();
         }
 
-        // POST: Assignments/Create
+        // POST: Employments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Create(int EmploymentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Assignment assignment = new Assignment()
+            Employment employment = new Employment()
             {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
+                ProfileId = profileId,
+                EmploymentId = EmploymentId,
                 StartDate = StartDate,
+                EndDate = EndDate,
+                CompanyName = CompanyName,
                 Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
+                Summary = Summary
             };
 
             if (ModelState.IsValid)
             {
-                _context.Add(assignment);
+                _context.Add(employment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Edit", "Profile", new { id = profileId });
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", employment.ProfileId);
+            return View(employment);
         }
 
-        // GET: Assignments/Edit/5
+        // GET: Employments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,39 +94,37 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments.FindAsync(id);
-            if (assignment == null)
+            var employment = await _context.Employment.FindAsync(id);
+            if (employment == null)
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", employment.ProfileId);
+            return View(employment);
         }
 
-        // POST: Assignments/Edit/5
+        // POST: Employments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Edit(int id, int EmploymentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Assignment assignment = new Assignment()
+            Employment employment = new Employment()
             {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
+                ProfileId = profileId,
+                EmploymentId = EmploymentId,
                 StartDate = StartDate,
+                EndDate = EndDate,
+                CompanyName = CompanyName,
                 Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
+                Summary = Summary
             };
 
-            if (id != assignment.AssignmentId)
+            if (id != employment.EmploymentId)
             {
                 return NotFound();
             }
@@ -138,12 +133,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    _context.Update(assignment);
+                    _context.Update(employment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssignmentExists(assignment.AssignmentId))
+                    if (!EmploymentExists(employment.EmploymentId))
                     {
                         return NotFound();
                     }
@@ -154,11 +149,11 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", employment.ProfileId);
+            return View(employment);
         }
 
-        // GET: Assignments/Delete/5
+        // GET: Employments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,31 +161,31 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
+            var employment = await _context.Employment
+                .Include(e => e.Profile)
+                .FirstOrDefaultAsync(m => m.EmploymentId == id);
+            if (employment == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(employment);
         }
 
-        // POST: Assignments/Delete/5
+        // POST: Employments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assignment = await _context.Assignments.FindAsync(id);
-            _context.Assignments.Remove(assignment);
+            var employment = await _context.Employment.FindAsync(id);
+            _context.Employment.Remove(employment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssignmentExists(int id)
+        private bool EmploymentExists(int id)
         {
-            return _context.Assignments.Any(e => e.AssignmentId == id);
+            return _context.Employment.Any(e => e.EmploymentId == id);
         }
     }
 }

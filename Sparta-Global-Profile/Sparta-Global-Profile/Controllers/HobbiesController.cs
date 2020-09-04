@@ -10,27 +10,26 @@ using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Controllers
 {
-    public class AssignmentsController : Controller
+    public class HobbiesController : Controller
     {
         private readonly SpartaGlobalProfileDbContext _context;
 
-        public AssignmentsController(SpartaGlobalProfileDbContext context)
+        public HobbiesController(SpartaGlobalProfileDbContext context)
         {
             _context = context;
         }
 
-        // GET: Assignments
+        // GET: Hobbies
         public async Task<IActionResult> Index()
         {
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            var spartaGlobalProfileDbContext = _context.Assignments.Where(a => a.ProfileId == profileId).Include(a => a.Profile);
+            var spartaGlobalProfileDbContext = _context.Hobbies.Where(h => h.ProfileId == profileId).Include(h => h.Profile);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
-        // GET: Assignments/Details/5
+        // GET: Hobbies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,58 +37,53 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
+            var hobby = await _context.Hobbies
+                .Include(h => h.Profile)
+                .FirstOrDefaultAsync(m => m.HobbyId == id);
+            if (hobby == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(hobby);
         }
 
-        // GET: Assignments/Create
+        // GET: Hobbies/Create
         public IActionResult Create()
         {
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
             return View();
         }
 
-        // POST: Assignments/Create
+        // POST: Hobbies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Create(int HobbyId, string HobbyName, string HobbyDescription)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Assignment assignment = new Assignment()
+            Hobby hobby = new Hobby()
             {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
-                StartDate = StartDate,
-                Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
+                ProfileId = profileId,
+                HobbyName = HobbyName,
+                HobbyDescription = HobbyDescription,
+                HobbyId = HobbyId
             };
 
             if (ModelState.IsValid)
             {
-                _context.Add(assignment);
+                _context.Add(hobby);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Edit", "Profile", new { id = profileId });
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", hobby.ProfileId);
+            return View(hobby);
         }
 
-        // GET: Assignments/Edit/5
+        // GET: Hobbies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,39 +91,33 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments.FindAsync(id);
-            if (assignment == null)
+            var hobby = await _context.Hobbies.FindAsync(id);
+            if (hobby == null)
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", hobby.ProfileId);
+            return View(hobby);
         }
 
-        // POST: Assignments/Edit/5
+        // POST: Hobbies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Edit(int id, int HobbyId, string HobbyName, string HobbyDescription)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Assignment assignment = new Assignment()
+            Hobby hobby = new Hobby()
             {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
-                StartDate = StartDate,
-                Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
+                ProfileId = profileId,
+                HobbyName = HobbyName,
+                HobbyDescription = HobbyDescription,
+                HobbyId = HobbyId
             };
-
-            if (id != assignment.AssignmentId)
+            if (id != hobby.HobbyId)
             {
                 return NotFound();
             }
@@ -138,12 +126,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    _context.Update(assignment);
+                    _context.Update(hobby);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssignmentExists(assignment.AssignmentId))
+                    if (!HobbyExists(hobby.HobbyId))
                     {
                         return NotFound();
                     }
@@ -154,11 +142,11 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", hobby.ProfileId);
+            return View(hobby);
         }
 
-        // GET: Assignments/Delete/5
+        // GET: Hobbies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,31 +154,31 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
+            var hobby = await _context.Hobbies
+                .Include(h => h.Profile)
+                .FirstOrDefaultAsync(m => m.HobbyId == id);
+            if (hobby == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(hobby);
         }
 
-        // POST: Assignments/Delete/5
+        // POST: Hobbies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assignment = await _context.Assignments.FindAsync(id);
-            _context.Assignments.Remove(assignment);
+            var hobby = await _context.Hobbies.FindAsync(id);
+            _context.Hobbies.Remove(hobby);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssignmentExists(int id)
+        private bool HobbyExists(int id)
         {
-            return _context.Assignments.Any(e => e.AssignmentId == id);
+            return _context.Hobbies.Any(e => e.HobbyId == id);
         }
     }
 }
