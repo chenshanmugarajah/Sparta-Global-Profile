@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Sparta_Global_Profile.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 
 namespace Sparta_Global_Profile.Controllers
 {
@@ -22,21 +24,46 @@ namespace Sparta_Global_Profile.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Authorize(Sparta_Global_Profile.Models.User userModel)
+        public ActionResult Authorize(User userModel)
         {
-            var userDetails = db.Users.Where(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault();
-            if (userDetails == null)
+            var user = db.Users.Where(x => x.UserEmail == userModel.UserEmail).FirstOrDefault();
+            if (user == null)
             {
-                ModelState.AddModelError("UserPassword", "Invalid login attempt.");
+                ModelState.AddModelError("UserEmail", "User with that Email does not exist!");
                 return View("Index");
             }
-                
+            var profile = db.Profiles.Where(p => p.UserId == user.UserId).FirstOrDefault();
+            var password = user.UserPassword;
+            var decryptedPassword = Helper.DecryptCipherTextToPlainText(password);
+            if ((userModel.UserPassword != decryptedPassword))
+            {
+                ModelState.AddModelError("UserPassword", "Incorrect Password");
+                return View("Index");
+            }
             else 
             {
-                HttpContext.Session.SetString("UserId", userDetails.UserEmail); 
-                return RedirectToAction("Index", "Home");
+                ViewData["UserEmail"] = user.UserEmail;
+                HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                HttpContext.Session.SetString("UserTypeId", user.UserTypeId.ToString());
+                HttpContext.Session.SetString("UserEmail", user.UserEmail);
+                if(profile != null)
+                {
+                    HttpContext.Session.SetString("ProfileId", profile.ProfileId.ToString());
+                }
+
+                if (user.UserTypeId == 2 || user.UserTypeId == 3 || user.UserTypeId == 4 || user.UserTypeId == 5)
+                {
+                    return RedirectToAction("Index", "Profile");
+                }
+                if (user.UserTypeId == 1)
+                {
+                    var routeId = profile.ProfileId;
+                    return RedirectToAction("Details", "Profile", new { id = routeId  });
+                }
+                return View("Index");
             }
         }
+
 
         public  IActionResult Logout()
         {

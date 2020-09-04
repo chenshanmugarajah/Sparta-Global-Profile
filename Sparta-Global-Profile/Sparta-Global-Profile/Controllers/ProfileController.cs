@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,25 @@ namespace Sparta_Global_Profile.Controllers
             _context = context;
         }
 
+
         // GET: Profile
         public async Task<IActionResult> Index(string searchString,  int? pageNumber, string currentFilter)
         {
-         
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
+            if(userTypeId == "1")
+            {
+                return RedirectToAction("Details", "Profile", new { id = profileId });
+            }
+
             ViewData["CurrentFilter"] = searchString;
 
             if(searchString != null)
@@ -50,6 +66,14 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Profile/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -59,6 +83,14 @@ namespace Sparta_Global_Profile.Controllers
                 .Include(p => p.Course)
                 .Include(p => p.Status)
                 .Include(p => p.User)
+                .Include(p => p.Assignments)
+                .Include(p => p.SpartaProjects).ThenInclude(l => l.ProjectLinks)
+                .Include(p => p.Employment)
+                .Include(p => p.Education).ThenInclude(e => e.Modules)
+                .Include(p => p.Skills)
+                .Include(p => p.Hobbies)
+                .Include(p => p.Comments)
+                .Include(p => p.Certifications)
                 .FirstOrDefaultAsync(m => m.ProfileId == id);
             if (profile == null)
             {
@@ -84,6 +116,14 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(profile);
@@ -99,12 +139,38 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Profile/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if(userTypeId == "2")
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var profile = await _context.Profiles.FindAsync(id);
+            var profile = await _context.Profiles
+                .Include(p => p.Course)
+                .Include(p => p.Status)
+                .Include(p => p.User)
+                .Include(p => p.Assignments)
+                .Include(p => p.SpartaProjects)
+                .Include(p => p.Employment)
+                .Include(p => p.Education).ThenInclude(e => e.Modules)
+                .Include(p => p.Skills)
+                .Include(p => p.Hobbies)
+                .Include(p => p.Comments)
+                .Include(p => p.Certifications)
+                .FirstOrDefaultAsync(m => m.ProfileId == id);
             if (profile == null)
             {
                 return NotFound();

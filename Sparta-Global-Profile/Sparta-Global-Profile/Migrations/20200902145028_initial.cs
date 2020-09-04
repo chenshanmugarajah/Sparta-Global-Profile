@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sparta_Global_Profile.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,8 +54,8 @@ namespace Sparta_Global_Profile.Migrations
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProfileId = table.Column<int>(nullable: true),
-                    UserEmail = table.Column<string>(nullable: true),
-                    UserPassword = table.Column<string>(nullable: true),
+                    UserEmail = table.Column<string>(nullable: false),
+                    UserPassword = table.Column<string>(nullable: false),
                     UserTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -341,27 +341,55 @@ namespace Sparta_Global_Profile.Migrations
             migrationBuilder.InsertData(
                 table: "UserTypes",
                 columns: new[] { "UserTypeId", "UserTypeName" },
-                values: new object[] { 1, "student" });
+                values: new object[,]
+                {
+                    { 1, "student" },
+                    { 2, "client" },
+                    { 3, "staff" },
+                    { 4, "resource manager" },
+                    { 5, "admin" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "ProfileId", "UserEmail", "UserPassword", "UserTypeId" },
-                values: new object[] { 1, null, "bruno@gmail.com", "123", 1 });
+                values: new object[,]
+                {
+                    { 1, null, "student@gmail.com", "vxFh7ubhh0Q=", 1 },
+                    { 6, null, "student2@gmail.com", "vxFh7ubhh0Q=", 1 },
+                    { 2, null, "client@gmail.com", "vxFh7ubhh0Q=", 2 },
+                    { 3, null, "staff@gmail.com", "vxFh7ubhh0Q=", 3 },
+                    { 4, null, "resource@gmail.com", "vxFh7ubhh0Q=", 4 },
+                    { 5, null, "admin@gmail.com", "vxFh7ubhh0Q=", 5 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Profiles",
                 columns: new[] { "ProfileId", "Approved", "CourseId", "ProfileName", "ProfilePicture", "StatusId", "Summary", "UserId" },
-                values: new object[] { 1, false, 1, "Bruno Silva", "urlpath", 1, "this is a summary for my profile", 1 });
+                values: new object[] { 1, false, 1, "Student Bruno Silva", "urlpath", 1, "this is a summary for my profile", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Profiles",
+                columns: new[] { "ProfileId", "Approved", "CourseId", "ProfileName", "ProfilePicture", "StatusId", "Summary", "UserId" },
+                values: new object[] { 2, false, 1, "Student Chen Shan", "This is a url to a picture", 1, "this is a summary for my profile", 6 });
 
             migrationBuilder.InsertData(
                 table: "Educations",
                 columns: new[] { "EducationId", "EndDate", "Establishment", "Grade", "ProfileId", "Qualification", "StartDate" },
-                values: new object[] { 1, new DateTime(2019, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Royal Holloway University Of London", "2.1", 1, "BA Hons Drama & Theatre Studies", new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[,]
+                {
+                    { 1, new DateTime(2019, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Royal Holloway University Of London", "2.1", 1, "BA Hons Drama & Theatre Studies", new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2019, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brunel University", "1", 2, "Computer Science", new DateTime(2015, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
 
             migrationBuilder.InsertData(
                 table: "Employment",
                 columns: new[] { "EmploymentId", "CompanyName", "EndDate", "Position", "ProfileId", "StartDate", "Summary" },
-                values: new object[] { 1, "Timberland", new DateTime(2020, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sales Assistant", 1, new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Was boring retail" });
+                values: new object[,]
+                {
+                    { 1, "Timberland", new DateTime(2020, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sales Assistant", 1, new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Was boring retail" },
+                    { 2, "Saver", new DateTime(2020, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Supervisor", 2, new DateTime(2019, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Stress" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Hobbies",
@@ -369,7 +397,9 @@ namespace Sparta_Global_Profile.Migrations
                 values: new object[,]
                 {
                     { 1, "Like to play games", "Gaming", 1 },
-                    { 2, "Like to keep fit", "Gym", 1 }
+                    { 2, "Like to keep fit", "Gym", 1 },
+                    { 3, "COD Games!", "ESporter", 2 },
+                    { 4, "Boulder", "Climbing", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -380,13 +410,21 @@ namespace Sparta_Global_Profile.Migrations
                     { 1, 1, "Agile" },
                     { 2, 1, "C#" },
                     { 3, 1, "SQL" },
-                    { 4, 1, "Javascript" }
+                    { 4, 1, "Javascript" },
+                    { 7, 2, "SQL" },
+                    { 5, 2, "Agile" },
+                    { 6, 2, "C#" }
                 });
 
             migrationBuilder.InsertData(
                 table: "SpartaProjects",
                 columns: new[] { "SpartaProjectId", "ProfileId", "ProjectBio", "ProjectName" },
-                values: new object[] { 1, 1, "A fullstack project using ASP.NET API and React", "Games Collector" });
+                values: new object[,]
+                {
+                    { 1, 1, "A fullstack project using ASP.NET API and React", "Games Collector" },
+                    { 2, 2, "A fullstack project using ASP.NET API and React", "Blog app" },
+                    { 3, 2, "A fullstack project using ASP.NET API and React", "Safari Park" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Modules",
@@ -395,7 +433,7 @@ namespace Sparta_Global_Profile.Migrations
                 {
                     { 1, 1, 1, "Performance Making" },
                     { 2, 2, 1, "Staging The Real" },
-                    { 3, 3, 1, "Race Relations" }
+                    { 3, 1, 2, "Race Relations" }
                 });
 
             migrationBuilder.InsertData(
@@ -404,7 +442,9 @@ namespace Sparta_Global_Profile.Migrations
                 values: new object[,]
                 {
                     { 1, "Backend", 1, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/labs/GameBackend" },
-                    { 2, "Frontend", 1, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" }
+                    { 2, "Frontend", 1, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" },
+                    { 3, "Frontend", 2, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" },
+                    { 4, "Frontend", 2, "https://github.com/Brunosil97/2020-06-c-sharp-labs/tree/master/HTML/games-web" }
                 });
 
             migrationBuilder.CreateIndex(
