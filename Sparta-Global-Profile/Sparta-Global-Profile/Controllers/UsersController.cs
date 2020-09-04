@@ -157,6 +157,7 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
+                    user.UserPassword = Helper.EncryptPlainTextToCipherText(user.UserPassword);
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
