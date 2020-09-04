@@ -7,10 +7,10 @@
 }
 <h1>Meet @Html.DisplayFor(model => model.ProfileName)</h1>
 <hr />
-<h2><span class="spartaBrightPink">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
+<h2><span class="academy-stream">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
 <p>@Html.DisplayFor(model => model.Summary)</p>
-<h3 style="font-weight:bold">Skills:</h3>
-<button onclick="testMe()">I am a button</button>
+<h3>Skills:</h3>
+
 <ul>
     @foreach (var skill in Model.Skills)
     {
@@ -53,7 +53,14 @@
 {
     <h4>@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h4>
     <h4>@education.Establishment</h4>
-
+    <h4>@education.Qualification: @education.Grade</h4>
+    <h5 style="text-decoration:underline">Modules</h5>
+    <ul>
+        @foreach (var module in education.Modules)
+        {
+            <li>@module.CourseYear: @module.ModuleName</li>
+        }
+    </ul>
 }
 
 <h2 style="text-decoration:underline">Certifications</h2>
@@ -63,7 +70,7 @@
     <p>@certification.Summary</p>
 }
 
-<h2 style="text-decoration:underline">Hobbiees/Extra Curricular Activities</h2>
+<h2 style="text-decoration:underline">Hobbies/Extra Curricular Activities</h2>
 <ul>
     @foreach (var hobby in Model.Hobbies)
     {
