@@ -73,3 +73,8 @@ body {
 .spartaBrightPink{
     color: #e33661;
 }
+
+.navbar-custom{
+    color: white !important;
+    background-color: #01181B !important;
+}
