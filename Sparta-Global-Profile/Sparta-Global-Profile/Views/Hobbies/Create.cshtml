@@ -35,7 +35,7 @@
 
 <div>
     <a asp-action="Index"><button>View all hobbies</button></a>
-    <a href="~/profile"><button>View Profiles</button></a>
+    <a asp-controller="profile" asp-action="edit" asp-route-id="@Model.ProfileId"><button>Back to Edit Profile</button></a>
 </div>
 
 @section Scripts {

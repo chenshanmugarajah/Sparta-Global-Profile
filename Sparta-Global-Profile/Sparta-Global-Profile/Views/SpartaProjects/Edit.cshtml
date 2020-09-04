@@ -36,7 +36,7 @@
 </div>
 
 <div>
-    <a href="/fullprofile">Back to Profile</a>
+    <a asp-controller="profile" asp-action="edit" asp-route-id="@Model.ProfileId"><button>Back to Edit Profile</button></a>
 </div>
 
 @section Scripts {

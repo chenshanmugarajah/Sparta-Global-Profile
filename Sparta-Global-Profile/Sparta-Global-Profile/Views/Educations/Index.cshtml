@@ -21,9 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Grade)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Profile)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
@@ -56,7 +56,7 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.EducationId">Edit</a> |
-                @*<a asp-action="Details" asp-route-id="@item.EducationId">Details</a>*@ |
+                @*<a asp-action="Details" asp-route-id="@item.EducationId">Details</a>| *@
                 <a asp-action="Delete" asp-route-id="@item.EducationId">Delete</a>
             </td>
         </tr>

@@ -39,6 +39,7 @@ namespace Sparta_Global_Profile.Controllers
 
             var education = await _context.Educations
                 .Include(e => e.Profile)
+                .Include(e => e.Modules)
                 .FirstOrDefaultAsync(m => m.EducationId == id);
             if (education == null)
             {
@@ -94,7 +95,7 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var education = await _context.Educations.FindAsync(id);
+            var education = _context.Educations.Where(e => e.EducationId == id).Include(e => e.Modules).FirstOrDefault();
             if (education == null)
             {
                 return NotFound();
