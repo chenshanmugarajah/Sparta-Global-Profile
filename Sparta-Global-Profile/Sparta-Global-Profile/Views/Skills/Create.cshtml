@@ -1,4 +1,4 @@
-﻿@model Sparta_Global_Profile.Models.SpartaProject
+﻿@model Sparta_Global_Profile.Models.Skill
 
 @{
     ViewData["Title"] = "Create";
@@ -6,21 +6,16 @@
 
 <h1>Create</h1>
 
-<h4>SpartaProject</h4>
+<h4>Skill</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ProjectName" class="control-label"></label>
-                <input asp-for="ProjectName" class="form-control" />
-                <span asp-validation-for="ProjectName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProjectBio" class="control-label"></label>
-                <input asp-for="ProjectBio" class="form-control" />
-                <span asp-validation-for="ProjectBio" class="text-danger"></span>
+                <label asp-for="SkillName" class="control-label">Name your skill</label>
+                <input asp-for="SkillName" class="form-control" />
+                <span asp-validation-for="SkillName" class="text-danger"></span>
             </div>
             @*<div class="form-group">
                 <label asp-for="ProfileId" class="control-label"></label>
@@ -34,7 +29,8 @@
 </div>
 
 <div>
-    <a href="/fullprofile">Back your profile</a>
+    <a asp-action="Index"><button>View all skills</button></a>
+    <a href="~/profile"><button>View profile</button></a>
 </div>
 
 @section Scripts {

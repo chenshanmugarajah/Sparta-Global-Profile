@@ -13,17 +13,17 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ModuleName" class="control-label"></label>
+                <label asp-for="ModuleName" class="control-label">Module name</label>
                 <input asp-for="ModuleName" class="form-control" />
                 <span asp-validation-for="ModuleName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CourseYear" class="control-label"></label>
+                <label asp-for="CourseYear" class="control-label">Year of module</label>
                 <input asp-for="CourseYear" class="form-control" />
                 <span asp-validation-for="CourseYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EducationId" class="control-label"></label>
+                <label asp-for="EducationId" class="control-label">Establishment</label>
                 <select asp-for="EducationId" class ="form-control" asp-items="ViewBag.EducationId"></select>
             </div>
             <div class="form-group">
@@ -34,7 +34,7 @@
 </div>
 
 <div>
-    <a href="~/Profile/edit/@ViewBag.ProfileId"> Back to Profile Edit </a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

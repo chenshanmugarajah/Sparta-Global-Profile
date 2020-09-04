@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sparta_Global_Profile.Models.Education>
+﻿@model IEnumerable<Sparta_Global_Profile.Models.Employment>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,22 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Establishment)
+                @Html.DisplayNameFor(model => model.CompanyName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Qualification)
+                @Html.DisplayNameFor(model => model.Position)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Grade)
+                @Html.DisplayNameFor(model => model.Summary)
             </th>
-            @*<th>
+            <th>
                 @Html.DisplayNameFor(model => model.Profile)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                Start Date
+            </th>
+            <th>
+                End Date
             </th>
             <th></th>
         </tr>
@@ -37,13 +37,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Establishment)
+                @Html.DisplayFor(modelItem => item.CompanyName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Qualification)
+                @Html.DisplayFor(modelItem => item.Position)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grade)
+                @Html.DisplayFor(modelItem => item.Summary)
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Profile.ProfileId)
@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.EducationId">Edit</a> |
-                @*<a asp-action="Details" asp-route-id="@item.EducationId">Details</a>| *@
-                <a asp-action="Delete" asp-route-id="@item.EducationId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.EmploymentId">Edit</a> |
+                @*<a asp-action="Details" asp-route-id="@item.EmploymentId">Details</a>*@
+                <a asp-action="Delete" asp-route-id="@item.EmploymentId">Delete</a>
             </td>
         </tr>
 }
@@ -65,6 +65,6 @@
 </table>
 
 <div>
-    <a asp-action="Index"><button>View all Education</button></a>
+    <a asp-action="Index"><button>View all Employment</button></a>
     <a href="~/profile"><button>View Profiles</button></a>
 </div>

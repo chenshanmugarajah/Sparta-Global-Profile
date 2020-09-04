@@ -10,26 +10,26 @@ using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Controllers
 {
-    public class EducationsController : Controller
+    public class SkillsController : Controller
     {
         private readonly SpartaGlobalProfileDbContext _context;
 
-        public EducationsController(SpartaGlobalProfileDbContext context)
+        public SkillsController(SpartaGlobalProfileDbContext context)
         {
             _context = context;
         }
 
-        // GET: Educations
+        // GET: Skills
         public async Task<IActionResult> Index()
         {
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            var spartaGlobalProfileDbContext = _context.Educations.Where(e => e.ProfileId == profileId).Include(e => e.Profile);
+            var spartaGlobalProfileDbContext = _context.Skills.Where(s => s.ProfileId == profileId).Include(s => s.Profile);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
-        // GET: Educations/Details/5
+        // GET: Skills/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,57 +37,54 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var education = await _context.Educations
-                .Include(e => e.Profile)
-                .Include(e => e.Modules)
-                .FirstOrDefaultAsync(m => m.EducationId == id);
-            if (education == null)
+            var skill = await _context.Skills
+                .Include(s => s.Profile)
+                .FirstOrDefaultAsync(m => m.SkillId == id);
+            if (skill == null)
             {
                 return NotFound();
             }
 
-            return View(education);
+            return View(skill);
         }
 
-        // GET: Educations/Create
+        // GET: Skills/Create
         public IActionResult Create()
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
+            //ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
             return View();
         }
 
-        // POST: Educations/Create
+        // POST: Skills/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int EducationId, DateTime StartDate, DateTime EndDate, string Establishment, string Qualification, string Grade)
+        public async Task<IActionResult> Create(int SkillId, string SkillName)
         {
+            //public async Task<IActionResult> Create([Bind("SkillId,SkillName,ProfileId")] Skill skill)
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Education education = new Education()
+            Skill skill = new Skill()
             {
-                ProfileId = profileId,
-                EducationId = EducationId, 
-                EndDate = EndDate,
-                Establishment = Establishment,
-                Grade = Grade,
-                Qualification = Qualification,
-                StartDate = StartDate
+                SkillId = SkillId,
+                SkillName = SkillName,
+                ProfileId = profileId
             };
 
             if (ModelState.IsValid)
             {
-                _context.Add(education);
+                _context.Add(skill);
                 await _context.SaveChangesAsync();
+                //return Redirect("~/profile");
                 return RedirectToAction("Edit", "Profile", new { id = profileId });
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", education.ProfileId);
-            return View(education);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", skill.ProfileId);
+            return View(skill);
         }
 
-        // GET: Educations/Edit/5
+        // GET: Skills/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,36 +92,34 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var education = _context.Educations.Where(e => e.EducationId == id).Include(e => e.Modules).FirstOrDefault();
-            if (education == null)
+            var skill = await _context.Skills.FindAsync(id);
+            if (skill == null)
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", education.ProfileId);
-            return View(education);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", skill.ProfileId);
+            return View(skill);
         }
 
-        // POST: Educations/Edit/5
+        // POST: Skills/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int EducationId, DateTime StartDate, DateTime EndDate, string Establishment, string Qualification, string Grade)
+        public async Task<IActionResult> Edit(int id, int SkillId, string SkillName)
         {
+            //public async Task<IActionResult> Create([Bind("SkillId,SkillName,ProfileId")] Skill skill)
             HttpContext context = HttpContext;
             var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            Education education = new Education()
+            Skill skill = new Skill()
             {
-                ProfileId = profileId,
-                EducationId = EducationId,
-                EndDate = EndDate,
-                Establishment = Establishment,
-                Grade = Grade,
-                Qualification = Qualification,
-                StartDate = StartDate
+                SkillId = SkillId,
+                SkillName = SkillName,
+                ProfileId = profileId
             };
-            if (id != education.EducationId)
+
+            if (id != skill.SkillId)
             {
                 return NotFound();
             }
@@ -133,12 +128,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    _context.Update(education);
+                    _context.Update(skill);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EducationExists(education.EducationId))
+                    if (!SkillExists(skill.SkillId))
                     {
                         return NotFound();
                     }
@@ -149,11 +144,11 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", education.ProfileId);
-            return View(education);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", skill.ProfileId);
+            return View(skill);
         }
 
-        // GET: Educations/Delete/5
+        // GET: Skills/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -161,31 +156,31 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
-            var education = await _context.Educations
-                .Include(e => e.Profile)
-                .FirstOrDefaultAsync(m => m.EducationId == id);
-            if (education == null)
+            var skill = await _context.Skills
+                .Include(s => s.Profile)
+                .FirstOrDefaultAsync(m => m.SkillId == id);
+            if (skill == null)
             {
                 return NotFound();
             }
 
-            return View(education);
+            return View(skill);
         }
 
-        // POST: Educations/Delete/5
+        // POST: Skills/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var education = await _context.Educations.FindAsync(id);
-            _context.Educations.Remove(education);
+            var skill = await _context.Skills.FindAsync(id);
+            _context.Skills.Remove(skill);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EducationExists(int id)
+        private bool SkillExists(int id)
         {
-            return _context.Educations.Any(e => e.EducationId == id);
+            return _context.Skills.Any(e => e.SkillId == id);
         }
     }
 }

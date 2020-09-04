@@ -22,7 +22,10 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Modules
         public async Task<IActionResult> Index()
         {
-            var spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education);
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
+            var spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education).Where(m => m.Education.ProfileId == profileId);
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
@@ -49,13 +52,9 @@ namespace Sparta_Global_Profile.Controllers
         public IActionResult Create()
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = Convert.ToInt32(context.Session.GetString("ProfileId"));
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
 
-            var educations = _context.Educations.Where(e => e.ProfileId == profileId).ToList();
-            ViewData["ProfileId"] = profileId;
-            ViewData["EducationId"] = new SelectList(educations, "EducationId", "EducationId");
+            ViewData["EducationId"] = new SelectList(_context.Educations.Where(e => e.ProfileId == profileId), "EducationId", "Establishment");
             return View();
         }
 
@@ -79,6 +78,9 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Modules/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            HttpContext context = HttpContext;
+            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+
             if (id == null)
             {
                 return NotFound();
@@ -89,7 +91,7 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["EducationId"] = new SelectList(_context.Educations, "EducationId", "EducationId", module.EducationId);
+            ViewData["EducationId"] = new SelectList(_context.Educations.Where(e => e.ProfileId == profileId), "EducationId", "Establishment", module.EducationId);
             return View(module);
         }
 

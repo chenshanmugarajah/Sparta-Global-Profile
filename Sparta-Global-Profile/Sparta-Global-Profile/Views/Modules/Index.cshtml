@@ -34,11 +34,11 @@
                 @Html.DisplayFor(modelItem => item.CourseYear)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Education.EducationId)
+                @Html.DisplayFor(modelItem => item.Education.Establishment)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ModuleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ModuleId">Details</a> |
+                @*<a asp-action="Details" asp-route-id="@item.ModuleId">Details</a> |*@
                 <a asp-action="Delete" asp-route-id="@item.ModuleId">Delete</a>
             </td>
         </tr>
