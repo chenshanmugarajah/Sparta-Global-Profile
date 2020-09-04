@@ -6,10 +6,12 @@
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
-
-<h1>Welcome @Html.DisplayFor(model => model.ProfileName), Edit Your Profile Here</h1>
-<hr />
-<h2><span class="spartaBrightPink">Your Academy Stream: </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
+@if(userTypeId == "1")
+{
+    <h1>Welcome @Html.DisplayFor(model => model.ProfileName)</h1>
+    <hr />
+    <h2><span class="spartaBrightPink">Edit profile here</span></h2>
+}
 
 
 <form asp-action="Edit">
@@ -17,19 +19,19 @@
     <input type="hidden" asp-for="ProfileId" />
     @if (userTypeId != "1")
     {
-        <h3 class="spartaBrightPink">Staff View</h3>
+        <h3 class="spartaBrightPink">Staff View - Editing @Model.ProfileName's profile</h3>
         <div class="form-group form-check">
             <label class="form-check-label">
                 <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
             </label>
         </div>
         <div class="form-group">
-            <label asp-for="CourseId" class="control-label"></label>
+            <label asp-for="CourseId" class="control-label">Course Name</label>
             <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
             <span asp-validation-for="CourseId" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="StatusId" class="control-label"></label>
+            <label asp-for="StatusId" class="control-label">Academy Status</label>
             <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
             <span asp-validation-for="StatusId" class="text-danger"></span>
         </div>
@@ -42,19 +44,19 @@
         </div>*@
 
     <div class="form-group">
-        <label asp-for="ProfileName" class="control-label"></label>
+        <label asp-for="ProfileName" class="control-label">Your Name</label>
         <input asp-for="ProfileName" class="form-control" />
         <span asp-validation-for="ProfileName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="ProfilePicture" class="control-label"></label>
+        <label asp-for="ProfilePicture" class="control-label">Picture URL</label>
         <input asp-for="ProfilePicture" class="form-control" />
         <span asp-validation-for="ProfilePicture" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Summary" class="control-label"></label>
+        <label asp-for="Summary" class="control-label">Summary</label>
         @*<input asp-for="Summary" class="form-control" />*@
-        <textarea asp-for="Summary" class="form-control">
+        <textarea asp-for="Summary" class="form-control" style="height: 200px">
         </textarea>
         <span asp-validation-for="Summary" class="text-danger"></span>
     </div>
@@ -231,6 +233,7 @@
         {
             <li><span style="font-weight:bold">@hobby.HobbyName</span> - @hobby.HobbyDescription</li>
         }
+        <br />
         <a href="~/hobbies/index"><button>EDIT SECTION</button></a>
     }
     else

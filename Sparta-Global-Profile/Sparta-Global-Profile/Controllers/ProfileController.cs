@@ -175,8 +175,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", profile.CourseId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusId", profile.StatusId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseName", profile.CourseId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", profile.StatusId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", profile.UserId);
             return View(profile);
         }
@@ -204,7 +204,7 @@ namespace Sparta_Global_Profile.Controllers
                 ProfilePicture = ProfilePicture,
                 Summary = Summary,
                 CourseId = CourseId,
-                Approved = true
+                Approved = Approved
             };
 
             if (id != profile.ProfileId)
