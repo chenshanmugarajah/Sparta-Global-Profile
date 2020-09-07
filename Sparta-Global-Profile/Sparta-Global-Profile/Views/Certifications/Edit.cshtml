@@ -14,20 +14,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CertificationId" />
             <div class="form-group">
-                <label asp-for="CertificationName" class="control-label">Certification Name</label>
+                <label asp-for="CertificationName" class="control-label">Certification</label>
                 <input asp-for="CertificationName" class="form-control" />
                 <span asp-validation-for="CertificationName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Summary" class="control-label"></label>
+                <label asp-for="Summary" class="control-label">Description</label>
                 <input asp-for="Summary" class="form-control" />
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="ProfileId" class="control-label"></label>
+            <div class="form-group">
+                <label asp-for="ProfileId" class="control-label">Profile Name</label>
                 <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
                 <span asp-validation-for="ProfileId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -36,8 +36,8 @@
 </div>
 
 <div>
-    <a asp-action="Index"><button>View all Certifications</button></a>
-    <a href="~/profile"><button>View Profiles</button></a>
+    <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Certifications</button></a>
+    <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Edit Profile</button></a>
 </div>
 
 @section Scripts {

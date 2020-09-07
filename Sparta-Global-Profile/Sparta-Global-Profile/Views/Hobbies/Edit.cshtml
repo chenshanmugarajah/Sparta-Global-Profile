@@ -1,7 +1,7 @@
 ﻿@model Sparta_Global_Profile.Models.Hobby
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Hobby";
 }
 
 <h1>Edit</h1>
@@ -19,15 +19,15 @@
                 <span asp-validation-for="HobbyName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HobbyDescription" class="control-label">Description of Hobby</label>
-                <input asp-for="HobbyDescription" class="form-control" />
+                <label asp-for="HobbyDescription" class="control-label">Description</label>
+                <textarea asp-for="HobbyDescription" class="form-control"></textarea>
                 <span asp-validation-for="HobbyDescription" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="ProfileId" class="control-label"></label>
+            <div class="form-group">
+                <label asp-for="ProfileId" class="control-label">Profile Name</label>
                 <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
                 <span asp-validation-for="ProfileId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -36,8 +36,8 @@
 </div>
 
 <div>
-    <a asp-action="Index"><button>View all hobbies</button></a>
-    <a asp-controller="profile" asp-action="edit" asp-route-id="@Model.ProfileId"><button>Back to Edit Profile</button></a>
+    <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Hobbies</button></a>
+    <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Edit Profile</button></a>
 </div>
 
 @section Scripts {
