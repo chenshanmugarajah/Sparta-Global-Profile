@@ -22,9 +22,7 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Users
-
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
@@ -41,13 +39,23 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("Details", "Profile", new { id = Int32.Parse(profileId) });
             }
 
+            ViewData["CurrentFilter"] = searchString;
+
             if (userTypeId != "5")
             {
                 return RedirectToAction("Index", "Profile");
             }
 
-            var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            var users = from user in _context.Users.Include(u => u.UserType)
+                           select user;
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.UserEmail.Contains(searchString));
+            }
+
+            //var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
+            return View(await users.ToListAsync());
         }
 
         // GET: Users/Details/5
