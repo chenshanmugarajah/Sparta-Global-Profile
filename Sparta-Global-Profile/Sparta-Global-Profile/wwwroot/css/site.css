@@ -81,7 +81,22 @@ h3, h4, h5, h6{
     font-family: "glennSparta";
 }
 
+button {
+    background-color: #E33661 !important;
+    border-style: none;
+    border-radius: 2px;
+    color: #fff;
+}
 
+input[type=submit] {
+    background-color: #E33661 !important;
+    color: #fff;
+}
+
+input[type=reset] {
+    background-color: #411F50 !important;
+    color: #fff;
+}
 
 .footer {
     position: absolute;
@@ -92,6 +107,54 @@ h3, h4, h5, h6{
 }
 .academy-stream{
     color: #E33661;
+}
+
+.pink-header {
+    color: #E33661;
+}
+
+.pink-link-text {
+    color: #E33661;
+    text-decoration: underline;
+}
+
+.deep-pink-header {
+    color: #94244A;
+}
+.hobby {
+    color: #E33661;
+    font-weight: bold;
+}
+
+.approved-pill {
+    font-family: "glennSparta";
+    display: inline-block;
+    color:#E33661;
+    font-size: 20px;
+    padding: 3px;
+    border-style:solid;
+    border-color: #E33661;
+    border-radius: 10px;
+
+}
+
+.body-card {
+    width: 1000px;
+    border-style: solid;
+    border-color: #E33661;
+    border-top-style: none;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 0 20px 20px 20px;
+    margin-top: -50px;
+}
+.video {
+    margin-top: 60px;
+}
+
+.profile-image{
+    border-radius: 50px;
 }
 @font-face { /* Used as titular font, headlines etc. */
     font-family: ddcSparta;
@@ -118,7 +181,7 @@ sparta-deep-pink: #94244A;
 
 sparta-purple: #411F50;
 
-sparta-midnight: 1B0E1D;
+sparta-midnight: #1B0E1D;
 
 sparta-green-navbar: #01181B;
 
