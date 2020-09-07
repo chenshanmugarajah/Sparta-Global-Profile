@@ -23,6 +23,9 @@ namespace Sparta_Global_Profile.Models
         public string UserPassword { get; set; }
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
-       
+        
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime LastLogin { get; set; }
     }
 }
