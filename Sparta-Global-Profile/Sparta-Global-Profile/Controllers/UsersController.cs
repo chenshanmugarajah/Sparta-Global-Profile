@@ -156,7 +156,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId)
         {
             if (id != user.UserId)
             {
@@ -184,9 +184,12 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            //_context.Profiles.Add(profile);
+            //await _context.SaveChangesAsync();
             ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
             ViewData["Courses"] = _context.Courses.ToList();
             return View(user);
+
         }
 
         // GET: Users/Delete/5
