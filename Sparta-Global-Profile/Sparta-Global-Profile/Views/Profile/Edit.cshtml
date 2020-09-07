@@ -35,13 +35,14 @@
             <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
             <span asp-validation-for="StatusId" class="text-danger"></span>
         </div>
+
     }
 
-    @*<div class="form-group">
-            <label asp-for="UserId" class="control-label"></label>
+    <div class="form-group">
+            <label asp-for="UserId" class="control-label">User Id</label>
             <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
             <span asp-validation-for="UserId" class="text-danger"></span>
-        </div>*@
+        </div>
 
     <div class="form-group">
         <label asp-for="ProfileName" class="control-label">Your Name</label>
@@ -77,7 +78,7 @@
                 <li>@skill.SkillName</li>
             }
         </ul>
-        <a href="~/skills/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="skills" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Skills</button></a>
     }
     else
     {
@@ -85,7 +86,7 @@
     }
     @if (Model.Skills.Count < 8)
     {
-        <a href="~/skills/create"><button>ADD</button></a>
+        <a asp-controller="skills" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Skill</button></a>
     }
 </div>
 <hr />
@@ -100,21 +101,18 @@
             <h4>@assignment.Position</h4>
             <p>@assignment.Summary</p>
         }
-        <a href="~/assignments/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="assignments" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Assignments</button></a>
     }
     else
     {
         <p class="spartaBrightPink">You have currently have no assignments</p>
     }
-    @if (Model.Assignments.Count < 5)
-    {
-        <a href="~/assignments/create"><button>ADD</button></a>
-    }
+    <a asp-controller="assignments" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Assignment</button></a>
     <br />
 </div>
 <hr />
 <div>
-    <h2 style="text-decoration:underline">Academy Projects</h2>
+    <h2 style="text-decoration:underline">Sparta Projects</h2>
     @if (Model.SpartaProjects.Count != 0)
     {
         @foreach (var project in Model.SpartaProjects)
@@ -128,16 +126,13 @@
                 }
             </ul>
         }
-        <a href="~/spartaprojects/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="spartaprojects" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Projects</button></a>
     }
     else
     {
         <p class="spartaBrightPink">You have currently have no projects</p>
     }
-    @if (Model.SpartaProjects.Count < 5)
-    {
-        <a href="~/spartaprojects/create"><button>ADD</button></a>
-    }
+    <a asp-controller="spartaprojects" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Project</button></a>
     <br />
 </div>
 <hr />
@@ -152,7 +147,7 @@
             <h4>@employment.Position</h4>
             <p>@employment.Summary</p>
         }
-        <a href="~/employments/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="employments" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Employment History</button></a>
     }
     else
     {
@@ -160,7 +155,7 @@
     }
     @if (Model.Employment.Count < 5)
     {
-        <a href="~/employments/create"><button>ADD</button></a>
+        <a asp-controller="employments" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Employment History</button></a>
     }
     <br />
 </div>
@@ -190,7 +185,7 @@
                 <p class="spartaBrightPink">Edit education to add modules</p>
             }
         }
-        <a href="~/educations/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="educations" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Education History</button></a>
     }
     else
     {
@@ -198,7 +193,7 @@
     }
     @if (Model.Education.Count < 5)
     {
-        <a href="~/education/create"><button>ADD</button></a>
+        <a asp-controller="educations" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Education History</button></a>
     }
     <br />
 </div>
@@ -212,7 +207,7 @@
             <h4>@certification.CertificationName</h4>
             <p>@certification.Summary</p>
         }
-        <a href="~/certifications/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="certifications" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Certifications</button></a>
     }
     else
     {
@@ -220,7 +215,7 @@
     }
     @if (Model.Certifications.Count < 5)
     {
-        <a href="~/certifications/create"><button>ADD</button></a>
+        <a asp-controller="certifications" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Certifications</button></a>
     }
     <br />
 </div>
@@ -234,7 +229,7 @@
             <li><span style="font-weight:bold">@hobby.HobbyName</span> - @hobby.HobbyDescription</li>
         }
         <br />
-        <a href="~/hobbies/index"><button>EDIT SECTION</button></a>
+        <a asp-controller="hobbies" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Hobbies</button></a>
     }
     else
     {
@@ -242,7 +237,7 @@
     }
     @if (Model.Hobbies.Count < 5)
     {
-        <a href="~/hobbies/create"><button>ADD</button></a>
+        <a asp-controller="hobbies" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Hobby</button></a>
     }
     <br />
 </div>
