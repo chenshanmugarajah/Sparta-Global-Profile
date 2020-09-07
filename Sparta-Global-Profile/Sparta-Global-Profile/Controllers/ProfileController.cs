@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
@@ -279,6 +280,20 @@ namespace Sparta_Global_Profile.Controllers
         private bool ProfileExists(int id)
         {
             return _context.Profiles.Any(e => e.ProfileId == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file)
+        {
+           
+           if(file == null)
+            {
+                return Content("File Not Selected");
+            }
+          
+            return View();
         }
     }
 }
