@@ -146,7 +146,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
+            ViewData["Courses"] = _context.Courses.ToList();
             return View(user);
         }
 
@@ -183,7 +184,8 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
+            ViewData["Courses"] = _context.Courses.ToList();
             return View(user);
         }
 
