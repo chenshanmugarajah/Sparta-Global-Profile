@@ -204,26 +204,27 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, int ProfileId, int StatusId, string ProfileName, string ProfilePicture, string Summary, int CourseId, bool Approved)
         {
-            //public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
 
             HttpContext context = HttpContext;
-            var userId = Int32.Parse(context.Session.GetString("UserId"));
-            //var dbProfile = _context.Profiles.Where(p => p.ProfileId == ProfileId).FirstOrDefault();
-            //var courseId = dbProfile.CourseId;
+            var userTypeId = Int32.Parse(context.Session.GetString("UserTypeId"));
 
-            Profile profile = new Profile()
+            var studentProfile = _context.Profiles.First(p => p.ProfileId == ProfileId);
+
+            if (userTypeId == 1)
             {
-                UserId = userId, // from session
-                ProfileId = ProfileId,
-                StatusId = StatusId,
-                ProfileName = ProfileName,
-                ProfilePicture = ProfilePicture,
-                Summary = Summary,
-                CourseId = CourseId,
-                Approved = Approved
-            };
+                StatusId = studentProfile.StatusId;
+                CourseId = studentProfile.CourseId;
+                Approved = studentProfile.Approved;
+            }
+          
+            studentProfile.StatusId = StatusId;
+            studentProfile.ProfileName = ProfileName;
+            studentProfile.ProfilePicture = ProfilePicture;
+            studentProfile.Summary = Summary;
+            studentProfile.CourseId = CourseId;
+            studentProfile.Approved = Approved;           
 
-            if (id != profile.ProfileId)
+            if (id != ProfileId)
             {
                 return NotFound();
             }
@@ -232,12 +233,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    _context.Update(profile);
+                    _context.SaveChanges();
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProfileExists(profile.ProfileId))
+                    if (!ProfileExists(ProfileId))
                     {
                         return NotFound();
                     }
@@ -248,10 +249,10 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", profile.CourseId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusId", profile.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", profile.UserId);
-            return View(profile);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", studentProfile.CourseId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusId", studentProfile.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", studentProfile.UserId);
+            return View(studentProfile);
         }
 
         // GET: Profile/Delete/5
@@ -310,13 +311,15 @@ namespace Sparta_Global_Profile.Controllers
             {
                 using (var newMemoryStream = new MemoryStream())
                 {
+                    var profile = _context.Profiles.First(profile => profile.ProfileId == Int32.Parse(profileId));
+
                     file.CopyTo(newMemoryStream);
                     try
                     {
                         var uploadRequest = new TransferUtilityUploadRequest
                         {
                             InputStream = newMemoryStream,
-                            Key = file.FileName,
+                            Key = $"{profile.UserId}_{profileId}_{profile.ProfileName}",
                             BucketName = bucketName,
                             CannedACL = S3CannedACL.PublicRead
                         };
@@ -324,9 +327,7 @@ namespace Sparta_Global_Profile.Controllers
                         var fileTransferUtility = new TransferUtility(client);
                         await fileTransferUtility.UploadAsync(uploadRequest);
 
-                        profilePicUrl = $"https://{bucketName}.s3-eu-west-1.amazonaws.com/{file.FileName}";
-
-                        var profile = _context.Profiles.First(profile => profile.ProfileId == Int32.Parse(profileId));
+                        profilePicUrl = $"https://{bucketName}.s3-eu-west-1.amazonaws.com/{profile.UserId}_{profileId}_{profile.ProfileName}";
 
                         profile.ProfilePicture = profilePicUrl;
                         _context.SaveChanges();
