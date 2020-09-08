@@ -55,7 +55,8 @@ namespace Sparta_Global_Profile.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserEmail = table.Column<string>(nullable: false),
                     UserPassword = table.Column<string>(nullable: false),
-                    UserTypeId = table.Column<int>(nullable: false)
+                    UserTypeId = table.Column<int>(nullable: false),
+                    LastLogin = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -363,15 +364,15 @@ namespace Sparta_Global_Profile.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "UserEmail", "UserPassword", "UserTypeId" },
+                columns: new[] { "UserId", "LastLogin", "UserEmail", "UserPassword", "UserTypeId" },
                 values: new object[,]
                 {
-                    { 1, "student@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 1 },
-                    { 6, "student2@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 1 },
-                    { 2, "client@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 2 },
-                    { 3, "staff@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 3 },
-                    { 4, "resource@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 4 },
-                    { 5, "admin@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 5 }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "student@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 1 },
+                    { 6, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "student2@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 1 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "client@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 2 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "staff@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 3 },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "resource@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 4 },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "zbVZXNJxViq/EWHu5uGHRA==", 5 }
                 });
 
             migrationBuilder.InsertData(
