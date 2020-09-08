@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Sparta_Global_Profile.Models;
 
@@ -16,10 +17,12 @@ namespace Sparta_Global_Profile.Controllers
     public class ProfileController : Controller
     {
         private readonly SpartaGlobalProfileDbContext _context;
+        private readonly IConfiguration _config;
 
-        public ProfileController(SpartaGlobalProfileDbContext context)
+        public ProfileController(SpartaGlobalProfileDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
 
@@ -287,11 +290,16 @@ namespace Sparta_Global_Profile.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file)
         {
-           
-           if(file == null)
-            {
+            string bucketName = _config["AWS:BucketName"];
+            string accessKey = _config["AWS:ACCESS_KEY"];
+            string secretKey = _config["AWS:SECRET_KEY"];
+            string region = _config["REGION"];
+
+
+           if (file == null)
+           {
                 return Content("File Not Selected");
-            }
+           }
           
             return View();
         }
