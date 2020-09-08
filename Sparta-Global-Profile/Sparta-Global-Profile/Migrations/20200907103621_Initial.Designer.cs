@@ -10,8 +10,8 @@ using Sparta_Global_Profile.Models;
 namespace Sparta_Global_Profile.Migrations
 {
     [DbContext(typeof(SpartaGlobalProfileDbContext))]
-    [Migration("20200907103420_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200907103621_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -682,9 +682,6 @@ namespace Sparta_Global_Profile.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("LastLogin")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -706,7 +703,6 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 1,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserEmail = "student@gmail.com",
                             UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 1
@@ -714,7 +710,6 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 2,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserEmail = "client@gmail.com",
                             UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 2
@@ -722,7 +717,6 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 3,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserEmail = "staff@gmail.com",
                             UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 3
@@ -730,7 +724,6 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 4,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserEmail = "resource@gmail.com",
                             UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 4
@@ -738,7 +731,6 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 5,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserEmail = "admin@gmail.com",
                             UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 5
@@ -746,7 +738,6 @@ namespace Sparta_Global_Profile.Migrations
                         new
                         {
                             UserId = 6,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserEmail = "student2@gmail.com",
                             UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 1

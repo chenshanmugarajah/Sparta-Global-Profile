@@ -1,7 +1,7 @@
 ﻿@model Sparta_Global_Profile.Models.Certification
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Certification";
 }
 
 <h1>Create</h1>
@@ -13,30 +13,39 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CertificationName" class="control-label">Certification Name</label>
+                <label asp-for="CertificationName" class="control-label">Certification</label>
                 <input asp-for="CertificationName" class="form-control" />
                 <span asp-validation-for="CertificationName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
+                <label asp-for="Summary" class="control-label">Description</label>
+                <textarea asp-for="Summary" class="form-control"></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="ProfileId" class="control-label"></label>
-                <select asp-for="ProfileId" class ="form-control" asp-items="ViewBag.ProfileId"></select>
-            </div>*@
+            <div class="form-group">
+                <label asp-for="ProfileId" class="control-label">Profile Name</label>
+                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index"><button>View all Certifications</button></a>
-    <a href="~/profile"><button>View Profiles</button></a>
-</div>
+<br />
+@if (ViewBag.Profile != "0")
+{
+    <div>
+        <a asp-action="Index" asp-route-id="@ViewBag.Profile"><button>Back to Certifications</button></a>
+        <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile"><button>Back to Edit Profile</button></a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-action="Index"><button>Back to Certification</button></a>
+    </div>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

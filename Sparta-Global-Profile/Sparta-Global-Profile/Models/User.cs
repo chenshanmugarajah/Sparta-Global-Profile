@@ -18,6 +18,8 @@ namespace Sparta_Global_Profile.Models
 
         [DisplayName("Password")]
         [DataType(DataType.Password)]
+        [RegularExpression(@"(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,50}",ErrorMessage = "Password must be atleast 8 characters long and contain atleast an upper case letter, a lower case letter and a number")]
+        //[StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be atleast 8 characters long")]
         [Required(ErrorMessage = "This field is required.")]
      
         public string UserPassword { get; set; }

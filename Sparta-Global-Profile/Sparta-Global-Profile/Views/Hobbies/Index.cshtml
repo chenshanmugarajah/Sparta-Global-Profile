@@ -1,52 +1,69 @@
 ﻿@model IEnumerable<Sparta_Global_Profile.Models.Hobby>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hobby - " + ViewBag.ProfileName;
 }
 
-<h1>Index</h1>
-
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.HobbyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HobbyDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profile)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.HobbyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HobbyDescription)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Profile.ProfileId)
-            </td>*@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.HobbyId">Edit</a> |
-                @*<a asp-action="Details" asp-route-id="@item.HobbyId">Details</a>*@ |
-                <a asp-action="Delete" asp-route-id="@item.HobbyId">Delete</a>
-            </td>
-        </tr>
+@if ("All" == ViewBag.Type)
+{
+    <h1>All Hobby</h1>
+    <p>
+        <a asp-action="Create"><button>Create Hobby</button></a>
+    </p>
 }
-    </tbody>
-</table>
+else
+{
+    <h1>@ViewBag.ProfileName's hobbies</h1>
+}
 
-<div>
-    <a asp-action="Index"><button>View all hobbies</button></a>
-    <a asp-controller="profile" asp-action="details"><button>Back to Profile</button></a>
-</div>
+@if (Model.Count() <= 8 && ViewBag.Type == "Student")
+{
+    <p>
+        <a asp-action="Create" asp-route-id=@ViewBag.ProfileId><button>Create Hobby</button></a>
+    </p>
+}
+@if (Model.Count() != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Hobby Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Profile Name
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HobbyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HobbyDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Profile.ProfileName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.HobbyId"><button>Edit</button></a>
+                        <a asp-action="Delete" asp-route-id="@item.HobbyId"><button>Delete</button></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>You have no hobbies listed at the moment</h3>
+}
+
+<a asp-controller="profile" asp-action="edit" asp-route-id="@ViewBag.ProfileId"><button>Back to Edit Profile</button></a>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,38 +19,56 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Hobbies
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            var spartaGlobalProfileDbContext = _context.Hobbies.Where(h => h.ProfileId == profileId).Include(h => h.Profile);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            ViewData["Type"] = "Student";
+            if (id != null)
+            {
+                var spartaGlobalProfileDbContext = _context.Hobbies.Where(s => s.ProfileId == id).Include(s => s.Profile);
+                ViewData["ProfileId"] = id;
+                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
+                return View(await spartaGlobalProfileDbContext.ToListAsync());
+            }
+            else
+            {
+                ViewData["Type"] = "All";
+                var spartaGlobalProfileDbContext = _context.Hobbies.Include(s => s.Profile);
+                return View(await spartaGlobalProfileDbContext.ToListAsync());
+            }
         }
 
         // GET: Hobbies/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var hobby = await _context.Hobbies
-                .Include(h => h.Profile)
-                .FirstOrDefaultAsync(m => m.HobbyId == id);
-            if (hobby == null)
-            {
-                return NotFound();
-            }
+        //    var hobby = await _context.Hobbies
+        //        .Include(h => h.Profile)
+        //        .FirstOrDefaultAsync(m => m.HobbyId == id);
+        //    if (hobby == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(hobby);
-        }
+        //    return View(hobby);
+        //}
 
         // GET: Hobbies/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
+            if (id != null)
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
+                ViewData["Profile"] = id.ToString();
+            }
+            else
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
+                ViewData["Profile"] = "0";
+            }
             return View();
         }
 
@@ -60,24 +77,13 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int HobbyId, string HobbyName, string HobbyDescription)
+        public async Task<IActionResult> Create([Bind("HobbyId,HobbyName,HobbyDescription,ProfileId")] Hobby hobby)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Hobby hobby = new Hobby()
-            {
-                ProfileId = profileId,
-                HobbyName = HobbyName,
-                HobbyDescription = HobbyDescription,
-                HobbyId = HobbyId
-            };
-
             if (ModelState.IsValid)
             {
                 _context.Add(hobby);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", "Profile", new { id = profileId });
+                return RedirectToAction("Index", "Hobbies", new { id = hobby.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", hobby.ProfileId);
             return View(hobby);
@@ -96,7 +102,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", hobby.ProfileId);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == hobby.ProfileId), "ProfileId", "ProfileName", hobby.ProfileId);
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == hobby.ProfileId).First();
             return View(hobby);
         }
 
@@ -105,18 +112,8 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int HobbyId, string HobbyName, string HobbyDescription)
+        public async Task<IActionResult> Edit(int id, [Bind("HobbyId,HobbyName,HobbyDescription,ProfileId")] Hobby hobby)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Hobby hobby = new Hobby()
-            {
-                ProfileId = profileId,
-                HobbyName = HobbyName,
-                HobbyDescription = HobbyDescription,
-                HobbyId = HobbyId
-            };
             if (id != hobby.HobbyId)
             {
                 return NotFound();
@@ -140,7 +137,7 @@ namespace Sparta_Global_Profile.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Hobbies", new { id = hobby.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", hobby.ProfileId);
             return View(hobby);
@@ -162,6 +159,7 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == hobby.ProfileId).First();
             return View(hobby);
         }
 
@@ -173,7 +171,7 @@ namespace Sparta_Global_Profile.Controllers
             var hobby = await _context.Hobbies.FindAsync(id);
             _context.Hobbies.Remove(hobby);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Hobbies", new { id = hobby.ProfileId });
         }
 
         private bool HobbyExists(int id)
