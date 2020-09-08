@@ -5,6 +5,16 @@
     ViewData["Title"] = "Details";
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
+
+@{Html.BeginForm("CreateDocument", "Profile", FormMethod.Get);
+    {
+        <div>
+            <input type="submit" value="Create Document" style="width:150px;height:27px" />
+        </div>
+    }
+    Html.EndForm();
+}
+
 <h1>Meet @Html.DisplayFor(model => model.ProfileName)</h1>
 <hr />
 <h2><span class="academy-stream">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
@@ -36,11 +46,12 @@
         {
             <li><a href=@link.Url>@link.LinkText</a></li>
         }
-    </ul> 
+    </ul>
+
 }
 
 <h2 style="text-decoration:underline">Employment History</h2>
-@foreach(var employment in Model.Employment)
+@foreach (var employment in Model.Employment)
 {
     <h4>@employment.StartDate.ToString("dd MMMM yyyy") - @employment.EndDate.ToString("dd MMMM yyyy")</h4>
     <h4>@employment.CompanyName</h4>
@@ -49,7 +60,7 @@
 }
 
 <h2 style="text-decoration:underline">Education</h2>
-@foreach(var education in Model.Education)
+@foreach (var education in Model.Education)
 {
     <h4>@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h4>
     <h4>@education.Establishment</h4>
@@ -64,7 +75,7 @@
 }
 
 <h2 style="text-decoration:underline">Certifications</h2>
-@foreach(var certification in Model.Certifications)
+@foreach (var certification in Model.Certifications)
 {
     <h4>@certification.CertificationName</h4>
     <p>@certification.Summary</p>
@@ -79,16 +90,16 @@
 </ul>
 
 @if (userTypeId != "2")
-    {
+{
     <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Approved)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Approved)
-            </dd>
-      </dl>
-    }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Approved)
+        </dd>
+    </dl>
+}
 
 @*<div>
         <h4>Profile</h4>
