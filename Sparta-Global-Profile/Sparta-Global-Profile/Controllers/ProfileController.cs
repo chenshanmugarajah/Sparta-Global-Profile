@@ -294,23 +294,19 @@ namespace Sparta_Global_Profile.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file)
+        public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file, int profileId)
         {
-            HttpContext context = HttpContext;
-            var profileId = context.Session.GetString("ProfileId");
-
             string profilePicUrl; 
 
             string bucketName = _config["AWS:BucketName"];
             string accessKey = _config["AWS:ACCESS_KEY"];
             string secretKey = _config["AWS:SECRET_KEY"];
 
-
             using (var client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.EUWest1))
             {
                 using (var newMemoryStream = new MemoryStream())
                 {
-                    var profile = _context.Profiles.First(profile => profile.ProfileId == Int32.Parse(profileId));
+                    var profile = _context.Profiles.First(profile => profile.ProfileId == profileId);
 
                     file.CopyTo(newMemoryStream);
                     try
@@ -337,7 +333,7 @@ namespace Sparta_Global_Profile.Controllers
                     }
                 }
             }
-            return RedirectToAction("Edit", "Profile", new { id = Int32.Parse(profileId) });
+            return RedirectToAction("Edit", "Profile", new { id = profileId });
         }
     }
 }
