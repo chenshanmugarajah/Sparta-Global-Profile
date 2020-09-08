@@ -277,25 +277,28 @@ Notes:
 - 10:00
   - Each member started to work on:
     - Chris worked on login tracking and first time login password change
+    - Bruno begin looking into image uploading and AWS
 
 - 12:30 Lunch
 
 - 13:30
   - back to work
-
+  - Bruno begun work on uploading an image
 - 16:00 Daily review and merge
   
 * Tuesday
 - 9:30 Stand Up
   - People talked about overnight work
     - Leo been looking into exporting to pdf/docx, unfortunately not much progress
+    - Bruno been working on uploading to AWS
 - 10:00 Azure integration
   - Connecting our project to the Azure database that Alex set up last friday
 
 - 12:30 Lunch
 
 - 13:30
-
+  - Bruno continued working on AWS and save url image paths, bug fixes for Edit profile
+  
 - 16:00
 
 * Wednesday
