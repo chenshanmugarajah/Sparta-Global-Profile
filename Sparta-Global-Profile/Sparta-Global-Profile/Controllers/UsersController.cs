@@ -22,9 +22,7 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Users
-
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
@@ -41,13 +39,23 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("Details", "Profile", new { id = Int32.Parse(profileId) });
             }
 
+            ViewData["CurrentFilter"] = searchString;
+
             if (userTypeId != "5")
             {
                 return RedirectToAction("Index", "Profile");
             }
 
-            var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            var users = from user in _context.Users.Include(u => u.UserType)
+                           select user;
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.UserEmail.Contains(searchString));
+            }
+
+            //var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
+            return View(await users.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -105,7 +113,7 @@ namespace Sparta_Global_Profile.Controllers
                             UserId = newUserId,
                             StatusId = 1,
                             ProfileName = "New Student",
-                            ProfilePicture = "",
+                            ProfilePicture = @"/assets/default-profile-image.png",
                             Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
                             + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
                             + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
@@ -138,7 +146,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
+            ViewData["Courses"] = _context.Courses.ToList();
             return View(user);
         }
 
@@ -175,7 +184,8 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
+            ViewData["Courses"] = _context.Courses.ToList();
             return View(user);
         }
 

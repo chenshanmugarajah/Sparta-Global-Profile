@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Sparta_Global_Profile.Models.Certification>
+
+@{
+    ViewData["Title"] = "Certifications - " + ViewBag.ProfileName;
+}
+
+@if ("All" == ViewBag.Type)
+{
+    <h1>All Skills</h1>
+    <p>
+        <a asp-action="Create"><button>Create Certification</button></a>
+    </p>
+}
+else
+{
+    <h1>@ViewBag.ProfileName's certifications</h1>
+}
+
+@if (ViewBag.Type == "Student")
+{
+    <p>
+        <a asp-action="Create" asp-route-id=@ViewBag.ProfileId><button>Create Certification</button></a>
+    </p>
+}
+@if (Model.Count() != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Certification
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Profile Name
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CertificationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Summary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Profile.ProfileName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CertificationId"><button>Edit</button></a>
+                        <a asp-action="Delete" asp-route-id="@item.CertificationId"><button>Delete</button></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>You have no certifications listed at the moment</h3>
+}
+
+<a asp-controller="profile" asp-action="edit" asp-route-id="@ViewBag.ProfileId"><button>Back to Edit Certifications</button></a>

@@ -6,88 +6,246 @@
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
-<h1>Edit</h1>
+@if(userTypeId == "1")
+{
+    <h1>Welcome @Html.DisplayFor(model => model.ProfileName)</h1>
+    <hr />
+    <h2><span class="spartaBrightPink">Edit profile here</span></h2>
+}
 
-<h4>Profile</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProfileId" />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
-                <span asp-validation-for="StatusId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileName" class="control-label"></label>
-                <input asp-for="ProfileName" class="form-control" />
-                <span asp-validation-for="ProfileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfilePicture" class="control-label"></label>
-                <input asp-for="ProfilePicture" class="form-control" />
-                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
-                <span asp-validation-for="Summary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
-                <span asp-validation-for="CourseId" class="text-danger"></span>
-            </div>
 
-            @if (userTypeId != "1")
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ProfileId" />
+    @if (userTypeId != "1")
+    {
+        <h3 class="spartaBrightPink">Staff View - Editing @Model.ProfileName's profile</h3>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
+            </label>
+        </div>
+        <div class="form-group">
+            <label asp-for="CourseId" class="control-label">Course Name</label>
+            <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
+            <span asp-validation-for="CourseId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StatusId" class="control-label">Academy Status</label>
+            <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+            <span asp-validation-for="StatusId" class="text-danger"></span>
+        </div>
+
+    }
+
+    <div class="form-group">
+            <label asp-for="UserId" class="control-label">User Id</label>
+            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+
+    <div class="form-group">
+        <label asp-for="ProfileName" class="control-label">Your Name</label>
+        <input asp-for="ProfileName" class="form-control" />
+        <span asp-validation-for="ProfileName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProfilePicture" class="control-label">Picture URL</label>
+        <input asp-for="ProfilePicture" class="form-control" />
+        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Summary" class="control-label">Summary</label>
+        @*<input asp-for="Summary" class="form-control" />*@
+        <textarea asp-for="Summary" class="form-control" style="height: 200px">
+        </textarea>
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<div id="skillsDiv">
+    <h2 style="text-decoration:underline">Your skills</h2>
+    @if (Model.Skills.Count != 0)
+    {
+        <ul>
+            @foreach (var skill in Model.Skills)
             {
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
-                    </label>
-                </div>
+                <li>@skill.SkillName</li>
             }
-          
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-
-        @* add education *@
-        <h5>
-            Education
-            <a href="~/Educations/Create">CREATE</a>
-        </h5>
-        @foreach (var item in Model.Education)
+        </ul>
+        <a asp-controller="skills" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Skills</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no skills</p>
+    }
+    @if (Model.Skills.Count < 8)
+    {
+        <a asp-controller="skills" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Skill</button></a>
+    }
+</div>
+<hr />
+<div id="assignmentsDiv">
+    <h2 style="text-decoration:underline">Your client assignments</h2>
+    @if (Model.Assignments.Count != 0)
+    {
+        @foreach (var assignment in Model.Assignments)
         {
-            <p>
-                Establishment: @item.Establishment
-                <a href="~/Educations/Edit/@item.EducationId">Edit</a>
-                <a href="~/Educations/delete/@item.EducationId">Delete</a>
-            </p>
-            <p> Modules </p>
+            <h4>@assignment.StartDate.ToString("dd MMMM yyyy") - @assignment.EndDate.ToString("dd MMMM yyyy")</h4>
+            <h4>@assignment.CompanyName</h4>
+            <h4>@assignment.Position</h4>
+            <p>@assignment.Summary</p>
+        }
+        <a asp-controller="assignments" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Assignments</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no assignments</p>
+    }
+    <a asp-controller="assignments" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Assignment</button></a>
+    <br />
+</div>
+<hr />
+<div>
+    <h2 style="text-decoration:underline">Sparta Projects</h2>
+    @if (Model.SpartaProjects.Count != 0)
+    {
+        @foreach (var project in Model.SpartaProjects)
+        {
+            <h4>@project.ProjectName</h4>
+            <p>@project.ProjectBio</p>
             <ul>
-                @foreach (var module in item.Modules)
+                @foreach (var link in project.ProjectLinks)
                 {
-                    <li> @module.ModuleName <a href="~/modules/edit/@module.ModuleId">Edit</a> <a href="~/modules/delete/@module.ModuleId">Delete</a> </li>
+                    <li><a href=@link.Url>@link.LinkText</a></li>
                 }
             </ul>
-            <a href="~/modules/create"> Create new Module </a>
-            <br />
         }
-
-    </div>
+        <a asp-controller="spartaprojects" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Projects</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no projects</p>
+    }
+    <a asp-controller="spartaprojects" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Project</button></a>
+    <br />
 </div>
+<hr />
+<div>
+    <h2 style="text-decoration:underline">Employment History</h2>
+    @if (Model.Employment.Count != 0)
+    {
+        @foreach (var employment in Model.Employment)
+        {
+            <h4>@employment.StartDate.ToString("dd MMMM yyyy") - @employment.EndDate.ToString("dd MMMM yyyy")</h4>
+            <h4>@employment.CompanyName</h4>
+            <h4>@employment.Position</h4>
+            <p>@employment.Summary</p>
+        }
+        <a asp-controller="employments" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Employment History</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no employment history added</p>
+    }
+    @if (Model.Employment.Count < 5)
+    {
+        <a asp-controller="employments" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Employment History</button></a>
+    }
+    <br />
+</div>
+<hr />
+<div>
+    <h2 style="text-decoration:underline">Education</h2>
+    @if (Model.Education.Count != 0)
+    {
+        @foreach (var education in Model.Education)
+        {
+            <h4>@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h4>
+            <h4>@education.Establishment</h4>
+            <h5>@education.Qualification: @education.Grade</h5>
+            <h5 style="text-decoration:underline">Modules</h5>
+            @if (education.Modules.Count != 0)
+            {
+                <ul>
+                    @foreach (var module in education.Modules)
+                    {
+                        <li>@module.CourseYear: @module.ModuleName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="spartaBrightPink">You have currently have no modules added for this establishment</p>
+                <p class="spartaBrightPink">Edit education to add modules</p>
+            }
+        }
+        <a asp-controller="educations" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Education History</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no education history added</p>
+    }
+    @if (Model.Education.Count < 5)
+    {
+        <a asp-controller="educations" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Education History</button></a>
+    }
+    <br />
+</div>
+<hr />
+<div>
+    <h2 style="text-decoration:underline">Certifications</h2>
+    @if (Model.Certifications.Count != 0)
+    {
+        @foreach (var certification in Model.Certifications)
+        {
+            <h4>@certification.CertificationName</h4>
+            <p>@certification.Summary</p>
+        }
+        <a asp-controller="certifications" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Certifications</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no certifications added</p>
+    }
+    @if (Model.Certifications.Count < 5)
+    {
+        <a asp-controller="certifications" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Certifications</button></a>
+    }
+    <br />
+</div>
+<hr />
+<div>
+    <h2 style="text-decoration:underline">Hobbies</h2>
+    @if (Model.Hobbies.Count != 0)
+    {
+        @foreach (var hobby in Model.Hobbies)
+        {
+            <li><span style="font-weight:bold">@hobby.HobbyName</span> - @hobby.HobbyDescription</li>
+        }
+        <br />
+        <a asp-controller="hobbies" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Hobbies</button></a>
+    }
+    else
+    {
+        <p class="spartaBrightPink">You have currently have no hobbies</p>
+    }
+    @if (Model.Hobbies.Count < 5)
+    {
+        <a asp-controller="hobbies" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Hobby</button></a>
+    }
+    <br />
+</div>
+<hr />
+
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">View profile</a>
 </div>
 
 @section Scripts {

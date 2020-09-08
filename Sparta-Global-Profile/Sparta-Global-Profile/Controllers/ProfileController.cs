@@ -54,11 +54,17 @@ namespace Sparta_Global_Profile.Controllers
             var profiles = from profile in _context.Profiles.Include(p => p.Course)
                            select profile;
 
+            if(userTypeId == "2")
+            {
+                profiles = from profile in _context.Profiles.Include(p => p.Course).Where(p => p.Approved == true)
+                           select profile;
+            }
+
             if(!String.IsNullOrEmpty(searchString))
             {
                 profiles = profiles.Where(p => p.Course.CourseName.Contains(searchString));
             }
-            int pageSize = 3;
+            int pageSize = 12;
 
             return View(await PaginatedList<Profile>.CreateAsync(profiles.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
@@ -175,9 +181,9 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", profile.CourseId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusId", profile.StatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", profile.UserId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseName", profile.CourseId);
+            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", profile.StatusId);
+            ViewData["UserId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "UserId", "UserId", profile.UserId);
             return View(profile);
         }
 
@@ -186,8 +192,20 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
+        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string ProfilePicture, string Summary, int CourseId, bool Approved)
         {
+            Profile profile = new Profile()
+            {
+                UserId = UserId,
+                ProfileId = ProfileId,
+                StatusId = StatusId,
+                ProfileName = ProfileName,
+                ProfilePicture = ProfilePicture,
+                Summary = Summary,
+                CourseId = CourseId,
+                Approved = Approved
+            };
+
             if (id != profile.ProfileId)
             {
                 return NotFound();

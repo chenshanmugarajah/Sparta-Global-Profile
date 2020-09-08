@@ -1,47 +1,69 @@
 ﻿@model IEnumerable<Sparta_Global_Profile.Models.Module>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Modules - " + ViewBag.ProfileName;
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ModuleName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Education)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModuleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Education.EducationId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ModuleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ModuleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ModuleId">Delete</a>
-            </td>
-        </tr>
+@if ("All" == ViewBag.Type)
+{
+    <h1>All Modules</h1>
+    <p>
+        <a asp-action="Create"><button>Add Module</button></a>
+    </p>
 }
-    </tbody>
-</table>
+else
+{
+    <h1>@ViewBag.ProfileName's modules</h1>
+}
+
+@if (ViewBag.Type == "Student")
+{
+    <p>
+        <a asp-action="Create" asp-route-id=@ViewBag.EducationId><button>Add Module</button></a>
+    </p>
+}
+@if (Model.Count() != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Module Name
+                </th>
+                <th>
+                    Establishment
+                </th>
+                <th>
+                    Course Year
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModuleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Education.Establishment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseYear)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ModuleId"><button>Edit</button></a>
+                        <a asp-action="Delete" asp-route-id="@item.ModuleId"><button>Delete</button></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>You have no skills listed at the moment</h3>
+}
+
+<a asp-controller="educations" asp-action="edit" asp-route-id="@ViewBag.EducationId"><button>Back to Edit Education</button></a>

@@ -178,12 +178,12 @@ Notes:
 
 ### Sprint 1 - Project setup and MVP
 
-Monday
+* Monday
 - Bruno worked on index page
 - Leo worked on login
 - Alex worked on admin panel
 
-Tuesday
+* Tuesday
 - 9:30 Review of the login, index page admin panel
 - 9:45 Merged the work mentioned above into 'dev' branch
 - 10:30 Each person planned what to work 
@@ -197,7 +197,7 @@ Tuesday
   - Bryn worked on randomise the password to change after the first login
   - Harry worked on viewing profile page
 
-Wednesday
+* Wednesday
 - 9:30 Stand up
 - 9:45 Merged Leo and Alex encryption/decription
 - 10:00 Leo, Bryn and Alex went revision for the QG
@@ -206,7 +206,7 @@ Wednesday
 - 16:10 Alex finished the QG
 - 16:50 Leo finished the QG
 
-Thursday
+* Thursday
 - 9:30 Stand up 
   - Bruno, Chen, Harry and Chris explained what they have done the day before
     - Chris and Bruno worked on permissions, dependig by which user role is logged in redirects to a determined page
@@ -232,46 +232,79 @@ Thursday
   - Index
   - Encryption for random password
 
-* Friday 28th - Wednesday 2nd 
-* Scrum Master: **Alex** 
-* Task: Creating and MVP product where a user can create and view a profile
-
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
-
----
-
-### Sprint 2 - Permissions implementation 
-
-* Wednesday 28th - Friday 4th 
-* Scrum Master: **Bruno** 
-* Task: Creating Login, Viewing based on permissions
-
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
-
----
-
-### Sprint 3 - Exporting, Admin Panel, Viewing
-
-* Monday 7th - Wednesday 9th 
-* Scrum Master: **Bryn** 
-* Task: Profile displays, Exporting, Client viewing in teams format
-
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
-
----
-
-### Sprint 4 - Clean up
-* Thursday 10th - Friday 11th 
-* Scrum Master: **Harry** 
-* Task: Polishing, Testings and Presentation
-
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
+* Friday 28th
+- 9:30 Academy stand up
+- 9:45 Team stand up
+  - Chen showing work done overnight, created/edit/delete for each section of the profile
+  - Plan for the day: 
+    - Test (possible blocker)
+    - Azure
+    - Index
+- 10:00 Meeting with Richard
+  - Quality Gate feedback
+- 10:40 
+  - Each member started to work on:
+    - Bryn password
+    - Alex Azure
+    - Chen create page
+    - Bruno index
+    - Chris helping Bryn
+    - Leo test
+    - Harry show profile
+- 12:30 Lunch breal
+- 13:30 back to work
+- 15:00 Review and merging all the branches for the Demo with Richard and Emer
+- 16:00 Review
+  - Demo the web-application
+  - Each person explained what he have done
+  - Richard questions: 
+    - What we wanted to achieve in this sprint
+    - UserTypeId -> we still need to polish the pages
+    - Register -> as anybody can select a usertype, to avoid that any user can select "admin" as user role, we didn't implement a registration
+  - Retro for the Next sprint:
+    - Include image of the profile
+    - Complete and polish first the tasks of sprint 1 and then start sprint 2
+    - Richard can help us for the design to implement in to the front end
+    - Image upload -> using AWS bucket
 
 ---
+
+### Sprint 2 - Polish and Stretch
+
+* Monday
+- 9:30 Stand Up
+  
+- 10:00
+  - Each member started to work on:
+    - Chris worked on login tracking and first time login password change
+
+- 12:30 Lunch
+
+- 13:30
+  - back to work
+
+- 16:00 Daily review and merge
+  
+* Tuesday
+- 9:30 Stand Up
+  - People talked about overnight work
+    - Leo been looking into exporting to pdf/docx, unfortunately not much progress
+- 10:00 Azure integration
+  - Connecting our project to the Azure database that Alex set up last friday
+
+- 12:30 Lunch
+
+- 13:30
+
+- 16:00
+
+* Wednesday
+
+* Thursday
+
+* Friday
+
+
 
 ## MVP
 

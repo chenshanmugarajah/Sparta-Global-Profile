@@ -1,7 +1,7 @@
 ﻿@model Sparta_Global_Profile.Models.Education
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Education";
 }
 
 <h1>Edit</h1>
@@ -14,14 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="EducationId" />
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+                <label asp-for="ProfileId" class="control-label">Profile Name</label>
+                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
+                <span asp-validation-for="ProfileId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Establishment" class="control-label"></label>
@@ -39,9 +34,14 @@
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProfileId" class="control-label"></label>
-                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
-                <span asp-validation-for="ProfileId" class="text-danger"></span>
+                <label asp-for="StartDate" class="control-label">Start Date</label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label">End Date</label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -49,9 +49,28 @@
         </form>
     </div>
 </div>
-
+<h5 style="text-decoration:underline">Modules</h5>
+@if (Model.Modules.Count() != 0)
+{
+    <ul>
+        @foreach (var module in Model.Modules)
+        {
+            <li>@module.CourseYear: @module.ModuleName</li>
+        }
+    </ul>
+    <a asp-controller="modules" asp-action="index" asp-route-id="@Model.EducationId"><button>Edit Modules</button></a>
+    <a asp-controller="modules" asp-action="create" asp-route-id="@Model.EducationId"><button>Add Module</button></a>
+}
+else
+{
+    <p class="spartaBrightPink">You have currently have no modules added for this establishment</p>
+    <a asp-controller="modules" asp-action="create" asp-route-id="@Model.EducationId"><button>Add Module</button></a>
+}
+<br />
+<br />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Education List</button></a>
+    <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Edit Profile</button></a>
 </div>
 
 @section Scripts {

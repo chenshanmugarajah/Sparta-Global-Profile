@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,42 +19,58 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Modules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            ViewData["Type"] = "Student";
+            if (id == null)
+            {
+                ViewData["Type"] = "All";
+                var spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education);
+                return View(await spartaGlobalProfileDbContext.ToListAsync());
+            } else
+            {
+                var spartaGlobalProfileDbContext = _context.Modules.Where(m => m.EducationId == id).Include(m => m.Education);
+                var education = _context.Educations.Where(e => e.EducationId == id).FirstOrDefault();
+                ViewData["ProfileId"] = education.ProfileId;
+                ViewData["EducationId"] = education.EducationId;
+                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == education.ProfileId).First()).ProfileName;
+                return View(await spartaGlobalProfileDbContext.ToListAsync());
+            }
         }
 
         // GET: Modules/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var module = await _context.Modules
-                .Include(m => m.Education)
-                .FirstOrDefaultAsync(m => m.ModuleId == id);
-            if (module == null)
-            {
-                return NotFound();
-            }
+        //    var module = await _context.Modules
+        //        .Include(m => m.Education)
+        //        .FirstOrDefaultAsync(m => m.ModuleId == id);
+        //    if (module == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(module);
-        }
+        //    return View(module);
+        //}
 
         // GET: Modules/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = Convert.ToInt32(context.Session.GetString("ProfileId"));
-
-            var educations = _context.Educations.Where(e => e.ProfileId == profileId).ToList();
-            ViewData["ProfileId"] = profileId;
-            ViewData["EducationId"] = new SelectList(educations, "EducationId", "EducationId");
+            if(id != null)
+            {
+                ViewData["EducationId"] = new SelectList(_context.Educations.Where(e => e.EducationId == id), "EducationId", "Establishment");
+                ViewData["Education"] = id;
+                ViewData["Profile"] = ((_context.Educations.Where(e => e.EducationId == id).First()).ProfileId).ToString();
+            } 
+            else
+            {
+                ViewData["EducationId"] = new SelectList(_context.Educations, "EducationId", "Establishment");
+                ViewData["Profile"] = "0";
+            }
             return View();
         }
 
@@ -70,7 +85,7 @@ namespace Sparta_Global_Profile.Controllers
             {
                 _context.Add(module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Modules", new { id = module.EducationId });
             }
             ViewData["EducationId"] = new SelectList(_context.Educations, "EducationId", "EducationId", module.EducationId);
             return View(module);
@@ -85,11 +100,14 @@ namespace Sparta_Global_Profile.Controllers
             }
 
             var module = await _context.Modules.FindAsync(id);
+            var education = _context.Educations.Where(e => e.EducationId == module.EducationId).FirstOrDefault();
             if (module == null)
             {
                 return NotFound();
             }
-            ViewData["EducationId"] = new SelectList(_context.Educations, "EducationId", "EducationId", module.EducationId);
+            ViewData["EducationId"] = new SelectList(_context.Educations.Where(e => e.EducationId == module.EducationId), "EducationId", "Establishment", module.EducationId);
+            ViewData["Education"] = education;
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == education.ProfileId).FirstOrDefault();
             return View(module);
         }
 
@@ -123,7 +141,7 @@ namespace Sparta_Global_Profile.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Modules", new { id = module.EducationId });
             }
             ViewData["EducationId"] = new SelectList(_context.Educations, "EducationId", "EducationId", module.EducationId);
             return View(module);
@@ -145,6 +163,9 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
+            var education = _context.Educations.Where(e => e.EducationId == module.EducationId).First();
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == education.ProfileId).First();
+            ViewData["Education"] = education;
             return View(module);
         }
 
@@ -156,7 +177,7 @@ namespace Sparta_Global_Profile.Controllers
             var module = await _context.Modules.FindAsync(id);
             _context.Modules.Remove(module);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Educations", new { id = module.EducationId });
         }
 
         private bool ModuleExists(int id)

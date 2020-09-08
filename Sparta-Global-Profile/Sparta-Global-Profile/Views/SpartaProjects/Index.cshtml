@@ -1,47 +1,70 @@
 ﻿@model IEnumerable<Sparta_Global_Profile.Models.SpartaProject>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sparta Projects - " + ViewBag.ProfileName;
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectBio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profile)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectBio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profile.ProfileId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SpartaProjectId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SpartaProjectId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SpartaProjectId">Delete</a>
-            </td>
-        </tr>
+@if ("All" == ViewBag.Type)
+{
+    <h1>All Sparta Projects</h1>
+    <p>
+        <a asp-action="Create"><button>Create Project</button></a>
+    </p>
 }
-    </tbody>
-</table>
+else
+{
+    <h1>@ViewBag.ProfileName's projects</h1>
+}
+
+@if (Model.Count() <= 8 && ViewBag.Type == "Student")
+{
+    <p>
+        <a asp-action="Create" asp-route-id=@ViewBag.ProfileId><button>Create Project</button></a>
+    </p>
+}
+
+@if (Model.Count() != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Profile Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProjectName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProjectBio)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Profile.ProfileName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectBio)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.SpartaProjectId"><button>Edit</button></a>
+                        <a asp-action="Delete" asp-route-id="@item.SpartaProjectId"><button>Delete</button></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>You have no sparta projects listed at the moment</h3>
+}
+
+<a asp-controller="profile" asp-action="edit" asp-route-id="@ViewBag.ProfileId"><button>Back to Edit Profile</button></a>
