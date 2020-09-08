@@ -269,37 +269,42 @@ Notes:
 
 ---
 
-### Sprint 2 - Permissions implementation 
+### Sprint 2 - Polish and Stretch
 
-* Wednesday 28th - Friday 4th 
-* Scrum Master: **Bruno** 
-* Task: Creating Login, Viewing based on permissions
+* Monday
+- 9:30 Stand Up
+  
+- 10:00
+  - Each member started to work on:
+    - Chris worked on login tracking and first time login password change
 
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
+- 12:30 Lunch
 
----
+- 13:30
+  - back to work
 
-### Sprint 3 - Exporting, Admin Panel, Viewing
+- 16:00 Daily review and merge
+  
+* Tuesday
+- 9:30 Stand Up
+  - People talked about overnight work
+    - Leo been looking into exporting to pdf/docx, unfortunately not much progress
+- 10:00 Azure integration
+  - Connecting our project to the Azure database that Alex set up last friday
 
-* Monday 7th - Wednesday 9th 
-* Scrum Master: **Bryn** 
-* Task: Profile displays, Exporting, Client viewing in teams format
+- 12:30 Lunch
 
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
+- 13:30
 
----
+- 16:00
 
-### Sprint 4 - Clean up
-* Thursday 10th - Friday 11th 
-* Scrum Master: **Harry** 
-* Task: Polishing, Testings and Presentation
+* Wednesday
 
-* **Review Conclusion: ... ??** with Richard and Emer
-* **Retro Conclusion: ... ??** with Whole Team
+* Thursday
 
----
+* Friday
+
+
 
 ## MVP
 
