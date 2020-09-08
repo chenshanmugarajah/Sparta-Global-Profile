@@ -32,7 +32,7 @@
                     <a asp-action="Details" asp-route-id="@item.ProfileId" class="btn btn-primary">Details</a>
                     @if (userTypeId != "1" && userTypeId != "2")
                     {
-                        @if(item.Approved) { <a class="btn btn-primary">Approved</a> } else { <a class="btn btn-primary">UnApproved</a>}
+                        @if(item.Approved) { <a class="btn btn-primary">Approved</a> } else { <a class="btn btn-primary">Unapproved</a>}
                     }
                 </div>
             </div>
