@@ -300,7 +300,7 @@ namespace Sparta_Global_Profile.Controllers
 
             //Create Paragraph styles
             WParagraphStyle style = document.AddParagraphStyle("Normal") as WParagraphStyle;
-            style.CharacterFormat.FontName = "Calibri";
+            style.CharacterFormat.FontName = "Verdana";
             style.CharacterFormat.FontSize = 11f;
             style.ParagraphFormat.BeforeSpacing = 0;
             style.ParagraphFormat.AfterSpacing = 8;
@@ -308,7 +308,7 @@ namespace Sparta_Global_Profile.Controllers
 
             style = document.AddParagraphStyle("Heading 1") as WParagraphStyle;
             style.ApplyBaseStyle("Normal");
-            style.CharacterFormat.FontName = "Calibri Light";
+            style.CharacterFormat.FontName = "Verdana";
             style.CharacterFormat.FontSize = 16f;
             style.CharacterFormat.TextColor = Syncfusion.Drawing.Color.FromArgb(46, 116, 181);
             style.ParagraphFormat.BeforeSpacing = 12;
@@ -317,7 +317,12 @@ namespace Sparta_Global_Profile.Controllers
             style.ParagraphFormat.KeepFollow = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level1;
 
-            // Create Paragraph with Text Range
+            // Create Header
+            IWParagraph header = section.HeadersFooters.Header.AddParagraph();
+            header.ApplyStyle("Normal");
+            header.ParagraphFormat.HorizontalAlignment = HorizontalAlignment.Left;
+
+            // Create Paragraph with Name
             IWParagraph paragraph = section.HeadersFooters.Header.AddParagraph();
             paragraph.ApplyStyle("Normal");
             paragraph.ParagraphFormat.HorizontalAlignment = HorizontalAlignment.Left;
@@ -326,7 +331,7 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontName = "Verdana";
             textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Black;
 
-            //Appends paragraph Name
+            //Appends paragraph Grade
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -337,6 +342,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             //Appends paragraph Course
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Course") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -344,6 +357,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             //Appends paragraph Summary
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Summary") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -351,6 +372,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             //Appends paragraph Skills
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Skills") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -361,6 +390,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             //Appends paragraph Academy Experience
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Academy Experience") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -368,6 +405,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             //Appends paragraph Sparta Projects
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Academy Projects") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -383,6 +428,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             // Appends Paragraph Employment
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Employment History") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -396,6 +449,14 @@ namespace Sparta_Global_Profile.Controllers
             textRange.CharacterFormat.FontSize = 12f;
 
             // Appends Paragraph Education
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Education") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -412,8 +473,16 @@ namespace Sparta_Global_Profile.Controllers
                 }
             }
             textRange.CharacterFormat.FontSize = 12f;
-            
-            // Appends Paragraph Employment
+
+            // Appends Paragraph Certifications
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Certifications") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
@@ -424,7 +493,15 @@ namespace Sparta_Global_Profile.Controllers
             }
             textRange.CharacterFormat.FontSize = 12f;
 
-            // Appends Paragraph Employment
+            // Appends Paragraph Hobby
+            header = section.AddParagraph();
+            header.ParagraphFormat.FirstLineIndent = 36;
+            header.BreakCharacterFormat.FontSize = 28f;
+            textRange = header.AppendText("Hobbies") as WTextRange;
+            textRange.CharacterFormat.FontSize = 24f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Violet;
+
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
