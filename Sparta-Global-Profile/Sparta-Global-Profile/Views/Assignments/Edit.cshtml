@@ -1,7 +1,7 @@
 ﻿@model Sparta_Global_Profile.Models.Assignment
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Assignment";
 }
 
 <h1>Edit</h1>
@@ -14,7 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AssignmentId" />
             <div class="form-group">
-                <label asp-for="CompanyName" class="control-label">Company Name</label>
+                <label asp-for="ProfileId" class="control-label"></label>
+                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
+                <span asp-validation-for="ProfileId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label"></label>
                 <input asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
@@ -28,18 +33,13 @@
                 <input asp-for="Summary" class="form-control" />
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="ProfileId" class="control-label"></label>
-                    <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
-                    <span asp-validation-for="ProfileId" class="text-danger"></span>
-                </div>*@
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Start date</label>
+                <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label">End date</label>
+                <label asp-for="EndDate" class="control-label"></label>
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
@@ -51,9 +51,8 @@
 </div>
 
 <div>
-    <a asp-action="Index"><button>View all your assignments</button></a>
-    <a href="~/profile"><button>Back to profile</button></a>
-
+    <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Skills</button></a>
+    <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Edit Profile</button></a>
 </div>
 
 @section Scripts {

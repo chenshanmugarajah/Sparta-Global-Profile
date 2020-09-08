@@ -9,17 +9,25 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Search by Email: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.UserEmail)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.UserPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserType)
+               User Type
             </th>
             <th></th>
         </tr>
@@ -30,11 +38,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserEmail)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.UserPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserType.UserTypeId)
+                @Html.DisplayFor(modelItem => item.UserType.UserTypeName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |

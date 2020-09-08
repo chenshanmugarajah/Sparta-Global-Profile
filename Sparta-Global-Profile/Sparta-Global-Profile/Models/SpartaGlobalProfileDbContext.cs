@@ -67,7 +67,7 @@ namespace Sparta_Global_Profile.Models
                    new Course { CourseId = 8, CourseName = "Technology Consultant Graduate Scheme", AcademyExperience = "all the academy pre filled stuff will be here" }
                );
 
-            var password = Helper.EncryptPlainTextToCipherText("123");
+            var password = Helper.EncryptPlainTextToCipherText("Password123");
 
             modelBuilder.Entity<User>().HasData
                 (

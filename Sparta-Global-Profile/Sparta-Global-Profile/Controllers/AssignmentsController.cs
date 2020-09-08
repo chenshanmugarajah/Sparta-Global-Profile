@@ -20,70 +20,103 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Assignments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-
             HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
 
-            var spartaGlobalProfileDbContext = _context.Assignments.Where(a => a.ProfileId == profileId).Include(a => a.Profile);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            ViewData["Type"] = "Student";
+            if (id != null)
+            {
+                if ((userTypeId == "1" && id.ToString() != profileId))
+                {
+                    return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+                }
+                var spartaGlobalProfileDbContext = _context.Assignments.Where(s => s.ProfileId == id).Include(s => s.Profile);
+                ViewData["ProfileId"] = id;
+                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
+                return View(await spartaGlobalProfileDbContext.ToListAsync());
+            }
+            else
+            {
+                var spartaGlobalProfileDbContext = _context.Assignments.Include(s => s.Profile);
+                return await RedirectByUserType(View(await spartaGlobalProfileDbContext.ToListAsync()));
+            }
+        }
+        //public async Task<IActionResult> RedirectByUserType(string userId, string userTypeId, string profileId, IIncludableQueryable<out TEntity, out TProfile)
+        public async Task<IActionResult> RedirectByUserType(ViewResult view)
+        {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (userTypeId == "1")
+            {
+                return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+            }
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("Index", "Profiles");
+            }
+            else
+            {
+                return view;
+            }
         }
 
         // GET: Assignments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var assignment = await _context.Assignments
-                .Include(a => a.Profile)
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignment == null)
-            {
-                return NotFound();
-            }
+        //    var assignment = await _context.Assignments
+        //        .Include(a => a.Profile)
+        //        .FirstOrDefaultAsync(m => m.AssignmentId == id);
+        //    if (assignment == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(assignment);
-        }
+        //    return View(assignment);
+        //}
 
         // GET: Assignments/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
+            if (id != null)
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
+                ViewData["Profile"] = id.ToString();
+            }
+            else
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
+                ViewData["Profile"] = "0";
+            }
+
             return View();
         }
 
         // POST: Assignments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Assignment assignment = new Assignment()
-            {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
-                StartDate = StartDate,
-                Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
-            };
-
             if (ModelState.IsValid)
             {
                 _context.Add(assignment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", "Profile", new { id = profileId });
+                return RedirectToAction("Index", "Assignments", new { id = assignment.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
             return View(assignment);
@@ -102,33 +135,17 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
+
+            ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == assignment.ProfileId), "ProfileId", "ProfileName", assignment.ProfileId);
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
             return View(assignment);
         }
 
         // POST: Assignments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int AssignmentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Edit(int id, [Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
         {
-            //public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
-
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Assignment assignment = new Assignment()
-            {
-                AssignmentId = AssignmentId,
-                CompanyName = CompanyName,
-                EndDate = EndDate,
-                StartDate = StartDate,
-                Position = Position,
-                Summary = Summary,
-                ProfileId = profileId
-            };
-
             if (id != assignment.AssignmentId)
             {
                 return NotFound();
@@ -152,7 +169,7 @@ namespace Sparta_Global_Profile.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Assignments", new { id = assignment.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
             return View(assignment);
@@ -174,6 +191,7 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
             return View(assignment);
         }
 
@@ -185,12 +203,14 @@ namespace Sparta_Global_Profile.Controllers
             var assignment = await _context.Assignments.FindAsync(id);
             _context.Assignments.Remove(assignment);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Assignments", new { id = assignment.ProfileId });
         }
 
         private bool AssignmentExists(int id)
         {
             return _context.Assignments.Any(e => e.AssignmentId == id);
         }
+
+
     }
 }
