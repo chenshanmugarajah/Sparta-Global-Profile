@@ -1,12 +1,15 @@
 ﻿@model Sparta_Global_Profile.Models.Profile
 @using Microsoft.AspNetCore.Http
+@using Sparta_Global_Profile.CustClass
 
 @{
     ViewData["Title"] = "Edit";
     var userTypeId = Context.Session.GetString("UserTypeId");
+
+    // AmazonUpload amazonUpload = new AmazonUpload();
 }
 
-@if(userTypeId == "1")
+@if (userTypeId == "1")
 {
     <h1>Welcome @Html.DisplayFor(model => model.ProfileName)</h1>
     <hr />
@@ -60,13 +63,16 @@
     </div>
 </form>
 
-<form method="post" id="uploadForm" asp-action="UploadImageToAWS" enctype="multipart/form-data">
-    <div>
-        <label>Upload File:</label>
-        <input type="file" name="file" multiple />
-        <input type="submit" value="Upload"/>
-    </div>
-</form>
+@using (Html.BeginForm("UploadImageToAWS", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+        <fieldset>
+            <label>upload file:</label>
+            <input type="file" name="file" id="filechosen" multiple />
+            <input type="submit" value="upload" />
+        </fieldset>
+}
+
 
 <div id="skillsDiv">
     <h2 style="text-decoration:underline">Your skills</h2>

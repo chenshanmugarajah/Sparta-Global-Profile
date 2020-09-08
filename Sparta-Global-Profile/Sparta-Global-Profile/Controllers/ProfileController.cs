@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
+using Renci.SshNet.Messages.Authentication;
 using Sparta_Global_Profile.Models;
 
 namespace Sparta_Global_Profile.Controllers
@@ -290,18 +296,51 @@ namespace Sparta_Global_Profile.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file)
         {
+            HttpContext context = HttpContext;
+            var profileId = context.Session.GetString("ProfileId");
+
+            string profilePicUrl; 
+
             string bucketName = _config["AWS:BucketName"];
             string accessKey = _config["AWS:ACCESS_KEY"];
             string secretKey = _config["AWS:SECRET_KEY"];
-            string region = _config["REGION"];
 
 
-           if (file == null)
-           {
-                return Content("File Not Selected");
-           }
-          
-            return View();
+            using (var client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.EUWest1))
+            {
+                using (var newMemoryStream = new MemoryStream())
+                {
+                    file.CopyTo(newMemoryStream);
+                    try
+                    {
+                        var uploadRequest = new TransferUtilityUploadRequest
+                        {
+                            InputStream = newMemoryStream,
+                            Key = file.FileName,
+                            BucketName = bucketName,
+                            CannedACL = S3CannedACL.PublicRead
+                        };
+
+                        var fileTransferUtility = new TransferUtility(client);
+                        await fileTransferUtility.UploadAsync(uploadRequest);
+
+                        profilePicUrl = $"https://{bucketName}.s3-eu-west-1.amazonaws.com/{file.FileName}";
+
+                        var profile = _context.Profiles.First(profile => profile.ProfileId == Int32.Parse(profileId));
+
+                        profile.ProfilePicture = profilePicUrl;
+                        _context.SaveChanges();
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine($"An AmazonS3Exception was thrown: {exception.Message}");
+                    }
+                }
+            }
+
+
+
+            return RedirectToAction("Edit", "Profile", new { id = Int32.Parse(profileId) });
         }
     }
 }
