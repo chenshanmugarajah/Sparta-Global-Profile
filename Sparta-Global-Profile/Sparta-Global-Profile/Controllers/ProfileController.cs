@@ -277,9 +277,19 @@ namespace Sparta_Global_Profile.Controllers
         public ActionResult CreateDocument()
         {
             var profileId = 1;
-            Profile newProfile = _context.Profiles.Where(p => p.ProfileId == profileId).FirstOrDefault();
+            Profile profile = _context.Profiles.Where(p => p.ProfileId == profileId)
+                .Include(p => p.Course)
+                .Include(p => p.Status)
+                .Include(p => p.Assignments)
+                .Include(p => p.SpartaProjects)
+                .Include(p => p.Employment)
+                .Include(p => p.Education).ThenInclude(e => e.Modules)
+                .Include(p => p.Skills)
+                .Include(p => p.Hobbies)
+                .Include(p => p.Comments)
+                .Include(p => p.Certifications)
+                .FirstOrDefault();
 
-            
             WordDocument document = new WordDocument();
             //Adding a new section to the document.
             WSection section = document.AddSection() as WSection;
@@ -311,32 +321,121 @@ namespace Sparta_Global_Profile.Controllers
             IWParagraph paragraph = section.HeadersFooters.Header.AddParagraph();
             paragraph.ApplyStyle("Normal");
             paragraph.ParagraphFormat.HorizontalAlignment = HorizontalAlignment.Left;
-            WTextRange textRange = paragraph.AppendText("Adventure Works Cycles") as WTextRange;
-            textRange.CharacterFormat.FontSize = 12f;
-            textRange.CharacterFormat.FontName = "Calibri";
-            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Red;
+            WTextRange textRange = paragraph.AppendText($"Meet {profile.ProfileName}") as WTextRange;
+            textRange.CharacterFormat.FontSize = 30f;
+            textRange.CharacterFormat.FontName = "Verdana";
+            textRange.CharacterFormat.TextColor = Syncfusion.Drawing.Color.Black;
 
-            //Appends paragraph.
+            //Appends paragraph Name
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
-            textRange = paragraph.AppendText($"{newProfile.ProfileName}") as WTextRange;
+            foreach(var grade in profile.Education)
+            {
+                textRange = paragraph.AppendText($"{grade.Grade}") as WTextRange;
+            }
             textRange.CharacterFormat.FontSize = 12f;
 
-            ////Appends paragraph.
-            //paragraph = section.AddParagraph();
-            //paragraph.ParagraphFormat.FirstLineIndent = 36;
-            //paragraph.BreakCharacterFormat.FontSize = 12f;
-            //textRange = paragraph.AppendText($"{newProfile.Course.CourseName}") as WTextRange;
-            //textRange.CharacterFormat.FontSize = 12f;
-
-            //Appends paragraph.
+            //Appends paragraph Course
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.FirstLineIndent = 36;
             paragraph.BreakCharacterFormat.FontSize = 12f;
-            textRange = paragraph.AppendText($"{newProfile.Summary}") as WTextRange;
+            textRange = paragraph.AppendText($"{profile.Course.CourseName}") as WTextRange;
             textRange.CharacterFormat.FontSize = 12f;
 
+            //Appends paragraph Summary
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            textRange = paragraph.AppendText($"{profile.Summary}") as WTextRange;
+            textRange.CharacterFormat.FontSize = 12f;
+
+            //Appends paragraph Skills
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            foreach(var skill in profile.Skills)
+            {
+                textRange = paragraph.AppendText($"{skill.SkillName}\n") as WTextRange;
+            }
+            textRange.CharacterFormat.FontSize = 12f;
+
+            //Appends paragraph Academy Experience
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            textRange = paragraph.AppendText($"{profile.Course.AcademyExperience}") as WTextRange;
+            textRange.CharacterFormat.FontSize = 12f;
+
+            //Appends paragraph Sparta Projects
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            foreach (var project in profile.SpartaProjects)
+            {
+                textRange = paragraph.AppendText($"{project.ProjectName}\n") as WTextRange;
+                foreach(var link in project.ProjectLinks)
+                {
+                    textRange = paragraph.AppendText($"{link.LinkText}") as WTextRange;
+                }
+                textRange = paragraph.AppendText($"{project.ProjectBio}\n") as WTextRange;
+            }
+            textRange.CharacterFormat.FontSize = 12f;
+
+            // Appends Paragraph Employment
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            foreach (var employ in profile.Employment)
+            {
+                textRange = paragraph.AppendText($"{employ.CompanyName}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{employ.Position}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{employ.StartDate - employ.EndDate}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{employ.Summary}\n") as WTextRange;
+            }
+            textRange.CharacterFormat.FontSize = 12f;
+
+            // Appends Paragraph Education
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            foreach (var edu in profile.Education)
+            {
+                textRange = paragraph.AppendText($"{edu.Establishment}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{edu.Qualification}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{edu.StartDate} - {edu.EndDate}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{edu.Grade}\n") as WTextRange;
+                foreach(var module in edu.Modules)
+                {
+                    textRange = paragraph.AppendText($"{module.ModuleName}\n") as WTextRange;
+                    textRange = paragraph.AppendText($"{module.CourseYear}\n") as WTextRange;
+                }
+            }
+            textRange.CharacterFormat.FontSize = 12f;
+            
+            // Appends Paragraph Employment
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            foreach (var certification in profile.Certifications)
+            {
+                textRange = paragraph.AppendText($"{certification.CertificationName}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{certification.Summary}\n") as WTextRange;
+            }
+            textRange.CharacterFormat.FontSize = 12f;
+
+            // Appends Paragraph Employment
+            paragraph = section.AddParagraph();
+            paragraph.ParagraphFormat.FirstLineIndent = 36;
+            paragraph.BreakCharacterFormat.FontSize = 12f;
+            foreach (var hobby in profile.Hobbies)
+            {
+                textRange = paragraph.AppendText($"{hobby.HobbyName}\n") as WTextRange;
+                textRange = paragraph.AppendText($"{hobby.HobbyDescription}\n") as WTextRange;
+            }
+            textRange.CharacterFormat.FontSize = 12f;
+
+            // Save 
             MemoryStream stream = new MemoryStream();
             document.Save(stream, FormatType.Docx);
             stream.Position = 0;
