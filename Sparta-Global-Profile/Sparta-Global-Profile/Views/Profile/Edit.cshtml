@@ -4,9 +4,11 @@
 @{
     ViewData["Title"] = "Edit";
     var userTypeId = Context.Session.GetString("UserTypeId");
+
+    // AmazonUpload amazonUpload = new AmazonUpload();
 }
 
-@if(userTypeId == "1")
+@if (userTypeId == "1")
 {
     <h1>Welcome @Html.DisplayFor(model => model.ProfileName)</h1>
     <hr />
@@ -37,26 +39,19 @@
         </div>
 
     }
-
-    <div class="form-group">
-            <label asp-for="UserId" class="control-label">User Id</label>
-            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-            <span asp-validation-for="UserId" class="text-danger"></span>
-        </div>
-
+  
     <div class="form-group">
         <label asp-for="ProfileName" class="control-label">Your Name</label>
         <input asp-for="ProfileName" class="form-control" />
         <span asp-validation-for="ProfileName" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         <label asp-for="ProfilePicture" class="control-label">Picture URL</label>
         <input asp-for="ProfilePicture" class="form-control" />
         <span asp-validation-for="ProfilePicture" class="text-danger"></span>
-    </div>
+    </div>*@
     <div class="form-group">
         <label asp-for="Summary" class="control-label">Summary</label>
-        @*<input asp-for="Summary" class="form-control" />*@
         <textarea asp-for="Summary" class="form-control" style="height: 200px">
         </textarea>
         <span asp-validation-for="Summary" class="text-danger"></span>
@@ -67,6 +62,17 @@
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
+
+@using (Html.BeginForm("UploadImageToAWS", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+        <fieldset>
+            <label>upload file:</label>
+            <input type="file" name="file" id="filechosen" multiple />
+            <input type="submit" value="upload" />
+        </fieldset>
+}
+
 
 <div id="skillsDiv">
     <h2 style="text-decoration:underline">Your skills</h2>

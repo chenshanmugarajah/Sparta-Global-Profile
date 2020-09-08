@@ -44,6 +44,7 @@ namespace Sparta_Global_Profile
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
             else
             {
