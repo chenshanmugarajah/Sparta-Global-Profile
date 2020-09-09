@@ -9,6 +9,12 @@
 
 	
 	<ItemGroup>
+	  <Content Remove="wwwroot\assets\brick-wall.jpg" />
+	  <Content Remove="wwwroot\assets\default-profile-image.png" />
+	</ItemGroup>
+
+	
+	<ItemGroup>
 	  <None Include="wwwroot\assets\sparta-global-logo-white.svg" />
 	</ItemGroup>
 
@@ -33,8 +39,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\assets\" />
 	  <Folder Include="wwwroot\Theme\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="wwwroot\assets\brick-wall.jpg" />
+	  <Resource Include="wwwroot\assets\default-profile-image.png" />
 	</ItemGroup>
 
 
