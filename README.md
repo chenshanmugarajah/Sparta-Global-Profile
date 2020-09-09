@@ -302,6 +302,11 @@ Notes:
 - 16:00
 
 * Wednesday
+- 9:30 Stand up
+- 10:00 Leo working on export Word file
+- 12:30 Lunch
+- 13:30 Leo can export a Word file, but having a blocker to export a Power Point file
+- 16:30 With the team decided that as the export functionality will be hard to achieve will be a stretch goal
 
 * Thursday
 
