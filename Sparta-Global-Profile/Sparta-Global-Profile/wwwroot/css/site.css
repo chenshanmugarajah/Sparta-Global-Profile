@@ -71,6 +71,9 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     font-family: "tahomaSparta";
+    background-image:url('../assets/brick-wall.jpg');
+    background-repeat:no-repeat;
+    background-attachment:fixed;
 }
 
 h1, h2{
@@ -206,17 +209,14 @@ sparta-green-navbar: #01181B;
     font-weight: lighter;
 }
 
-.login,
-.image {
+.login {
     min-height: 80vh;
 }
 
 .background-image {
     max-width: 100%;
     max-height: 100%;
-    display: block; /* remove extra space below image */
-    /* background-size: cover;
-        background-position: center center;*/
+    display: block; 
     padding: 4px;
 }
 
@@ -236,6 +236,13 @@ sparta-green-navbar: #01181B;
     border-top-right-radius: 0px;
     padding: 0 20px 20px 20px;
     margin-top: -10px;
+    background-image:url('~/assets/brick-wall-2.jpg');
+}
+
+
+.form-container {
+    position: relative;
+    z-index: 1;
 }
 
 

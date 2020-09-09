@@ -4,34 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
-
 <meta name="viewport" content="width=device-width" />
 <title>Login</title>
-<style>
-    
-
-    .form-container{
-      /*  border-style:solid;
-        border-width:10px;*/
-
-    }
-
-</style>
 
 <div class="container-fluid body-card-login">
     <div class="row no-gutter">
+        @*<img class="background-image" src="~/assets/brick-wall-2.jpg" />*@
         <!-- The image half -->
-        <div class="col-md-6 d-none d-md-flex"> <img class="background-image" src="~/assets/sparta-global-logo.png" /></div>
-       
         <!-- The content half -->
-        <div class="col-md-6 bg-light">
+        <div class="col-md-6 bg-light login-container">
             <div class="login d-flex align-items-center py-5">
 
                 <!-- Demo content-->
                 <div class="container">
+
                     <div class="row">
                         <div class="col-lg-10 col-xl-7 mx-auto form-container">
-
+                            <h1 style="align-content:center;">Login</h1>
                             <form asp-action="Authorize" asp-controller="Login">
                                 <div class="form-group mb-3">
                                     <input id="inputEmail" asp-for="UserEmail" type="email" placeholder="Email" required="required" class="form-control rounded-pill border-0 shadow-sm px-4">
@@ -51,13 +40,13 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
                 </div><!-- End -->
-
             </div>
-
         </div><!-- End -->
-
+        <div class="col-md-6 d-none d-md-flex"> <img class="background-image" src="~/assets/sparta-global-logo.png" /></div>
     </div>
 </div>
+
+
+
