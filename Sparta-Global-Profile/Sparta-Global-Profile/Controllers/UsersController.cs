@@ -177,6 +177,7 @@ namespace Sparta_Global_Profile.Controllers
                         }
                         else
                         {
+                            
                             newPasswordConfirmError = "Passwords do not match";
                         }
                     }
