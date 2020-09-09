@@ -76,10 +76,10 @@
                                     <input id="inputPassword" asp-for="UserPassword" type="password" placeholder="Password" required="required" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
                                     <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserPassword)</div>
                                 </div>
-                                <div class="custom-control custom-checkbox mb-3">
+                                @*<div class="custom-control custom-checkbox mb-3">
                                     <input id="customCheck1" type="checkbox" checked class="custom-control-input">
                                     <label for="customCheck1" class="custom-control-label">Remember password</label>
-                                </div>
+                                </div>*@
                                 <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
                                 <div class="text-center d-flex justify-content-between mt-4">
 
