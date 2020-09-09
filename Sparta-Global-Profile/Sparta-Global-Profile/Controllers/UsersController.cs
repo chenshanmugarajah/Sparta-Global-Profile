@@ -156,8 +156,9 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserTypeId")] User user, string newPassword, string newPasswordConfirm, string currentPassword)
+        public async Task<IActionResult> Edit(int id, int UserId, string UserName, string UserEmail, int UserTypeId, string newPassword, string newPasswordConfirm, string currentPassword)
         {
+            var user = _context.Users.First(u => u.UserId == UserId);
             if (id != user.UserId)
             {
                 return NotFound();
