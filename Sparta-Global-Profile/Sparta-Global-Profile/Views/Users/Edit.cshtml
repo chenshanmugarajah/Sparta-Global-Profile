@@ -33,32 +33,29 @@
                 {
                     <div class="form-group">
                         <label class="control-label"> Current Password</label>
-                        <input  type="password" name="currentPassword" class="form-control" />
+                        <input class="form-control" type="password" name="currentPassword" />
                         <span name="currentPasswordError"></span>
-                        
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">New Password</label>
-                        <input asp-for="UserPassword" type="password" name="newPassword" class="form-control" />
+                        <input class="form-control" type="password" name="newPassword"  />
                         <span name="newPasswordError"></span>
-
-
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Confirm New Password</label>
-                        <input type="password" name="newPasswordConfirm" class="form-control" />
+                        <input class="form-control" type="password" name="newPasswordConfirm" />
                         <span name="newPasswordConfirmError"></span>
                     </div>
                 }
 
                 if (@userTypeId == "5")
                 {
-                    @*<div class="form-group">
+                    <div class="form-group">
                         <label class="control-label">User Name</label>
-                        <input name="newPasswordConfirm" class="form-control" />
-                    </div>*@
+                        <input class="form-control" name="userName" />
+                    </div>
 
                     <div class="form-group">
                         <label class="control-label">User Type</label>
