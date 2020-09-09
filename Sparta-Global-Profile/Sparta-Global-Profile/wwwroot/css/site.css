@@ -200,3 +200,39 @@ sparta-green-navbar: #01181B;
 
 /*Login*/
 
+.field-validation-error {
+    color: grey;
+    font-weight: lighter;
+}
+
+.login,
+.image {
+    min-height: 80vh;
+}
+
+.background-image {
+    max-width: 100%;
+    max-height: 100%;
+    display: block; /* remove extra space below image */
+    /* background-size: cover;
+        background-position: center center;*/
+    padding: 4px;
+}
+
+.error {
+    margin: 14px;
+    padding: 4px;
+}
+
+.body-card-login {
+    width: 80vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-top-style: none;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 0 20px 20px 20px;
+    margin-top: -10px;
+}
