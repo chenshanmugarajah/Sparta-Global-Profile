@@ -33,17 +33,23 @@
                 {
                     <div class="form-group">
                         <label class="control-label"> Current Password</label>
-                        <input type="password" name="currentPassword" class="form-control" />
+                        <input  type="password" name="currentPassword" class="form-control" />
+                        <span name="currentPasswordError"></span>
+                        
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">New Password</label>
-                        <input type="password" name="newPassword" class="form-control" />
+                        <input asp-for="UserPassword" type="password" name="newPassword" class="form-control" />
+                        <span name="newPasswordError"></span>
+
+
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Confirm New Password</label>
                         <input type="password" name="newPasswordConfirm" class="form-control" />
+                        <span name="newPasswordConfirmError"></span>
                     </div>
                 }
 

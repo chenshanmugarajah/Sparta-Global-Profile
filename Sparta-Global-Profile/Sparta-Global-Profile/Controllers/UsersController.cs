@@ -156,7 +156,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int UserId, string UserName, string UserEmail, int UserTypeId, string newPassword, string newPasswordConfirm, string currentPassword)
+        public async Task<IActionResult> Edit(int id, int UserId, string UserName, string UserEmail, int UserTypeId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
         {
             var user = _context.Users.First(u => u.UserId == UserId);
             if (id != user.UserId)
@@ -168,15 +168,21 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    if (currentPassword == Helper.DecryptCipherTextToPlainText(user.UserPassword) && newPassword == newPasswordConfirm)
+                    if (currentPassword == Helper.DecryptCipherTextToPlainText(user.UserPassword))
                     {
-                        user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
-                        _context.Update(user);
-                        await _context.SaveChangesAsync();
+                        if (newPassword == newPasswordConfirm) {
+                            user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
+                            _context.Update(user);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            newPasswordConfirmError = "Passwords do not match";
+                        }
                     }
                     else
                     {
-
+                        currentPasswordError = "Password Incorrect";
                     }
                 }
                 catch (DbUpdateConcurrencyException)
