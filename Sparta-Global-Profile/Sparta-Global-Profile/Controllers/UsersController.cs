@@ -31,7 +31,7 @@ namespace Sparta_Global_Profile.Controllers
             var userId = context.Session.GetString("UserId");
             var userTypeId = context.Session.GetString("UserTypeId");
             var profileId = context.Session.GetString("ProfileId");
-            SendEmail("cmjnorman@gmail.com", "Password123", "Chris Norman", "cnorman@spartaglobal.com", "ce48m2^WW%od", "Chris Norman");
+            
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -94,7 +94,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId)
+        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId, string adminEmailPassword)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +126,10 @@ namespace Sparta_Global_Profile.Controllers
                         _context.Profiles.Add(profile);
                         await _context.SaveChangesAsync();
                     }
-
+                    HttpContext context = HttpContext;
+                    var userId = context.Session.GetString("UserId");
+                    var admin = _context.Users.First(u => u.UserId == Int32.Parse(userId));
+                    SendEmail(user.UserEmail, Helper.DecryptCipherTextToPlainText(user.UserPassword), "User", admin.UserEmail, adminEmailPassword, "Admin");
                     return RedirectToAction(nameof(Index));
                 }
                 ModelState.AddModelError("UserEmail", "User Already Exists!");
@@ -243,6 +246,7 @@ namespace Sparta_Global_Profile.Controllers
             message.Body = new TextPart("plain")
             {
                 Text = @$"Hi {newUserName},
+
                 You have recieved an invite to access Sparta Global's profile portal. Please follow the link below and enter the following account details to access the portal.
                 
                 Account Email: {newUserEmail}
@@ -251,14 +255,12 @@ namespace Sparta_Global_Profile.Controllers
                 *LINK HERE*
 
                 Kind regards, 
-                {myName}"
+                {myName}
+                "
             };
 
             using (var smtp = new SmtpClient())
             {
-                //smtp.MessageSent += (sender, args) => { Console.WriteLine(args.Response); };
-                //smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
                 await smtp.ConnectAsync("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
                 await smtp.AuthenticateAsync(myEmail, myPassword);
                 await smtp.SendAsync(message);

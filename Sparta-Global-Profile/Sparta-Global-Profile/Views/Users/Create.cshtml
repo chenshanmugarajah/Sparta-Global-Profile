@@ -41,10 +41,15 @@
                 <select class="form-control" name="courseId">
                     @foreach (var item in ViewBag.Courses)
                     {
-                    <option value="@item.CourseId">@item.CourseName</option>
+                        <option value="@item.CourseId">@item.CourseName</option>
                     }
                 </select>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Admin Email Password</label>
+            <input class="form-control" name="adminEmailPassword"/>
         </div>
 
         <div class="form-group">
