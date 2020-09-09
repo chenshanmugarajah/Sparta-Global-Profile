@@ -194,6 +194,7 @@ namespace Sparta_Global_Profile.Controllers
             ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseName", profile.CourseId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusName", profile.StatusId);
             ViewData["UserId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "UserId", "UserId", profile.UserId);
+            ViewData["Comments"] = _context.Comments.Where(c => c.ProfileId == id).ToList();
             return View(profile);
         }
 
@@ -202,7 +203,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string ProfilePicture, string Summary, int CourseId, bool Approved)
+        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string Summary, int CourseId, bool Approved)
         {
             HttpContext context = HttpContext;
             var userTypeId = Int32.Parse(context.Session.GetString("UserTypeId"));
@@ -218,7 +219,6 @@ namespace Sparta_Global_Profile.Controllers
           
             studentProfile.StatusId = StatusId;
             studentProfile.ProfileName = ProfileName;
-            studentProfile.ProfilePicture = ProfilePicture;
             studentProfile.Summary = Summary;
             studentProfile.CourseId = CourseId;
             studentProfile.Approved = Approved;           

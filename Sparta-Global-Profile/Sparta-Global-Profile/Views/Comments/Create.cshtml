@@ -1,0 +1,44 @@
+﻿@model Sparta_Global_Profile.Models.Comment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Comment for Section: @ViewBag.SectionId</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                <label asp-for="SectionIndex" class="control-label"></label>
+                <input asp-for="SectionIndex" class="form-control" />
+                <span asp-validation-for="SectionIndex" class="text-danger"></span>
+            </div>*@
+            <input asp-for="SectionIndex" value="@ViewBag.SectionId" type="hidden"/>
+            <div class="form-group">
+                <label asp-for="CommentContent" class="control-label">Comment</label>
+                <textarea asp-for="CommentContent" class="form-control"></textarea>
+                <span asp-validation-for="CommentContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfileId" class="control-label">Profile Name</label>
+                <select asp-for="ProfileId" class ="form-control" asp-items="ViewBag.ProfileId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="profile" asp-action="Edit" asp-route-id="@ViewBag.Profile"><button>Back to Edit</button></a>
+    <a asp-controller="profile" asp-action="details" asp-route-id="@ViewBag.Profile"><button>Back to Client View</button></a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

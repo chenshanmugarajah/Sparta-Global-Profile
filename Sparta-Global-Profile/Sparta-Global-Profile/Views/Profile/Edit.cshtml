@@ -74,9 +74,12 @@
         </fieldset>
 }
 
+<br />
 
 <div id="skillsDiv">
-    <h2 style="text-decoration:underline">Your skills</h2>
+    <h2 style="text-decoration:underline">
+        Your skills
+    </h2>
     @if (Model.Skills.Count != 0)
     {
         <ul>
@@ -95,6 +98,30 @@
     {
         <a asp-controller="skills" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Skill</button></a>
     }
+    <br />
+    <h5>
+        Skills comments
+    </h5>
+    @if(userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="1"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+            @if (comment.SectionIndex == 1)
+            {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+            }
+        }
+    </ul>
 </div>
 <hr />
 <div id="assignmentsDiv">
@@ -115,6 +142,30 @@
         <p class="spartaBrightPink">You have currently have no assignments</p>
     }
     <a asp-controller="assignments" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Assignment</button></a>
+    <br />
+    <h5>
+        Assignments comments
+    </h5>
+    @if (userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="2"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+            @if (comment.SectionIndex == 2)
+            {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+            }
+        }
+    </ul>
     <br />
 </div>
 <hr />
@@ -141,6 +192,30 @@
     }
     <a asp-controller="spartaprojects" asp-action="create" asp-route-id="@Model.ProfileId"><button>Create Project</button></a>
     <br />
+    <h5>
+        Projects comments
+    </h5>
+    @if (userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="3"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+            @if (comment.SectionIndex == 3)
+            {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+            }
+        }
+    </ul>
+    <br />
 </div>
 <hr />
 <div>
@@ -165,6 +240,29 @@
         <a asp-controller="employments" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Employment History</button></a>
     }
     <br />
+    <h5>
+        Employment comments
+    </h5>
+    @if (userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="4"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+            @if (comment.SectionIndex == 4)
+            {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+            }
+        }
+    </ul>
 </div>
 <hr />
 <div>
@@ -203,6 +301,30 @@
         <a asp-controller="educations" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Education History</button></a>
     }
     <br />
+    <h5>
+        Education comments
+    </h5>
+    @if (userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="5"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+            @if (comment.SectionIndex == 5)
+            {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+            }
+        }
+    </ul>
+    <br />
 </div>
 <hr />
 <div>
@@ -224,6 +346,30 @@
     {
         <a asp-controller="certifications" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Certifications</button></a>
     }
+    <br />
+    <h5>
+        Certification comments
+    </h5>
+    @if (userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="6"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+            @if (comment.SectionIndex == 6)
+            {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+            }
+        }
+    </ul>
     <br />
 </div>
 <hr />
@@ -247,9 +393,32 @@
         <a asp-controller="hobbies" asp-action="create" asp-route-id="@Model.ProfileId"><button>Add Hobby</button></a>
     }
     <br />
+    <h5>
+        Hobby comments
+    </h5>
+    @if (userTypeId != "1")
+    {
+        <a asp-controller="comments" asp-action="create" asp-route-id="@Model.ProfileId" asp-route-sectionId="7"><button>Add Comment</button></a>
+    }
+    <ul>
+        @foreach (var comment in ViewBag.Comments)
+        {
+                @if (comment.SectionIndex == 7)
+                {
+                <li>
+                    @comment.CommentContent
+                    @if (userTypeId != "1")
+                    {
+                        <a asp-controller="comments" asp-action="edit" asp-route-id="@comment.CommentId"><button>Edit Comment</button></a>
+                        <a asp-controller="comments" asp-action="delete" asp-route-id="@comment.CommentId"><button>Delete Comment</button></a>
+                    }
+                </li>
+                }
+        }
+    </ul>
+    <br />
 </div>
 <hr />
-
 
 <div>
     <a asp-action="Index">View profile</a>

@@ -41,35 +41,48 @@ namespace Sparta_Global_Profile.Controllers
             }
             else
             {
+                if (userId == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+                if (userTypeId == "1")
+                {
+                    return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+                }
+                if (userTypeId == "2")
+                {
+                    return RedirectToAction("Index", "Profiles");
+                }
                 var spartaGlobalProfileDbContext = _context.Assignments.Include(s => s.Profile);
-                return await RedirectByUserType(View(await spartaGlobalProfileDbContext.ToListAsync()));
+                return View(await spartaGlobalProfileDbContext.ToListAsync());
             }
         }
-        //public async Task<IActionResult> RedirectByUserType(string userId, string userTypeId, string profileId, IIncludableQueryable<out TEntity, out TProfile)
-        public async Task<IActionResult> RedirectByUserType(ViewResult view)
-        {
-            HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
 
-            if (userId == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            if (userTypeId == "1")
-            {
-                return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
-            }
-            if (userTypeId == "2")
-            {
-                return RedirectToAction("Index", "Profiles");
-            }
-            else
-            {
-                return view;
-            }
-        }
+        //public async Task<IActionResult> RedirectByUserType(string userId, string userTypeId, string profileId, IIncludableQueryable<out TEntity, out TProfile)
+        //public async Task<IActionResult> RedirectByUserType(ViewResult view)
+        //{
+        //    HttpContext context = HttpContext;
+        //    var userId = context.Session.GetString("UserId");
+        //    var userTypeId = context.Session.GetString("UserTypeId");
+        //    var profileId = context.Session.GetString("ProfileId");
+
+        //    if (userId == null)
+        //    {
+        //        return RedirectToAction("Index", "Login");
+        //    }
+        //    if (userTypeId == "1")
+        //    {
+        //        return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+        //    }
+        //    if (userTypeId == "2")
+        //    {
+        //        return RedirectToAction("Index", "Profiles");
+        //    }
+        //    else
+        //    {
+        //        return view;
+        //    }
+        //}
 
         // GET: Assignments/Details/5
         //public async Task<IActionResult> Details(int? id)
@@ -91,17 +104,39 @@ namespace Sparta_Global_Profile.Controllers
         //}
 
         // GET: Assignments/Create
+        
         public IActionResult Create(int? id)
         {
-            if (id != null)
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (id == null)
             {
-                ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
-                ViewData["Profile"] = id.ToString();
+                if (userId == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+                if (userTypeId == "1")
+                {
+                    return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+                }
+                if (userTypeId == "2")
+                {
+                    return RedirectToAction("Index", "Profiles");
+                }
+                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
+                ViewData["Profile"] = "0";
             }
             else
             {
-                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
-                ViewData["Profile"] = "0";
+                if ((userTypeId == "1" && id.ToString() != profileId))
+                {
+                    return RedirectToAction("create", "Assignments", new { id = Int32.Parse(profileId) });
+                }
+                ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
+                ViewData["Profile"] = id.ToString();
             }
 
             return View();
@@ -112,19 +147,46 @@ namespace Sparta_Global_Profile.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AssignmentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Assignment assignment)
         {
-            if (ModelState.IsValid)
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+            
+            if(profileId == (assignment.ProfileId).ToString() && userTypeId == "1" || userTypeId != "2") // correct user and not client allow post
             {
-                _context.Add(assignment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Assignments", new { id = assignment.ProfileId });
+                if (ModelState.IsValid)
+                {
+                    _context.Add(assignment);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Assignments", new { id = assignment.ProfileId });
+                }
+                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
+                return View(assignment);
+            } else
+            {
+                if (userId == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+                if (userTypeId == "1")
+                {
+                    return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Profiles");
+                }
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", assignment.ProfileId);
-            return View(assignment);
         }
 
         // GET: Assignments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
             if (id == null)
             {
                 return NotFound();
