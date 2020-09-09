@@ -117,9 +117,7 @@ namespace Sparta_Global_Profile.Controllers
                             StatusId = 1,
                             ProfileName = "New Student",
                             ProfilePicture = @"/assets/default-profile-image.png",
-                            Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
-                            + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
-                            + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
+                            Summary = "",
                             CourseId = courseId,
                             Approved = false
                         };
@@ -154,6 +152,11 @@ namespace Sparta_Global_Profile.Controllers
             }
             ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
             ViewData["Courses"] = _context.Courses.ToList();
+            var profile = _context.Profiles.FirstOrDefault(p => p.UserId == id);
+            if(profile != null)
+            {
+                ViewData["CourseId"] = profile.CourseId;
+            }
             return View(user);
         }
 
@@ -167,7 +170,6 @@ namespace Sparta_Global_Profile.Controllers
             HttpContext context = HttpContext;
             var loggedInUserId = context.Session.GetString("UserId");
             var loggedInUserTypeId = context.Session.GetString("UserTypeId");
-            var loggedInUserProfileId = context.Session.GetString("ProfileId");
 
             var user = _context.Users.First(u => u.UserId == id);
 
@@ -199,7 +201,7 @@ namespace Sparta_Global_Profile.Controllers
                     user.UserTypeId = userTypeId;
                     if(userTypeId == 1)
                     {
-                        var profile = _context.Profiles.First(p => p.ProfileId == Int32.Parse(loggedInUserProfileId));
+                        var profile = _context.Profiles.First(p => p.UserId == id);
                         profile.CourseId = courseId;
                         _context.Update(profile);
                     }
@@ -207,9 +209,7 @@ namespace Sparta_Global_Profile.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
-            ViewData["Courses"] = _context.Courses.ToList();
-            return View(user);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Users/Delete/5
