@@ -86,13 +86,6 @@
         <h5 class="deep-pink-header">@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h5>
         <h5 class="pink-header">@education.Establishment</h5>
         <h5 class="pink-header">@education.Qualification: @education.Grade</h5>
-        <h5>Modules</h5>
-        <ul>
-            @foreach (var module in education.Modules)
-            {
-                <li>@module.CourseYear: @module.ModuleName</li>
-            }
-        </ul>
         <br />
     }
 
