@@ -6,7 +6,6 @@
 		<RootNamespace>Sparta_Global_Profile</RootNamespace>
 		<UserSecretsId>f07c6253-9c00-41bb-8ef5-28b97f3a2004</UserSecretsId>
 	</PropertyGroup>
-
 	
 	<ItemGroup>
 	  <None Include="wwwroot\assets\sparta-global-logo-white.svg" />
@@ -33,8 +32,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\assets\" />
 	  <Folder Include="wwwroot\Theme\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="wwwroot\assets\brick-wall.jpg" />
+	  <Resource Include="wwwroot\assets\default-profile-image.png" />
 	</ItemGroup>
 
 
