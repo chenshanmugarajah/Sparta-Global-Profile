@@ -162,8 +162,9 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Edit(int id, int UserId, string UserName, string UserEmail, int UserTypeId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
         {
+            var user = _context.Users.First(u => u.UserId == UserId);
             if (id != user.UserId)
             {
                 return NotFound();
@@ -173,9 +174,22 @@ namespace Sparta_Global_Profile.Controllers
             {
                 try
                 {
-                    user.UserPassword = Helper.EncryptPlainTextToCipherText(user.UserPassword);
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    if (currentPassword == Helper.DecryptCipherTextToPlainText(user.UserPassword))
+                    {
+                        if (newPassword == newPasswordConfirm) {
+                            user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
+                            _context.Update(user);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            newPasswordConfirmError = "Passwords do not match";
+                        }
+                    }
+                    else
+                    {
+                        currentPasswordError = "Password Incorrect";
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
