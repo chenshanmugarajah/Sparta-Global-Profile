@@ -6,13 +6,6 @@
 		<RootNamespace>Sparta_Global_Profile</RootNamespace>
 		<UserSecretsId>f07c6253-9c00-41bb-8ef5-28b97f3a2004</UserSecretsId>
 	</PropertyGroup>
-
-	
-	<ItemGroup>
-	  <Content Remove="wwwroot\assets\brick-wall.jpg" />
-	  <Content Remove="wwwroot\assets\default-profile-image.png" />
-	</ItemGroup>
-
 	
 	<ItemGroup>
 	  <None Include="wwwroot\assets\sparta-global-logo-white.svg" />
