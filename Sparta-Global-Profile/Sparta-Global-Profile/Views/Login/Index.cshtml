@@ -4,66 +4,95 @@
     ViewData["Title"] = "Index";
 }
 
-<DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <style>
-        .login{
-            position:absolute;
-            left:40%;
-            top:40%;
-            border: 1px solid #ccc;
-            padding: 10px 10px;
-        }
-        .field-validation-error{
-            color:red;
-        }
-    </style>
-</head>
-<body>
-    <div class="login">
-        @using (Html.BeginForm("Authorize", "Login", FormMethod.Post))
-        {
-            <table>
-                <tr>
-                    <td></td>
-                    <td style="text-decoration:underline">Login</td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(model => model.UserEmail)
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.UserEmail)
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>@Html.ValidationMessageFor(model => model.UserEmail)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(model => model.UserPassword)</td>
-                    <td>@Html.EditorFor(model => model.UserPassword)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>@Html.ValidationMessageFor(model => model.UserPassword)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" name="name" value="Login" />
-                        <input type="reset" name="name" value="Clear" />
-                    </td>
-                </tr>
-            </table>
-        }
+
+<meta name="viewport" content="width=device-width" />
+<title>Login</title>
+<style>
+    .field-validation-error {
+        color: grey;
+        font-weight: lighter;
+    }
+
+    .login,
+    .image {
+        min-height: 80vh;
+    }
+
+    .background-image {
+        max-width: 100%;
+        max-height: 100%;
+        display: block; /* remove extra space below image */
+       /* background-size: cover;
+        background-position: center center;*/
+        padding: 4px;
+    }
+
+    .error {
+        margin: 14px;
+        padding: 4px;
+    }
+
+    .body-card-login {
+        width: 80vw;
+        border-style: solid;
+        border-width: 10px;
+        border-color: #E33661;
+        border-top-style: none;
+        border-radius: 10px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        padding: 0 20px 20px 20px;
+        margin-top: -10px;
+    }
+
+    .form-container{
+      /*  border-style:solid;
+        border-width:10px;*/
+
+    }
+
+</style>
+
+<div class="container-fluid body-card-login">
+    <div class="row no-gutter">
+        <!-- The image half -->
+        <div class="col-md-6 d-none d-md-flex"> <img class="background-image" src="~/assets/sparta-global-logo.png" /></div>
+       
+        <!-- The content half -->
+        <div class="col-md-6 bg-light">
+            <div class="login d-flex align-items-center py-5">
+
+                <!-- Demo content-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-10 col-xl-7 mx-auto form-container">
+
+                            <form asp-action="Authorize" asp-controller="Login">
+                                <div class="form-group mb-3">
+                                    <input id="inputEmail" asp-for="UserEmail" type="email" placeholder="Email" required="required" class="form-control rounded-pill border-0 shadow-sm px-4">
+                                    <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserEmail)</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input id="inputPassword" asp-for="UserPassword" type="password" placeholder="Password" required="required" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
+                                    <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserPassword)</div>
+                                </div>
+                                @*<div class="custom-control custom-checkbox mb-3">
+                                    <input id="customCheck1" type="checkbox" checked class="custom-control-input">
+                                    <label for="customCheck1" class="custom-control-label">Remember password</label>
+                                </div>*@
+                                <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
+                                <div class="text-center d-flex justify-content-between mt-4">
+
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div><!-- End -->
+
+            </div>
+
+        </div><!-- End -->
+
     </div>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-</body>
-</html>
-</DOCTYPE>
+</div>

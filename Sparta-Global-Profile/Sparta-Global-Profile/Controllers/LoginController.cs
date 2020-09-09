@@ -84,9 +84,5 @@ namespace Sparta_Global_Profile.Controllers
             }
  
         }
-
-        
-
-
     }
 }

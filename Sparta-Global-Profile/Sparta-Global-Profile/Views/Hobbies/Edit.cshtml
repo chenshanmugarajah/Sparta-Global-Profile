@@ -4,40 +4,44 @@
     ViewData["Title"] = "Edit Hobby";
 }
 
-<h1>Edit</h1>
+<div class="profile-section">
 
-<h4>Hobby</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="HobbyId" />
-            <div class="form-group">
-                <label asp-for="HobbyName" class="control-label">Hobby Name</label>
-                <input asp-for="HobbyName" class="form-control" />
-                <span asp-validation-for="HobbyName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HobbyDescription" class="control-label">Description</label>
-                <textarea asp-for="HobbyDescription" class="form-control"></textarea>
-                <span asp-validation-for="HobbyDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileId" class="control-label">Profile Name</label>
-                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
-                <span asp-validation-for="ProfileId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <h1>Edit</h1>
+
+    <h4>Hobby</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="HobbyId" />
+                <div class="form-group">
+                    <label asp-for="HobbyName" class="control-label">Hobby Name</label>
+                    <input asp-for="HobbyName" class="form-control" />
+                    <span asp-validation-for="HobbyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HobbyDescription" class="control-label">Description</label>
+                    <textarea asp-for="HobbyDescription" class="form-control"></textarea>
+                    <span asp-validation-for="HobbyDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProfileId" class="control-label">Profile Name</label>
+                    <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
+                    <span asp-validation-for="ProfileId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Hobbies</button></a>
-    <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Edit Profile</button></a>
+    <div>
+        <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Hobbies</button></a>
+        <a asp-controller="Profile" asp-action="Edit" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Edit Profile</button></a>
+    </div>
+
 </div>
 
 @section Scripts {

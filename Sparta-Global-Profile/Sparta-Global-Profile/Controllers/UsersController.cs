@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using Sparta_Global_Profile.Models;
 
 
@@ -28,7 +31,7 @@ namespace Sparta_Global_Profile.Controllers
             var userId = context.Session.GetString("UserId");
             var userTypeId = context.Session.GetString("UserTypeId");
             var profileId = context.Session.GetString("ProfileId");
-
+            
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -91,7 +94,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId)
+        public async Task<IActionResult> Create([Bind("UserId,UserName,UserEmail,UserPassword,UserTypeId")] User user, int courseId, string adminEmailPassword)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +126,10 @@ namespace Sparta_Global_Profile.Controllers
                         _context.Profiles.Add(profile);
                         await _context.SaveChangesAsync();
                     }
-
+                    HttpContext context = HttpContext;
+                    var userId = context.Session.GetString("UserId");
+                    var admin = _context.Users.First(u => u.UserId == Int32.Parse(userId));
+                    SendEmail(user.UserEmail, Helper.DecryptCipherTextToPlainText(user.UserPassword), user.UserName, admin.UserEmail, adminEmailPassword, admin.UserName);
                     return RedirectToAction(nameof(Index));
                 }
                 ModelState.AddModelError("UserEmail", "User Already Exists!");
@@ -244,6 +250,37 @@ namespace Sparta_Global_Profile.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
+        }
+
+        public async void SendEmail(string newUserEmail, string newUserPassword, string newUserName, string myEmail, string myPassword, string myName)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(myName, myEmail)); 
+            message.To.Add(new MailboxAddress(newUserName, newUserEmail));
+            message.Subject = "Sparta Global Profile Portal Invitation";
+            message.Body = new TextPart("plain")
+            {
+                Text = @$"Hi {newUserName},
+
+                You have recieved an invite to access Sparta Global's profile portal. Please follow the link below and enter the following account details to access the portal.
+                
+                Account Email: {newUserEmail}
+                Account Password: {newUserPassword}
+
+                *LINK HERE*
+
+                Kind regards, 
+                {myName}
+                "
+            };
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.ConnectAsync("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
+                await smtp.AuthenticateAsync(myEmail, myPassword);
+                await smtp.SendAsync(message);
+                await smtp.DisconnectAsync(true);
+            }
         }
     }
 }
