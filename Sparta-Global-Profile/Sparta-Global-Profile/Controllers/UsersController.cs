@@ -94,7 +94,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId, string adminEmailPassword)
+        public async Task<IActionResult> Create([Bind("UserId,UserName,UserEmail,UserPassword,UserTypeId")] User user, int courseId, string adminEmailPassword)
         {
             if (ModelState.IsValid)
             {
@@ -129,7 +129,7 @@ namespace Sparta_Global_Profile.Controllers
                     HttpContext context = HttpContext;
                     var userId = context.Session.GetString("UserId");
                     var admin = _context.Users.First(u => u.UserId == Int32.Parse(userId));
-                    SendEmail(user.UserEmail, Helper.DecryptCipherTextToPlainText(user.UserPassword), "User", admin.UserEmail, adminEmailPassword, "Admin");
+                    SendEmail(user.UserEmail, Helper.DecryptCipherTextToPlainText(user.UserPassword), user.UserName, admin.UserEmail, adminEmailPassword, admin.UserName);
                     return RedirectToAction(nameof(Index));
                 }
                 ModelState.AddModelError("UserEmail", "User Already Exists!");
