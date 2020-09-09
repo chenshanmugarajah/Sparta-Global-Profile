@@ -26,7 +26,7 @@
                 <img class="card-img-top" height="200" width="325" src="@item.ProfilePicture" alt="">
                 <div class="card-body">
                     <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProfileName)</h4>
-                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p> 
                 </div>
                 <div class="card-footer">
                     <a asp-action="Details" asp-route-id="@item.ProfileId" class="btn btn-primary">Details</a>
