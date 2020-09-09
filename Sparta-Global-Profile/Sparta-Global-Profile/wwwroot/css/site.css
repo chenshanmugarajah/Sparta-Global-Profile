@@ -197,3 +197,22 @@ sparta-green-navbar: #01181B;
     background-color: #01181B !important;
 }
 
+.brick-wall {
+    background-image: url("~/Assets/brick-wall.jpg");
+}
+
+/*src="~/Assets/sparta-global-logo-white.svg"*/
+
+.profile-section {
+    width: 60vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.profile-section h1 {
+    text-decoration: underline;
+}
