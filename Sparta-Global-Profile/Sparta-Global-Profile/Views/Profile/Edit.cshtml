@@ -56,12 +56,25 @@
             <span asp-validation-for="Summary" class="text-danger"></span>
         </div>
 
+    @if(userTypeId == "4")
+    {
+        <div class="form-group">
+            <label asp-for="ProfileVideo" class="control-label">Video Link</label>
+            <input asp-for="ProfileVideo" class="form-control" />
+            <span asp-validation-for="ProfileVideo" class="text-danger"/>
+         </div>
+    }
+<!--     <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form> -->
 
         <div class="form-group">
             <button id="profileSubmit" type="submit">Save</button>
         </div>
 
     </form>
+
 
     <hr />
 

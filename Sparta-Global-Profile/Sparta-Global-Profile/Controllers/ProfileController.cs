@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
@@ -12,6 +13,7 @@ using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
@@ -149,6 +151,7 @@ namespace Sparta_Global_Profile.Controllers
             ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", profile.CourseId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "StatusId", profile.StatusId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", profile.UserId);
+            
             return View(profile);
         }
 
@@ -202,7 +205,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string Summary, int CourseId, bool Approved)
+        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string ProfileVideo, string Summary, int CourseId, bool Approved)
         {
             HttpContext context = HttpContext;
             var userTypeId = Int32.Parse(context.Session.GetString("UserTypeId"));
@@ -214,13 +217,36 @@ namespace Sparta_Global_Profile.Controllers
                 StatusId = studentProfile.StatusId;
                 CourseId = studentProfile.CourseId;
                 Approved = studentProfile.Approved;
+                ProfileVideo = studentProfile.ProfileVideo;
             }
-          
+            if (userTypeId == 4)
+            {
+               // var streamRegex = new Regex(@"/.*?:\/\/www\.web\.microsoftstream\.com.*/");
+               //var youtubeRegex = new Regex(@"/.*?:\/\/www\.youtube\.com\/.*/");
+
+               
+                if (ProfileVideo.Contains("youtube"))
+                {
+                    var key = ProfileVideo.Split("v=")[1];
+                    ProfileVideo = "https://www.youtube.com/embed/" + key;
+                    studentProfile.ProfileVideo = ProfileVideo;
+                }
+                else if (ProfileVideo.Contains("microsoftstream"))
+                {
+                    var key = ProfileVideo.Split("video/")[1];
+                    ProfileVideo = "https://web.microsoftstream.com/embed/video/" + key;
+                    studentProfile.ProfileVideo = ProfileVideo;
+                }
+              
+            }
+
             studentProfile.StatusId = StatusId;
             studentProfile.ProfileName = ProfileName;
             studentProfile.Summary = Summary;
             studentProfile.CourseId = CourseId;
-            studentProfile.Approved = Approved;           
+            studentProfile.Approved = Approved;    
+            
+           
 
             if (id != ProfileId)
             {
