@@ -5,9 +5,7 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Sparta_Global_Profile</RootNamespace>
 
-		<UserSecretsId>5eee925a-370a-4b31-83a9-7ba779fd0e8a</UserSecretsId>
 
-	</PropertyGroup>
 	
 	<ItemGroup>
 	  <None Include="wwwroot\assets\sparta-global-logo-white.svg" />
@@ -39,8 +37,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+
+	  <Resource Include="wwwroot\assets\sparta-global-logo.png" />
+
 	  <Resource Include="wwwroot\assets\brick-wall.jpg" />
 	  <Resource Include="wwwroot\assets\default-profile-image.png" />
+
 	</ItemGroup>
 
 

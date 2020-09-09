@@ -197,6 +197,11 @@ sparta-green-navbar: #01181B;
     background-color: #01181B !important;
 }
 
+
+
+/*Login*/
+
+
 .brick-wall {
     background-image: url("~/Assets/brick-wall.jpg");
 }
@@ -216,3 +221,4 @@ sparta-green-navbar: #01181B;
 .profile-section h1 {
     text-decoration: underline;
 }
+
