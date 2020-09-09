@@ -8,11 +8,11 @@
 <div class="body-card">
 
 
-    <iframe class="video" width="640" height="360" src="https://web.microsoftstream.com/embed/video/85265b03-d53a-4b5c-a0c2-fc3cc9193004?autoplay=false&amp;showinfo=true" allowfullscreen style="border:none;"></iframe>
+    <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
 
 
     <h1>
-        <img width="50" height="50" class="profile-image" src=@Model.ProfilePicture>
+        <img width="50" height="50" class="profile-image" src="@Model.ProfilePicture">
         <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.ProfileName) |
         <span class="approved-pill">
             @if (userTypeId != "2")

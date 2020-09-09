@@ -4,8 +4,6 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Sparta_Global_Profile</RootNamespace>
-		<UserSecretsId>f07c6253-9c00-41bb-8ef5-28b97f3a2004</UserSecretsId>
-	</PropertyGroup>
 
 
 	
@@ -18,6 +16,7 @@
 		<PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.0.0" />
 		<PackageReference Include="Azure.Identity" Version="1.1.1" />
 		<PackageReference Include="bootstrap" Version="4.5.2" />
+		<PackageReference Include="MailKit" Version="2.8.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
@@ -38,7 +37,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+
 	  <Resource Include="wwwroot\assets\sparta-global-logo.png" />
+
+	  <Resource Include="wwwroot\assets\brick-wall.jpg" />
+	  <Resource Include="wwwroot\assets\default-profile-image.png" />
+
 	</ItemGroup>
 
 
