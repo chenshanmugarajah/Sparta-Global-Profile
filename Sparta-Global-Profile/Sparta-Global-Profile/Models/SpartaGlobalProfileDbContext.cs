@@ -256,7 +256,7 @@ namespace Sparta_Global_Profile.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source = (localdb)\\mssqllocaldb;Initial Catalog = SpartaGlobalProfileDb;");
+                optionsBuilder.UseSqlServer("Data Source=sparta-profile-server.database.windows.net;Initial Catalog=sparta-profile-db;User ID=sparta-admin;Password=Pa$$w0rd;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
     }

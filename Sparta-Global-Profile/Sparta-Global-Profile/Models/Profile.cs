@@ -29,6 +29,7 @@ namespace Sparta_Global_Profile.Models
         public Status Status { get; set; }
         public string ProfileName { get; set; }
         public string ProfilePicture { get; set; }
+        public string ProfileVideo { get; set; }
         public string Summary { get; set; }
         public ICollection<Skill> Skills { get; set; }
         public ICollection<Assignment> Assignments { get; set; }

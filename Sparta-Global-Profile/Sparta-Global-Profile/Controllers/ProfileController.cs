@@ -202,7 +202,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string ProfilePicture, string Summary, int CourseId, bool Approved)
+        public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string Summary, int CourseId, bool Approved)
         {
             HttpContext context = HttpContext;
             var userTypeId = Int32.Parse(context.Session.GetString("UserTypeId"));
@@ -218,7 +218,6 @@ namespace Sparta_Global_Profile.Controllers
           
             studentProfile.StatusId = StatusId;
             studentProfile.ProfileName = ProfileName;
-            studentProfile.ProfilePicture = ProfilePicture;
             studentProfile.Summary = Summary;
             studentProfile.CourseId = CourseId;
             studentProfile.Approved = Approved;           
@@ -294,23 +293,19 @@ namespace Sparta_Global_Profile.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file)
+        public async Task<IActionResult> UploadImageToAWS( [FromForm] IFormFile file, int profileId)
         {
-            HttpContext context = HttpContext;
-            var profileId = context.Session.GetString("ProfileId");
-
             string profilePicUrl; 
 
             string bucketName = _config["AWS:BucketName"];
             string accessKey = _config["AWS:ACCESS_KEY"];
             string secretKey = _config["AWS:SECRET_KEY"];
 
-
             using (var client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.EUWest1))
             {
                 using (var newMemoryStream = new MemoryStream())
                 {
-                    var profile = _context.Profiles.First(profile => profile.ProfileId == Int32.Parse(profileId));
+                    var profile = _context.Profiles.First(profile => profile.ProfileId == profileId);
 
                     file.CopyTo(newMemoryStream);
                     try
@@ -337,7 +332,7 @@ namespace Sparta_Global_Profile.Controllers
                     }
                 }
             }
-            return RedirectToAction("Edit", "Profile", new { id = Int32.Parse(profileId) });
+            return RedirectToAction("Edit", "Profile", new { id = profileId });
         }
     }
 }
