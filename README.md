@@ -278,7 +278,7 @@ Notes:
   - Each member started to work on:
     - Chris worked on login tracking and first time login password change
     - Bruno began looking into image uploading and AWS
-    - Alex started working on displaying different information within the Admin Panel and fixing a bug.
+    - Alex started working on displaying different information within the Admin Panel page and fixing a bug.
 
 - 12:30 Lunch
 
@@ -312,6 +312,7 @@ Notes:
 - 13:30 
   - Leo can export a Word file, but having a blocker to export a Power Point file
   - Chris assisted Bryn with Password validification
+  - Alex added styling to the Admin Panel page and updated a user's name within.
 - 16:30 
   
 
