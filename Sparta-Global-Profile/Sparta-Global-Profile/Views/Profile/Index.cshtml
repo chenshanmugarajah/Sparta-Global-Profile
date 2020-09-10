@@ -3,11 +3,11 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Profiles";
     var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
 
-<h1>Index</h1>
+<h1>Profiles</h1>
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">

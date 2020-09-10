@@ -5,6 +5,7 @@
     ViewData["Title"] = $"{Model.User.UserName}'s Profile";
     var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
+
 <div class="body-card">
 
     <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
@@ -16,7 +17,7 @@
         </a>
         <a class="approved-pill">
 
-            @if (userTypeId != "2")
+            @if (userTypeId != 2)
             {
                 if (@Model.Approved)
                 {
