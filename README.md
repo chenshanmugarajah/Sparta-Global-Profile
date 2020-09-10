@@ -273,13 +273,13 @@ Notes:
 
 * Monday
 - 9:30 Stand Up
-  
+    
 - 10:00
   - Each member started to work on:
     - Chris worked on login tracking and first time login password change
     - Bruno began looking into image uploading and AWS
     - Alex started working on displaying different information within the Admin Panel page and fixing a bug.
-
+    - Leo been looking into exporting to pdf/docx
 - 12:30 Lunch
 
 - 13:30
@@ -302,15 +302,15 @@ Notes:
   
 - 16:00 Daily review and merge
   - Made decision to put export functionality on the back burner for the time being as it has been consuming a lot of time and effort from the team which could be better utilised on other user stories.
-  
+  - Leo can export a Word file, but having a blocker to export a Power Point file
 * Wednesday
 - 9:30 Stand up
 - 10:00 
-  - Leo working on export Word file
+  - Leo working on styling login page
   - Chris working on automated email system
 - 12:30 Lunch
 - 13:30 
-  - Leo can export a Word file, but having a blocker to export a Power Point file
+
   - Chris assisted Bryn with Password validification
   - Alex added styling to the Admin Panel page and updated a user's name within.
 - 16:30 
