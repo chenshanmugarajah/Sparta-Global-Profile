@@ -4,10 +4,8 @@
 
 @{
     ViewData["Title"] = "Edit";
-    var userId = Context.Session.GetString("UserId");
-    var userTypeId = Context.Session.GetString("UserTypeId");
-    var userEmail = Context.Session.GetString("UserEmail");
-
+    var userId = Context.Session.GetInt32("UserId");
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
 
 <h1>Edit</h1>
@@ -20,7 +18,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
             <div class="form-group">
-                <dl class="row"> 
+                <dl class="row">
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.UserEmail):
                     </dt>
@@ -30,19 +28,23 @@
                 </dl>
             </div>
             @{
-                if (Int32.Parse(@userId) == Model.UserId)
+                if (@userId == Model.UserId)
                 {
-                        <div class="form-group">
+
+                    if (Model.FirstLogin == true)
+                    {
+                        <label class="text-danger">You must change your password.</label>
+                    }
+                    <div class="form-group">
                             <label class="control-label"> Current Password</label>
                             <input  class="form-control" type="password" name="currentPassword" />
-                            
-                          
-                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="control-label">New Password</label>
                         <input onchange="PasswordValidate();" class="form-control" type="password" name="newPassword" id="newPassword" />
                        <div class="error" id="NotValidError"></div>
+
                     </div>
 
                     <div class="form-group">
@@ -53,7 +55,7 @@
                     </div>
                 }
 
-                if (@userTypeId == "5")
+                if (@userTypeId == 5)
                 {
                     <div class="form-group">
                         <label class="control-label">User Name</label>
@@ -70,14 +72,19 @@
 
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="button" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index"><button>Back</button></a>
+
+    @if (Model.FirstLogin != true)
+    {
+        <a asp-action="Index"><button>Back</button></a>
+    }
+
 </div>
 
 @section Scripts {

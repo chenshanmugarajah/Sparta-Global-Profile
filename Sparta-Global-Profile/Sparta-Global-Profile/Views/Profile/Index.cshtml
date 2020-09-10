@@ -1,13 +1,13 @@
-﻿@*@model IEnumerable<Sparta_Global_Profile.Models.Profile>*@
-@model Sparta_Global_Profile.Controllers.PaginatedList<Sparta_Global_Profile.Models.Profile>
+﻿@model Sparta_Global_Profile.Controllers.PaginatedList<Sparta_Global_Profile.Models.Profile>
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "Index";
-    var userTypeId = Context.Session.GetString("UserTypeId");
+    ViewData["Title"] = "Profiles";
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
 
-<h1>Index</h1>
+
+<h1 class="profile">Profiles</h1>
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
@@ -23,17 +23,29 @@
     {
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card h-100">
-                <img class="card-img-top" height="200" width="325" src="@item.ProfilePicture" alt="">
+
+                <img class="profile-background-image" style="height:300px" src="@item.ProfilePicture" alt="">
+
                 <div class="card-body">
                     <h4 class="card-title">@Html.DisplayFor(modelItem => item.User.UserName)</h4>
-                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p> 
+
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
+
                 </div>
                 <div class="card-footer">
-                    <a asp-action="Details" asp-route-id="@item.ProfileId" class="btn btn-primary">Details</a>
-                    @if (userTypeId != "1" && userTypeId != "2")
+                    @if (userTypeId != 1 && userTypeId != 2)
+
                     {
-                        @if(item.Approved) { <a class="btn btn-primary">Approved</a> } else { <a class="btn btn-primary">Unapproved</a>}
+                        @if (item.Approved)
+                        {<p>Approved</p>}
+                        else
+                        {<p>Unapproved</p>}
+
                     }
+                </div>
+                <div class="card-footer">
+                    <a class="profilebutton" asp-action="Details" asp-route-id="@item.ProfileId" ><button >View Profile</button></a>
+
                 </div>
             </div>
         </div>
@@ -54,3 +66,7 @@
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @nextDisabled">Next</a>
+
+
+
+

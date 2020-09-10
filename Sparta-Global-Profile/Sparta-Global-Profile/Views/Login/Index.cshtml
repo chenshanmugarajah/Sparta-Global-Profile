@@ -1,54 +1,45 @@
 ﻿@model Sparta_Global_Profile.Models.User;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Login";
 }
-
 
 <meta name="viewport" content="width=device-width" />
 <title>Login</title>
+<body class="brick-wall">
+    <div class="container-fluid body-card-login">
+        <div class="row no-gutter">
+            <div class="col-md-6 login-container">
+                <div class="login d-flex align-items-center py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-10 col-xl-7 mx-auto form-container">
+                                <h1 style="color:white;">Login</h1>
+                                <form asp-action="Authorize" asp-controller="Login">
+                                    <div class="form-group mb-3">
+                                        <input id="inputEmail" asp-for="UserEmail" type="email" placeholder="Email" required="required" class="form-control rounded-pill border-0 shadow-sm px-4">
+                                        <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserEmail)</div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <input id="inputPassword" asp-for="UserPassword" type="password" placeholder="Password" required="required" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
+                                        <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserPassword)</div>
+                                    </div>
+                                    <button type="submit" class="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm" style="background-color: #E33661;">Sign in</button>
+                                    <div class="text-center d-flex justify-content-between mt-4">
 
-
-<div class="container-fluid body-card-login">
-    <div class="row no-gutter">
-        <!-- The image half -->
-        <div class="col-md-6 d-none d-md-flex"> <img class="background-image" src="~/assets/sparta-global-logo.png" /></div>
-       
-        <!-- The content half -->
-        <div class="col-md-6 bg-light">
-            <div class="login d-flex align-items-center py-5">
-
-                <!-- Demo content-->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-10 col-xl-7 mx-auto form-container">
-
-                            <form asp-action="Authorize" asp-controller="Login">
-                                <div class="form-group mb-3">
-                                    <input id="inputEmail" asp-for="UserEmail" type="email" placeholder="Email" required="required" class="form-control rounded-pill border-0 shadow-sm px-4">
-                                    <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserEmail)</div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <input id="inputPassword" asp-for="UserPassword" type="password" placeholder="Password" required="required" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
-                                    <div class="error" id="error">@Html.ValidationMessageFor(model => model.UserPassword)</div>
-                                </div>
-                                @*<div class="custom-control custom-checkbox mb-3">
-                                    <input id="customCheck1" type="checkbox" checked class="custom-control-input">
-                                    <label for="customCheck1" class="custom-control-label">Remember password</label>
-                                </div>*@
-                                <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
-                                <div class="text-center d-flex justify-content-between mt-4">
-
-                                </div>
-                            </form>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-
                     </div>
-                </div><!-- End -->
-
+                </div>
             </div>
-
-        </div><!-- End -->
-
+            <div class="col-md-6 d-none d-md-flex"> <img class="sparta-logo" src="~/assets/sparta-global-logo-white.png" /></div>
+        </div>
     </div>
-</div>
+</body>
+
+
+
+
+
