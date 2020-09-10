@@ -170,6 +170,7 @@ namespace Sparta_Global_Profile.Controllers
             HttpContext context = HttpContext;
             var loggedInUserId = context.Session.GetString("UserId");
             var loggedInUserTypeId = context.Session.GetString("UserTypeId");
+            var loggedInUserProfileId = context.Session.GetString("ProfileId");
 
             var user = _context.Users.First(u => u.UserId == id);
 
@@ -182,8 +183,19 @@ namespace Sparta_Global_Profile.Controllers
                         if (newPassword == newPasswordConfirm)
                         {
                             user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
+                            user.FirstLogin = false;
                             _context.Update(user);
                             await _context.SaveChangesAsync();
+
+                            if (loggedInUserTypeId == "1")
+                            {
+                                return RedirectToAction("Details", "Profile", new { id = loggedInUserProfileId });
+                            }
+
+                            else
+                            {
+                                return RedirectToAction("Index", "Profile");
+                            }
                         }
                         else
                         {
@@ -194,7 +206,6 @@ namespace Sparta_Global_Profile.Controllers
                     {
                         currentPasswordError = "Password Incorrect";
                     }
-                    return RedirectToAction(nameof(Index));
                 }
                 if(loggedInUserTypeId == "5")
                 {
@@ -208,6 +219,7 @@ namespace Sparta_Global_Profile.Controllers
                     }
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Users");
                 }
             }
             return RedirectToAction(nameof(Index));
