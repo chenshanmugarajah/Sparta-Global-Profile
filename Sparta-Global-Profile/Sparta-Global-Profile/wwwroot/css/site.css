@@ -237,12 +237,7 @@ sparta-green-navbar: #01181B;
     padding: 0 20px 20px 20px;
     margin-top: -10px;
     background-image:url('~/assets/brick-wall-2.jpg');
-}
 
-
-.form-container {
-    position: relative;
-    z-index: 1;
 }
 
 
