@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = $"{Model.ProfileName}'s Profile";
+    ViewData["Title"] = $"{Model.User.UserName}'s Profile";
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 <div class="body-card">
@@ -13,7 +13,7 @@
 
     <h1>
         <img width="50" height="50" class="profile-image" src="@Model.ProfilePicture">
-        <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.ProfileName) |
+        <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.User.UserName) |
         <span class="approved-pill">
             @if (userTypeId != "2")
             {
