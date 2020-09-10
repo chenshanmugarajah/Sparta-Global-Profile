@@ -311,12 +311,21 @@ Notes:
 - 12:30 Lunch
 - 13:30 
 
-  - Chris assisted Bryn with Password validification
+  - Chris assisted Bryn with Password validification, and worked on fixes for the admin panel
   - Alex added styling to the Admin Panel page and updated a user's name within.
 - 16:30 
   
 
 * Thursday
+- 9:30 Stand up
+- 10:00 
+  - Chris Refactored Sessions, user deletion
+- 12:30 Lunch
+- 13:30 
+  - Chris added first time user password change
+
+- 15:00
+  - Final Merge of all branches
 
 * Friday
 
