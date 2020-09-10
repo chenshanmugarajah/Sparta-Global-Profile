@@ -3,14 +3,14 @@
 
 @{
     ViewData["Title"] = "Edit";
-    var userTypeId = Context.Session.GetString("UserTypeId");
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
 
     // AmazonUpload amazonUpload = new AmazonUpload();
 }
 
 <div class="profile-section">
 
-    @if (userTypeId == "1")
+    @if (userTypeId == 1)
     {
 
         <h1>Welcome @Html.DisplayFor(model => model.User.UserName)</h1>
@@ -23,7 +23,7 @@
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="ProfileId" />
-        @if (userTypeId != "1")
+        @if (userTypeId != 1)
         {
             <h2 style="text-decoration:underline">Student's Profile</h2>
             <h3 class="pink-header">Staff View - Editing @Model.User.UserName's profile</h3>
@@ -57,7 +57,7 @@
             <span asp-validation-for="Summary" class="text-danger"></span>
         </div>
 
-    @if(userTypeId == "4")
+    @if(userTypeId == 4)
     {
         <div class="form-group">
             <label asp-for="ProfileVideo" class="control-label">Video Link</label>

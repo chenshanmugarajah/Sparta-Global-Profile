@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = $"{Model.User.UserName}'s Profile";
-    var userTypeId = Context.Session.GetString("UserTypeId");
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
 <div class="body-card">
 
@@ -15,7 +15,7 @@
         <img width="50" height="50" class="profile-image" src="@Model.ProfilePicture">
         <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.User.UserName) |
         <span class="approved-pill">
-            @if (userTypeId != "2")
+            @if (userTypeId != 2)
             {
                 if (@Model.Approved)
                 {
@@ -172,11 +172,11 @@
     </div>*@
 
 <div>
-    @if (userTypeId != "2")
+    @if (userTypeId != 2)
     {
         <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a>
     }
-    @if (userTypeId != "1")
+    @if (userTypeId != 1)
     {
         <a asp-action="Index">Back to List</a>
     }
