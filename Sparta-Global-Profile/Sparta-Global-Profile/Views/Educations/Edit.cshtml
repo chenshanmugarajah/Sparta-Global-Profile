@@ -51,24 +51,6 @@
             </form>
         </div>
     </div>
-    <h5 style="text-decoration:underline">Modules</h5>
-    @if (Model.Modules.Count() != 0)
-    {
-        <ul>
-            @foreach (var module in Model.Modules)
-            {
-                <li>@module.CourseYear: @module.ModuleName</li>
-            }
-        </ul>
-        <a asp-controller="modules" asp-action="index" asp-route-id="@Model.EducationId"><button>Edit Modules</button></a>
-        <a asp-controller="modules" asp-action="create" asp-route-id="@Model.EducationId"><button>Add Module</button></a>
-    }
-    else
-    {
-        <p class="spartaBrightPink">You have currently have no modules added for this establishment</p>
-        <a asp-controller="modules" asp-action="create" asp-route-id="@Model.EducationId"><button>Add Module</button></a>
-    }
-    <br />
     <br />
     <div>
         <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Education List</button></a>
