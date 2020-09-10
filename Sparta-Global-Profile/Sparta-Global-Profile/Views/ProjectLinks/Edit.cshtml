@@ -14,6 +14,10 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProjectLinkId" />
             <div class="form-group">
+                <label asp-for="SpartaProjectId" class="control-label">Project Name</label>
+                <select asp-for="SpartaProjectId" class="form-control" asp-items="ViewBag.SpartaProjectId"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="LinkText" class="control-label">Link Name</label>
                 <input asp-for="LinkText" class="form-control" />
                 <span asp-validation-for="LinkText" class="text-danger"></span>

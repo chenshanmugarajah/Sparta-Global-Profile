@@ -34,7 +34,7 @@ namespace Sparta_Global_Profile.Controllers
 
             if (userTypeId == "1" && profileId != id.ToString())
             {
-                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("index", "spartaprojects", new { id = Int32.Parse(profileId) });
             }
 
             if (userTypeId == "2")
@@ -145,9 +145,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
+
             ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId), "ProfileId", "ProfileName", spartaProject.ProfileId);
-            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId).First();
-            ViewData["ProjectLinks"] = _context.ProjectLinks.Where(pl => pl.SpartaProjectId == id);
+            
+            var profile = _context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId).First();
+            ViewData["Profile"] = profile;
+            ViewData["ProjectLinks"] = _context.ProjectLinks.Where(pl => pl.SpartaProjectId == id).ToList();
             ViewData["ProjectId"] = id;
 
             HttpContext context = HttpContext;
@@ -160,7 +163,7 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == "1" && profileId != id.ToString())
+            if (userTypeId == "1" && profileId != profile.ProfileId.ToString())
             {
                 return RedirectToAction("index", "spartaprojects", new { id = Int32.Parse(profileId) });
             }
@@ -222,7 +225,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId).First();
+            var profile = _context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId).First();
+            ViewData["Profile"] = profile;
 
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
@@ -234,7 +238,7 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == "1" && profileId != id.ToString())
+            if (userTypeId == "1" && profileId != profile.ProfileId.ToString())
             {
                 return RedirectToAction("index", "spartaprojects", new { id = Int32.Parse(profileId) });
             }

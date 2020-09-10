@@ -34,7 +34,7 @@ namespace Sparta_Global_Profile.Controllers
 
             if (userTypeId == "1" && profileId != id.ToString())
             {
-                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("index", "employments", new { id = Int32.Parse(profileId) });
             }
 
             if (userTypeId == "2")

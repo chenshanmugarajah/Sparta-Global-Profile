@@ -39,7 +39,7 @@
 
     <h5>Project Links</h5>
     <ul>
-        @if (ViewBag.ProjectLinks.Count() == 0)
+        @if (ViewBag.ProjectLinks.Count == 0)
         {
             <li>You have no projects listed</li>
         }
@@ -47,14 +47,15 @@
         {
             @foreach (var projectLink in ViewBag.ProjectLinks)
             {
-                <li>@projectLink</li>
+                <li>@projectLink.LinkText - @projectLink.Url</li>
             }
         }
-        <a asp-controller="projectlinks" asp-action="Index" asp-route-id="@ViewBag.ProjectId">Edit Project Links</a>
-        <a asp-controller="projectlinks" asp-action="Create" asp-route-id="@ViewBag.ProjectId">Add Project Link</a>
+        <br />
     </ul>
+    <a asp-controller="ProjectLinks" asp-action="Create" asp-route-id="@ViewBag.ProjectId"><button>Add Link</button></a>
+    <a asp-controller="ProjectLinks" asp-action="Index" asp-route-id="@ViewBag.ProjectId"><button>Edit Links</button></a>
 
-    <br />
+    <br /><br />
 
     <div>
         <a asp-action="Index" asp-route-id="@ViewBag.Profile.ProfileId"><button>Back to Projects</button></a>
