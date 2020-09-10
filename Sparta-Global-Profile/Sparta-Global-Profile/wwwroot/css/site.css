@@ -72,7 +72,10 @@ body {
     margin-bottom: 60px;
     font-family: "tahomaSparta";
 }
-
+h1.admin {
+    font-family: "ddcSparta";
+    text-align:center
+}
 h1, h2{
     font-family: "ddcSparta";
 }
@@ -206,8 +209,84 @@ sparta-green-navbar: #01181B;
 
 */
 
-.navbar-custom{
-    color: white !important;
+.navbar-sparta{
     background-color: #01181B !important;
+}
+
+.nav-link-sparta {
+    color: white;
+    font-size: 1.2rem;
+}
+
+/*Login*/
+
+.field-validation-error {
+    color: grey;
+    font-weight: lighter;
+}
+
+.login {
+    min-height: 80vh;
+}
+
+.sparta-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+    padding: 4px;
+    object-fit: contain;
+}
+
+.error {
+    margin: 14px;
+    padding: 4px;
+}
+
+/*.body-card-login {
+    width: 80vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-top-style: none;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 0 20px 20px 20px;
+    margin-top: -10px;
+    background-image:url('~/assets/brick-wall-2.jpg');
+
+}*/
+
+
+.brick-wall {
+    background-image: url('../assets/brick-wall.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/*src="~/Assets/sparta-global-logo-white.svg"*/
+
+.profile-section {
+    width: 60vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.adminpanel-section {
+    width: 75vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.profile-section h1 {
+    text-decoration: underline;
 }
 

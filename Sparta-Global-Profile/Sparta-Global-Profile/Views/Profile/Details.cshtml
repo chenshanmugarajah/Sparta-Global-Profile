@@ -2,15 +2,13 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = $"{Model.ProfileName}'s Profile";
+    ViewData["Title"] = $"{Model.User.UserName}'s Profile";
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 <div class="body-card">
 
-    @*Validation if video doesn't exist*@
-    <iframe class="video" width="640" height="360" src="https://web.microsoftstream.com/embed/video/85265b03-d53a-4b5c-a0c2-fc3cc9193004?autoplay=false&amp;showinfo=true" allowfullscreen style="border:none;"></iframe>
-
-    @*Update positioning*@
+    <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
+  
     <h1>
         <a>
             <img width="100" height="100" class="profile-image" src=@Model.ProfilePicture>
@@ -89,13 +87,6 @@
         <h5 class="deep-pink-header">@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h5>
         <h5 class="pink-header">@education.Establishment</h5>
         <h5 class="pink-header">@education.Qualification: @education.Grade</h5>
-        <h5>Modules</h5>
-        <ul>
-            @foreach (var module in education.Modules)
-            {
-                <li>@module.CourseYear: @module.ModuleName</li>
-            }
-        </ul>
         <br />
     }
 

@@ -20,67 +20,112 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Employments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
             HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
 
-            var spartaGlobalProfileDbContext = _context.Employment.Where(e => e.ProfileId == profileId).Include(e => e.Profile);
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
+            ViewData["Type"] = "Student";
+            var spartaGlobalProfileDbContext = _context.Employment.Include(s => s.Profile);
+
+            if (id != null)
+            {
+                spartaGlobalProfileDbContext = _context.Employment.Where(s => s.ProfileId == id).Include(s => s.Profile);
+                ViewData["ProfileId"] = id;
+                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
+            }
+            else
+            {
+                ViewData["Type"] = "All";
+                spartaGlobalProfileDbContext = _context.Employment.Include(s => s.Profile);
+            }
+
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
         // GET: Employments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var employment = await _context.Employment
-                .Include(e => e.Profile)
-                .FirstOrDefaultAsync(m => m.EmploymentId == id);
-            if (employment == null)
-            {
-                return NotFound();
-            }
+        //    var employment = await _context.Employment
+        //        .Include(e => e.Profile)
+        //        .FirstOrDefaultAsync(m => m.EmploymentId == id);
+        //    if (employment == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(employment);
-        }
+        //    return View(employment);
+        //}
 
         // GET: Employments/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
+            if (id != null)
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
+                ViewData["Profile"] = id.ToString();
+            }
+            else
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
+                ViewData["Profile"] = "0";
+            }
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "employments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View();
         }
 
         // POST: Employments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int EmploymentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Create([Bind("EmploymentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Employment employment)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Employment employment = new Employment()
-            {
-                ProfileId = profileId,
-                EmploymentId = EmploymentId,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                CompanyName = CompanyName,
-                Position = Position,
-                Summary = Summary
-            };
-
             if (ModelState.IsValid)
             {
                 _context.Add(employment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", "Profile", new { id = profileId });
+                return RedirectToAction("Index", "Employments", new { id = employment.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", employment.ProfileId);
             return View(employment);
@@ -99,7 +144,30 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", employment.ProfileId);
+
+            ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == employment.ProfileId), "ProfileId", "ProfileName", employment.ProfileId);
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == employment.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "employments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(employment);
         }
 
@@ -108,22 +176,8 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int EmploymentId, DateTime StartDate, DateTime EndDate, string CompanyName, string Position, string Summary)
+        public async Task<IActionResult> Edit(int id, [Bind("EmploymentId,StartDate,EndDate,CompanyName,Position,Summary,ProfileId")] Employment employment)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Employment employment = new Employment()
-            {
-                ProfileId = profileId,
-                EmploymentId = EmploymentId,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                CompanyName = CompanyName,
-                Position = Position,
-                Summary = Summary
-            };
-
             if (id != employment.EmploymentId)
             {
                 return NotFound();
@@ -147,7 +201,7 @@ namespace Sparta_Global_Profile.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Employments", new { id = employment.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", employment.ProfileId);
             return View(employment);
@@ -169,6 +223,28 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == employment.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "employments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(employment);
         }
 
@@ -180,7 +256,7 @@ namespace Sparta_Global_Profile.Controllers
             var employment = await _context.Employment.FindAsync(id);
             _context.Employment.Remove(employment);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Employments", new { id = employment.ProfileId });
         }
 
         private bool EmploymentExists(int id)

@@ -67,7 +67,7 @@ namespace Sparta_Global_Profile.Models
                    new Course { CourseId = 8, CourseName = "Technology Consultant Graduate Scheme", AcademyExperience = "all the academy pre filled stuff will be here" }
                );
 
-            var password = Helper.EncryptPlainTextToCipherText("123");
+            var password = Helper.EncryptPlainTextToCipherText("Password123");
 
             modelBuilder.Entity<User>().HasData
                 (
@@ -256,7 +256,7 @@ namespace Sparta_Global_Profile.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source = (localdb)\\mssqllocaldb;Initial Catalog = SpartaGlobalProfileDb;");
+                optionsBuilder.UseSqlServer("Data Source=sparta-profile-server.database.windows.net;Initial Catalog=sparta-profile-db;User ID=sparta-admin;Password=Pa$$w0rd;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
     }

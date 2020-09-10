@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using Sparta_Global_Profile.Models;
 
 
@@ -22,15 +25,13 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Users
-
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
             var userTypeId = context.Session.GetString("UserTypeId");
             var profileId = context.Session.GetString("ProfileId");
-
+            
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
@@ -41,13 +42,23 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("Details", "Profile", new { id = Int32.Parse(profileId) });
             }
 
+            ViewData["CurrentFilter"] = searchString;
+
             if (userTypeId != "5")
             {
                 return RedirectToAction("Index", "Profile");
             }
 
-            var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
-            return View(await spartaGlobalProfileDbContext.ToListAsync());
+            var users = from user in _context.Users.Include(u => u.UserType)
+                           select user;
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.UserEmail.Contains(searchString));
+            }
+
+            //var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
+            return View(await users.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -83,7 +94,7 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user, int courseId)
+        public async Task<IActionResult> Create([Bind("UserId,UserName,UserEmail,UserPassword,UserTypeId")] User user, int courseId, string adminEmailPassword)
         {
             if (ModelState.IsValid)
             {
@@ -106,16 +117,17 @@ namespace Sparta_Global_Profile.Controllers
                             StatusId = 1,
                             ProfileName = "New Student",
                             ProfilePicture = @"/assets/default-profile-image.png",
-                            Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
-                            + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
-                            + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
-                            CourseId =  courseId,
+                            Summary = "",
+                            CourseId = courseId,
                             Approved = false
                         };
                         _context.Profiles.Add(profile);
                         await _context.SaveChangesAsync();
                     }
-
+                    HttpContext context = HttpContext;
+                    var userId = context.Session.GetString("UserId");
+                    var admin = _context.Users.First(u => u.UserId == Int32.Parse(userId));
+                    SendEmail(user.UserEmail, Helper.DecryptCipherTextToPlainText(user.UserPassword), user.UserName, admin.UserEmail, adminEmailPassword, admin.UserName);
                     return RedirectToAction(nameof(Index));
                 }
                 ModelState.AddModelError("UserEmail", "User Already Exists!");
@@ -138,7 +150,13 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
+            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
+            ViewData["Courses"] = _context.Courses.ToList();
+            var profile = _context.Profiles.FirstOrDefault(p => p.UserId == id);
+            if(profile != null)
+            {
+                ViewData["CourseId"] = profile.CourseId;
+            }
             return View(user);
         }
 
@@ -147,36 +165,52 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserEmail,UserPassword,UserTypeId")] User user)
+        public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
         {
-            if (id != user.UserId)
-            {
-                return NotFound();
-            }
+            HttpContext context = HttpContext;
+            var loggedInUserId = context.Session.GetString("UserId");
+            var loggedInUserTypeId = context.Session.GetString("UserTypeId");
+
+            var user = _context.Users.First(u => u.UserId == id);
 
             if (ModelState.IsValid)
             {
-                try
+                if (Int32.Parse(loggedInUserId) == id)
                 {
-                    user.UserPassword = Helper.EncryptPlainTextToCipherText(user.UserPassword);
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.UserId))
+                    if (currentPassword == Helper.DecryptCipherTextToPlainText(user.UserPassword))
                     {
-                        return NotFound();
+                        if (newPassword == newPasswordConfirm)
+                        {
+                            user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
+                            _context.Update(user);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            newPasswordConfirmError = "Passwords do not match";
+                        }
                     }
                     else
                     {
-                        throw;
+                        currentPasswordError = "Password Incorrect";
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                if(loggedInUserTypeId == "5")
+                {
+                    user.UserName = userName;
+                    user.UserTypeId = userTypeId;
+                    if(userTypeId == 1)
+                    {
+                        var profile = _context.Profiles.First(p => p.UserId == id);
+                        profile.CourseId = courseId;
+                        _context.Update(profile);
+                    }
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeId", user.UserTypeId);
-            return View(user);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Users/Delete/5
@@ -219,6 +253,37 @@ namespace Sparta_Global_Profile.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
+        }
+
+        public async void SendEmail(string newUserEmail, string newUserPassword, string newUserName, string myEmail, string myPassword, string myName)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(myName, myEmail)); 
+            message.To.Add(new MailboxAddress(newUserName, newUserEmail));
+            message.Subject = "Sparta Global Profile Portal Invitation";
+            message.Body = new TextPart("plain")
+            {
+                Text = @$"Hi {newUserName},
+
+                You have received an invite to access Sparta Global's profile portal. Please follow the link below and enter the following account details to access the portal.
+                
+                Account Email: {newUserEmail}
+                Account Password: {newUserPassword}
+
+                https://spartaprofile09092020.azurewebsites.net/
+
+                Kind regards, 
+                {myName}
+                "
+            };
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.ConnectAsync("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
+                await smtp.AuthenticateAsync(myEmail, myPassword);
+                await smtp.SendAsync(message);
+                await smtp.DisconnectAsync(true);
+            }
         }
     }
 }

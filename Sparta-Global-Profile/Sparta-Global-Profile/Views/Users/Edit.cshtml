@@ -1,7 +1,13 @@
-﻿@model Sparta_Global_Profile.Models.User
+
+﻿@using Microsoft.AspNetCore.Http
+@model Sparta_Global_Profile.Models.User
 
 @{
     ViewData["Title"] = "Edit";
+    var userId = Context.Session.GetString("UserId");
+    var userTypeId = Context.Session.GetString("UserTypeId");
+    var userEmail = Context.Session.GetString("UserEmail");
+
 }
 
 <h1>Edit</h1>
@@ -14,28 +20,52 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
             <div class="form-group">
-                <label asp-for="UserEmail" class="control-label"></label>
-                <input asp-for="UserEmail" class="form-control" />
-                <span asp-validation-for="UserEmail" class="text-danger"></span>
+                <dl class="row"> 
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserEmail):
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserEmail)
+                    </dd>
+                </dl>
             </div>
-        <!--
-            <div class="form-group">
-                <label> Current Password</label>
-                
-            </div>
-        -->
-            <div class="form-group">
-                <label asp-for="UserPassword" class="control-label">New Password</label>
-                <input asp-for="UserPassword" class="form-control" />
-                <span asp-validation-for="UserPassword" class="text-danger"></span>
-            </div>
-        
-            <div class="form-group">
-                <label asp-for="UserTypeId" class="control-label"></label>
-                <select asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId"></select>
-                <span asp-validation-for="UserTypeId" class="text-danger"></span>
-            </div>
-        
+            @{
+                if (Int32.Parse(@userId) == Model.UserId)
+                {
+                    <div class="form-group">
+                        <label class="control-label"> Current Password</label>
+                        <input class="form-control" type="password" name="currentPassword" />
+                        <span name="currentPasswordError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">New Password</label>
+                        <input class="form-control" type="password" name="newPassword"  />
+                        <span name="newPasswordError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Confirm New Password</label>
+                        <input class="form-control" type="password" name="newPasswordConfirm" />
+                        <span name="newPasswordConfirmError"></span>
+                    </div>
+                }
+
+                if (@userTypeId == "5")
+                {
+                    <div class="form-group">
+                        <label class="control-label">User Name</label>
+                        <input class="form-control" name="userName" asp-for="UserName" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">User Type</label>
+                        <select id="userType" asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId" onchange="showCoursesDropdown();"></select>
+                    </div>
+                    <div id="coursesDropdown"></div>
+                }
+            }
+
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -44,9 +74,46 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"><button>Back to List</button></a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    showCoursesDropdown();
+
+    function showCoursesDropdown() {
+
+        var userTypeId = document.getElementById("userType").value;
+        var coursesDropdown = document.getElementById("coursesDropdown");
+
+        if (userTypeId == 1) {
+             coursesDropdown.innerHTML = `<div class="form-group">
+                                                <label class="control-label">Course Name</label>
+                                                <select class="form-control" name="courseId">
+                                                    @{
+                                                        var courseId = @ViewData["CourseId"];
+                                                        foreach(var item in ViewBag.Courses)
+                                                        {
+                                                            if (courseId != null && (int)courseId == (int)item.CourseId)
+                                                            {
+                                                                <option value="@item.CourseId" selected>@item.CourseName</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CourseId">@item.CourseName</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>`;
+
+        } else {
+            coursesDropdown.innerHTML = "";
+        }
+
+    }
+
+</script>

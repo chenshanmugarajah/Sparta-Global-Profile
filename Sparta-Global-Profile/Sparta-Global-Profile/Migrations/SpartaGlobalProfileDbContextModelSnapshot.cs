@@ -702,42 +702,42 @@ namespace Sparta_Global_Profile.Migrations
                         {
                             UserId = 1,
                             UserEmail = "student@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
+                            UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 1
                         },
                         new
                         {
                             UserId = 2,
                             UserEmail = "client@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
+                            UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 2
                         },
                         new
                         {
                             UserId = 3,
                             UserEmail = "staff@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
+                            UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 3
                         },
                         new
                         {
                             UserId = 4,
                             UserEmail = "resource@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
+                            UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 4
                         },
                         new
                         {
                             UserId = 5,
                             UserEmail = "admin@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
+                            UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 5
                         },
                         new
                         {
                             UserId = 6,
                             UserEmail = "student2@gmail.com",
-                            UserPassword = "vxFh7ubhh0Q=",
+                            UserPassword = "zbVZXNJxViq/EWHu5uGHRA==",
                             UserTypeId = 1
                         });
                 });

@@ -3,45 +3,59 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="adminpanel-section">
+    <h1 class="admin">Admin Panel</h1>
 
-<h1>Admin Panel</h1>
+    <p>
+        <a asp-action="Create"><button>Create New</button></a>
+    </p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserType.UserTypeId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Search by Email: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" /> |
+                <a asp-action="Index"><button>Back to Full List</button></a>
+            </p>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserEmail)
+                </th>
+
+                <th>
+                    User Type
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserEmail)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserType.UserTypeName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserId"><button>Edit </button> </a>
+                        <a asp-action="Details" asp-route-id="@item.UserId"><button>Details </button> </a>
+                        <a asp-action="Delete" asp-route-id="@item.UserId"><button>Delete </button> </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -20,68 +20,112 @@ namespace Sparta_Global_Profile.Controllers
         }
 
         // GET: Educations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
             HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
 
-            var spartaGlobalProfileDbContext = _context.Educations.Where(e => e.ProfileId == profileId).Include(e => e.Profile);
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
+            ViewData["Type"] = "Student";
+            var spartaGlobalProfileDbContext = _context.Educations.Include(s => s.Profile);
+
+            if (id != null)
+            {
+                spartaGlobalProfileDbContext = _context.Educations.Where(s => s.ProfileId == id).Include(s => s.Profile);
+                ViewData["ProfileId"] = id;
+                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
+            }
+            else
+            {
+                spartaGlobalProfileDbContext = _context.Educations.Include(s => s.Profile);
+                ViewData["Type"] = "All";
+            }
+
             return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
         // GET: Educations/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var education = await _context.Educations
-                .Include(e => e.Profile)
-                .Include(e => e.Modules)
-                .FirstOrDefaultAsync(m => m.EducationId == id);
-            if (education == null)
-            {
-                return NotFound();
-            }
+        //    var education = await _context.Educations
+        //        .Include(e => e.Profile)
+        //        .FirstOrDefaultAsync(m => m.EducationId == id);
+        //    if (education == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(education);
-        }
+        //    return View(education);
+        //}
 
         // GET: Educations/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId");
+            if (id != null)
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
+                ViewData["Profile"] = id.ToString();
+            }
+            else
+            {
+                ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
+                ViewData["Profile"] = "0";
+            }
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "educations", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View();
         }
 
         // POST: Educations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int EducationId, DateTime StartDate, DateTime EndDate, string Establishment, string Qualification, string Grade)
+        public async Task<IActionResult> Create([Bind("EducationId,StartDate,EndDate,Establishment,Qualification,Grade,ProfileId")] Education education)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Education education = new Education()
-            {
-                ProfileId = profileId,
-                EducationId = EducationId, 
-                EndDate = EndDate,
-                Establishment = Establishment,
-                Grade = Grade,
-                Qualification = Qualification,
-                StartDate = StartDate
-            };
-
             if (ModelState.IsValid)
             {
                 _context.Add(education);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Edit", "Profile", new { id = profileId });
+                return RedirectToAction("Index", "Educations", new { id = education.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", education.ProfileId);
             return View(education);
@@ -100,30 +144,37 @@ namespace Sparta_Global_Profile.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", education.ProfileId);
+            ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == education.ProfileId), "ProfileId", "ProfileName", education.ProfileId);
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == education.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "educations", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(education);
         }
 
         // POST: Educations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int EducationId, DateTime StartDate, DateTime EndDate, string Establishment, string Qualification, string Grade)
+        public async Task<IActionResult> Edit(int id, [Bind("EducationId,StartDate,EndDate,Establishment,Qualification,Grade,ProfileId")] Education education)
         {
-            HttpContext context = HttpContext;
-            var profileId = Int32.Parse(context.Session.GetString("ProfileId"));
-
-            Education education = new Education()
-            {
-                ProfileId = profileId,
-                EducationId = EducationId,
-                EndDate = EndDate,
-                Establishment = Establishment,
-                Grade = Grade,
-                Qualification = Qualification,
-                StartDate = StartDate
-            };
             if (id != education.EducationId)
             {
                 return NotFound();
@@ -147,7 +198,7 @@ namespace Sparta_Global_Profile.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Educations", new { id = education.ProfileId });
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileId", education.ProfileId);
             return View(education);
@@ -169,6 +220,29 @@ namespace Sparta_Global_Profile.Controllers
                 return NotFound();
             }
 
+            ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == education.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "educations", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
+
             return View(education);
         }
 
@@ -180,7 +254,7 @@ namespace Sparta_Global_Profile.Controllers
             var education = await _context.Educations.FindAsync(id);
             _context.Educations.Remove(education);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Educations", new { id = education.ProfileId });
         }
 
         private bool EducationExists(int id)
