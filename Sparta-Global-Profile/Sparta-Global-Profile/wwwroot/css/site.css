@@ -71,9 +71,6 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     font-family: "tahomaSparta";
-    background-image:url('../assets/brick-wall.jpg');
-    background-repeat:no-repeat;
-    background-attachment:fixed;
 }
 h1.admin {
     font-family: "ddcSparta";
@@ -247,7 +244,9 @@ sparta-green-navbar: #01181B;
 
 
 .brick-wall {
-    background-image: url("~/Assets/brick-wall.jpg");
+    background-image: url('../assets/brick-wall.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /*src="~/Assets/sparta-global-logo-white.svg"*/
