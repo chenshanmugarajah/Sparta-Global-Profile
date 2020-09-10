@@ -167,8 +167,11 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
         {
             HttpContext context = HttpContext;
+
+
             var loggedInUserId = context.Session.GetInt32("UserId");
             var loggedInUserTypeId = context.Session.GetInt32("UserTypeId");
+            var loggedInUserProfileId = context.Session.GetInt32("ProfileId");
 
             var user = _context.Users.First(u => u.UserId == id);
 
@@ -181,8 +184,19 @@ namespace Sparta_Global_Profile.Controllers
                         if (newPassword == newPasswordConfirm)
                         {
                             user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
+                            user.FirstLogin = false;
                             _context.Update(user);
                             await _context.SaveChangesAsync();
+
+                            if (loggedInUserTypeId == 1)
+                            {
+                                return RedirectToAction("Details", "Profile", new { id = loggedInUserProfileId });
+                            }
+
+                            else
+                            {
+                                return RedirectToAction("Index", "Profile");
+                            }
                         }
                         else
                         {
@@ -193,7 +207,6 @@ namespace Sparta_Global_Profile.Controllers
                     {
                         currentPasswordError = "Password Incorrect";
                     }
-                    return RedirectToAction(nameof(Index));
                 }
                 if(loggedInUserTypeId == 5)
                 {
@@ -207,6 +220,7 @@ namespace Sparta_Global_Profile.Controllers
                     }
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Users");
                 }
             }
             return RedirectToAction(nameof(Index));
