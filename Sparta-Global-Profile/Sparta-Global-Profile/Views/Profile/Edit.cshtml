@@ -5,7 +5,6 @@
     ViewData["Title"] = "Edit";
     var userTypeId = Context.Session.GetInt32("UserTypeId");
 
-    // AmazonUpload amazonUpload = new AmazonUpload();
 }
 
 <div class="profile-section">
@@ -44,12 +43,6 @@
             </div>
 
         }
-
-        @*<div class="form-group">
-            <label asp-for="User.UserName" class="control-label">Your Name</label>
-            <input asp-for="User.UserName" class="form-control" />
-            <span asp-validation-for="ProfileName" class="text-danger"></span>
-        </div>*@
 
         <div class="form-group">
             <label asp-for="Summary" class="control-label">Summary</label>
@@ -119,9 +112,8 @@
         {
             @foreach (var assignment in Model.Assignments)
             {
-                <h5 class="deep-pink-header">@assignment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @assignment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
-                <h5 class="pink-header">@assignment.CompanyName.ToUpper()</h5>
-                <h5 class="pink-header">@assignment.Position.ToUpper()</h5>
+                <h5 class="pink-header">@assignment.CompanyName.ToUpper() - @assignment.Position.ToUpper()</h5>
+                <h5> @assignment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @assignment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
                 <p>@assignment.Summary</p>
                 <br />
             }
@@ -167,9 +159,8 @@
         {
             @foreach (var employment in Model.Employment)
             {
-                <h5 class="deep-pink-header">@employment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @employment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
-                <h5 class="pink-header">@employment.CompanyName.ToUpper()</h5>
-                <h5 class="pink-header ">@employment.Position.ToUpper()</h5>
+                <h5 class="pink-header">@employment.CompanyName.ToUpper() - @employment.Position.ToUpper()</h5>
+                <h5> @employment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @employment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
                 <p>@employment.Summary</p>
                 <br />
             }
@@ -192,9 +183,9 @@
         {
             @foreach (var education in Model.Education)
             {
-                <h5 class="deep-pink-header">@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h5>
                 <h5 class="pink-header">@education.Establishment</h5>
-                <h5 class="pink-header">@education.Qualification: @education.Grade</h5>
+                <h6 class="pink-header">@education.Qualification: @education.Grade</h6>
+                <h5> @education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h5>
             }
             <a asp-controller="educations" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Education History</button></a>
         }
