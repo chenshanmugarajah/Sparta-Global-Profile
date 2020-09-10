@@ -26,6 +26,6 @@ namespace Sparta_Global_Profile.Models
         public string UserPassword { get; set; }
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
-       
+        public bool FirstLogin { get; set; }
     }
 }
