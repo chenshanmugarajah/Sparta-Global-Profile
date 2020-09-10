@@ -101,13 +101,13 @@ namespace Sparta_Global_Profile.Controllers
                 if (checkUser == null)
                 {
                     var password = Helper.EncryptPlainTextToCipherText(user.UserPassword);
+                    user.FirstLogin = true;
                     user.UserPassword = password;
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
 
                     if (user.UserTypeId == 1)
                     {
-
                         var newUser = _context.Users.First(u => u.UserEmail == user.UserEmail);
                         var newUserId = newUser.UserId;
                         var profile = new Profile()
