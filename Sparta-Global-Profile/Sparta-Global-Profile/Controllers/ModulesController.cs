@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,21 +22,43 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Modules
         public async Task<IActionResult> Index(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             ViewData["Type"] = "Student";
+            var spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education);
+
             if (id == null)
             {
+                spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education);
                 ViewData["Type"] = "All";
-                var spartaGlobalProfileDbContext = _context.Modules.Include(m => m.Education);
-                return View(await spartaGlobalProfileDbContext.ToListAsync());
             } else
             {
-                var spartaGlobalProfileDbContext = _context.Modules.Where(m => m.EducationId == id).Include(m => m.Education);
+                spartaGlobalProfileDbContext = _context.Modules.Where(m => m.EducationId == id).Include(m => m.Education);
                 var education = _context.Educations.Where(e => e.EducationId == id).FirstOrDefault();
                 ViewData["ProfileId"] = education.ProfileId;
                 ViewData["EducationId"] = education.EducationId;
                 ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == education.ProfileId).First()).ProfileName;
-                return View(await spartaGlobalProfileDbContext.ToListAsync());
             }
+
+            return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
         // GET: Modules/Details/5
@@ -71,12 +94,31 @@ namespace Sparta_Global_Profile.Controllers
                 ViewData["EducationId"] = new SelectList(_context.Educations, "EducationId", "Establishment");
                 ViewData["Profile"] = "0";
             }
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "modules", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View();
         }
 
         // POST: Modules/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,CourseYear,EducationId")] Module module)
@@ -108,12 +150,31 @@ namespace Sparta_Global_Profile.Controllers
             ViewData["EducationId"] = new SelectList(_context.Educations.Where(e => e.EducationId == module.EducationId), "EducationId", "Establishment", module.EducationId);
             ViewData["Education"] = education;
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == education.ProfileId).FirstOrDefault();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "modules", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(module);
         }
 
         // POST: Modules/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,CourseYear,EducationId")] Module module)
@@ -166,6 +227,27 @@ namespace Sparta_Global_Profile.Controllers
             var education = _context.Educations.Where(e => e.EducationId == module.EducationId).First();
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == education.ProfileId).First();
             ViewData["Education"] = education;
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "modules", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(module);
         }
 

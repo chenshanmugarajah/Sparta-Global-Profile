@@ -25,7 +25,7 @@
             <div class="card h-100">
                 <img class="card-img-top" height="200" width="325" src="@item.ProfilePicture" alt="">
                 <div class="card-body">
-                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProfileName)</h4>
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.User.UserName)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p> 
                 </div>
                 <div class="card-footer">
