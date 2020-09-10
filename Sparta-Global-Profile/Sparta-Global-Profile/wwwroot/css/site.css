@@ -225,7 +225,7 @@ sparta-green-navbar: #01181B;
     padding: 4px;
 }
 
-.body-card-login {
+/*.body-card-login {
     width: 80vw;
     border-style: solid;
     border-width: 10px;
@@ -238,7 +238,7 @@ sparta-green-navbar: #01181B;
     margin-top: -10px;
     background-image:url('~/assets/brick-wall-2.jpg');
 
-}
+}*/
 
 
 .brick-wall {
