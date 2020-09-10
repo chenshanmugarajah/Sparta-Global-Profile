@@ -164,14 +164,17 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
+        public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword)
         {
             HttpContext context = HttpContext;
+
+
             var loggedInUserId = context.Session.GetInt32("UserId");
             var loggedInUserTypeId = context.Session.GetInt32("UserTypeId");
+            var loggedInUserProfileId = context.Session.GetInt32("ProfileId");
 
             var user = _context.Users.First(u => u.UserId == id);
-
+            
             if (ModelState.IsValid)
             {
                 if (loggedInUserId == id)
@@ -181,22 +184,38 @@ namespace Sparta_Global_Profile.Controllers
                         if (newPassword == newPasswordConfirm)
                         {
                             user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
+                            user.FirstLogin = false;
                             _context.Update(user);
                             await _context.SaveChangesAsync();
+
+                            if (loggedInUserTypeId == 1)
+                            {
+                                return RedirectToAction("Details", "Profile", new { id = loggedInUserProfileId });
+                            }
+
+                            else
+                            {
+                                return RedirectToAction("Index", "Profile");
+                            }
                         }
                         else
                         {
-                            newPasswordConfirmError = "Passwords do not match";
+                            ModelState.AddModelError("UserPassword", "Passwords do not match");
                         }
                     }
                     else
                     {
-                        currentPasswordError = "Password Incorrect";
+                        ModelState.AddModelError("UserPassword", "Incorrect Password");
                     }
-                    return RedirectToAction(nameof(Index));
+
+                    
+                    
+                    return RedirectToAction("Edit", "Users", new { id = user.UserId });
                 }
+
+                
                 if(loggedInUserTypeId == 5)
-                {
+      {
                     user.UserName = userName;
                     user.UserTypeId = userTypeId;
                     if(userTypeId == 1)
@@ -207,9 +226,11 @@ namespace Sparta_Global_Profile.Controllers
                     }
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Users");
                 }
             }
-            return RedirectToAction(nameof(Index));
+          
+            return RedirectToAction("Edit", "Users", new { id = user.UserId });
         }
 
         // GET: Users/Delete/5
