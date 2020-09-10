@@ -7,6 +7,7 @@
     var userId = Context.Session.GetString("UserId");
     var userTypeId = Context.Session.GetString("UserTypeId");
     var userEmail = Context.Session.GetString("UserEmail");
+
 }
 
 <h1>Edit</h1>
@@ -19,7 +20,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
             <div class="form-group">
-                <dl class="row">
+                <dl class="row"> 
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.UserEmail):
                     </dt>
@@ -33,49 +34,34 @@
                 {
                     <div class="form-group">
                         <label class="control-label"> Current Password</label>
-                        <input  type="password" name="currentPassword" class="form-control" />
+                        <input class="form-control" type="password" name="currentPassword" />
                         <span name="currentPasswordError"></span>
-                        
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">New Password</label>
-                        <input asp-for="UserPassword" type="password" name="newPassword" class="form-control" />
+                        <input class="form-control" type="password" name="newPassword"  />
                         <span name="newPasswordError"></span>
-
-
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Confirm New Password</label>
-                        <input type="password" name="newPasswordConfirm" class="form-control" />
+                        <input class="form-control" type="password" name="newPasswordConfirm" />
                         <span name="newPasswordConfirmError"></span>
                     </div>
                 }
 
                 if (@userTypeId == "5")
                 {
-                    @*<div class="form-group">
+                    <div class="form-group">
                         <label class="control-label">User Name</label>
-                        <input name="newPasswordConfirm" class="form-control" />
-                    </div>*@
-
+                        <input class="form-control" name="userName" asp-for="UserName" />
+                    </div>
                     <div class="form-group">
                         <label class="control-label">User Type</label>
                         <select id="userType" asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId" onchange="showCoursesDropdown();"></select>
                     </div>
-
-                    <div id="coursesDropdown">
-                        <div class="form-group">
-                            <label class="control-label">Course Name</label>
-                            <select class="form-control" name="courseId">
-                                @foreach (var item in ViewBag.Courses)
-                                {
-                                    <option value="@item.CourseId">@item.CourseName</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
+                    <div id="coursesDropdown"></div>
                 }
             }
 
@@ -88,7 +74,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"><button>Back to List</button></a>
 </div>
 
 @section Scripts {
@@ -96,6 +82,8 @@
 }
 
 <script>
+    showCoursesDropdown();
+
     function showCoursesDropdown() {
 
         var userTypeId = document.getElementById("userType").value;
@@ -105,12 +93,23 @@
              coursesDropdown.innerHTML = `<div class="form-group">
                                                 <label class="control-label">Course Name</label>
                                                 <select class="form-control" name="courseId">
-                                                    @foreach (var item in ViewBag.Courses)
-                                                    {
-                                                        <option value="@item.CourseId">@item.CourseName</option>
+                                                    @{
+                                                        var courseId = @ViewData["CourseId"];
+                                                        foreach(var item in ViewBag.Courses)
+                                                        {
+                                                            if (courseId != null && (int)courseId == (int)item.CourseId)
+                                                            {
+                                                                <option value="@item.CourseId" selected>@item.CourseName</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CourseId">@item.CourseName</option>
+                                                            }
+                                                        }
                                                     }
                                                 </select>
                                             </div>`;
+
         } else {
             coursesDropdown.innerHTML = "";
         }

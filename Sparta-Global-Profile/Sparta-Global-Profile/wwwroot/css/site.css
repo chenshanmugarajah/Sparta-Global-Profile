@@ -75,7 +75,10 @@ body {
     background-repeat:no-repeat;
     background-attachment:fixed;
 }
-
+h1.admin {
+    font-family: "ddcSparta";
+    text-align:center
+}
 h1, h2{
     font-family: "ddcSparta";
 }
@@ -195,12 +198,14 @@ sparta-green-navbar: #01181B;
 
 */
 
-.navbar-custom{
-    color: white !important;
+.navbar-sparta{
     background-color: #01181B !important;
 }
 
-
+.nav-link-sparta {
+    color: white;
+    font-size: 1.2rem;
+}
 
 /*Login*/
 
@@ -249,6 +254,16 @@ sparta-green-navbar: #01181B;
 
 .profile-section {
     width: 60vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.adminpanel-section {
+    width: 75vw;
     border-style: solid;
     border-width: 10px;
     border-color: #E33661;

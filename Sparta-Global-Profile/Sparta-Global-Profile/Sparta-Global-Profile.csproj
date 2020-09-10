@@ -4,8 +4,8 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Sparta_Global_Profile</RootNamespace>
+		<UserSecretsId>198c45a8-6b4f-4b70-b716-709df19c35e2</UserSecretsId>
 	</PropertyGroup>
-
 	
 	<ItemGroup>
 	  <None Include="wwwroot\assets\sparta-global-logo-white.svg" />

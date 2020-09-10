@@ -63,12 +63,12 @@ namespace Sparta_Global_Profile.Controllers
                 searchString = currentFilter;
             }
 
-            var profiles = from profile in _context.Profiles.Include(p => p.Course)
+            var profiles = from profile in _context.Profiles.Include(p => p.Course).Include(p => p.User)
                            select profile;
 
             if(userTypeId == "2")
             {
-                profiles = from profile in _context.Profiles.Include(p => p.Course).Where(p => p.Approved == true)
+                profiles = from profile in _context.Profiles.Include(p => p.Course).Include(p => p.User).Where(p => p.Approved == true)
                            select profile;
             }
 

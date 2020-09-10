@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,20 +22,42 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Employments
         public async Task<IActionResult> Index(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             ViewData["Type"] = "Student";
+            var spartaGlobalProfileDbContext = _context.Employment.Include(s => s.Profile);
+
             if (id != null)
             {
-                var spartaGlobalProfileDbContext = _context.Employment.Where(s => s.ProfileId == id).Include(s => s.Profile);
+                spartaGlobalProfileDbContext = _context.Employment.Where(s => s.ProfileId == id).Include(s => s.Profile);
                 ViewData["ProfileId"] = id;
                 ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
-                return View(await spartaGlobalProfileDbContext.ToListAsync());
             }
             else
             {
                 ViewData["Type"] = "All";
-                var spartaGlobalProfileDbContext = _context.Employment.Include(s => s.Profile);
-                return View(await spartaGlobalProfileDbContext.ToListAsync());
+                spartaGlobalProfileDbContext = _context.Employment.Include(s => s.Profile);
             }
+
+            return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
 
         // GET: Employments/Details/5
@@ -69,6 +92,27 @@ namespace Sparta_Global_Profile.Controllers
                 ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
                 ViewData["Profile"] = "0";
             }
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "employments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View();
         }
 
@@ -103,6 +147,27 @@ namespace Sparta_Global_Profile.Controllers
 
             ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == employment.ProfileId), "ProfileId", "ProfileName", employment.ProfileId);
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == employment.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "employments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(employment);
         }
 
@@ -159,6 +224,27 @@ namespace Sparta_Global_Profile.Controllers
             }
 
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == employment.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "employments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(employment);
         }
 
