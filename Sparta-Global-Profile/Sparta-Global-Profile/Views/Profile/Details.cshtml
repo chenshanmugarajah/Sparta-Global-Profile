@@ -7,28 +7,29 @@
 }
 <div class="body-card">
 
-
     <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
-
-
+  
     <h1>
-        <img width="50" height="50" class="profile-image" src="@Model.ProfilePicture">
-        <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.User.UserName) |
-        <span class="approved-pill">
+        <a>
+            <img width="100" height="100" class="profile-image" src=@Model.ProfilePicture>
+            <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.ProfileName)
+        </a>
+        <a class="approved-pill">
+
             @if (userTypeId != "2")
             {
                 if (@Model.Approved)
                 {
-                    <a>Approved</a>
+                    <span>Approved</span>
                 }
                 else
                 {
-                    <a>Unapproved</a>
+                    <span>Unapproved</span>
                 }
             }
-        </span>
-    </h1>
 
+        </a>
+    </h1>
 
     <hr />
     <h2><span class="academy-stream">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
@@ -36,18 +37,17 @@
     <br />
     <p>@Html.DisplayFor(model => model.Summary)</p>
 
+        <h5>Skills:</h5>
 
+        <ul>
+            @foreach (var skill in Model.Skills)
+            {
+                <li>@skill.SkillName</li>
+            }
+        </ul>
 
-
-    <h5>Skills:</h5>
-
-    <ul>
-        @foreach (var skill in Model.Skills)
-        {
-            <li>@skill.SkillName</li>
-        }
-    </ul>
     <h2 style="text-decoration:underline">Client Assignments</h2>
+
     @foreach (var assignment in Model.Assignments)
     {
         <h5 class="deep-pink-header">@assignment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @assignment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
@@ -56,6 +56,7 @@
         <p>@assignment.Summary</p>
         <br />
     }
+
     <h2 style="text-decoration:underline">Academy Projects</h2>
     @foreach (var project in Model.SpartaProjects)
     {
