@@ -7,27 +7,7 @@
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
-@*<style>
-    img {
-        max-width: 100%;
-        max-height: 100%;
-        display: block; /* remove extra space below image */
-    }
 
-    .box {
-        width: 250px;
-        border: 5px solid black;
-    }
-
-        .box.large {
-            height: 300px;
-        }
-
-        .box.small {
-            height: 100px;
-        }
-
-</style>*@
 
 <h1>Index</h1>
 
@@ -45,8 +25,7 @@
     {
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card h-100">
-                @*<div class="profile-image-container"></div>*@
-                <img class="profile-background-image" src="@item.ProfilePicture" alt="">
+                <img class="profile-background-image" style="height:300px" src="@item.ProfilePicture" alt="">
                 <div class="card-body">
                     <h4 class="card-title">@Html.DisplayFor(modelItem => item.User.UserName)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
@@ -63,23 +42,6 @@
                 </div>
             </div>
         </div>
-
-
-        @*<h2>Image inside Auto-height Div</h2>
-        <div class="box">
-            <img src="@item.ProfilePicture" alt="Cloudy Sky">
-        </div>
-        <br>
-        <h2>Image inside Portrait Div</h2>
-        <div class="box large">
-            <img src="@item.ProfilePicture" alt="Cloudy Sky">
-        </div>
-        <br>
-        <h2>Image inside Landscape Div</h2>
-        <div class="box small">
-            <img src="@item.ProfilePicture" alt="Cloudy Sky">
-        </div>*@
-
     }
 </div>
 
