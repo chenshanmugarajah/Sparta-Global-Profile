@@ -12,7 +12,8 @@
 
     @if (userTypeId == "1")
     {
-        <h1>Welcome @Html.DisplayFor(model => model.ProfileName)</h1>
+
+        <h1>Welcome @Html.DisplayFor(model => model.User.UserName)</h1>
         <h1 class="pink-header">Edit your profile here</h1>
         <hr />
         <h2 style="text-decoration:underline">Your Profile</h2>
@@ -25,7 +26,7 @@
         @if (userTypeId != "1")
         {
             <h2 style="text-decoration:underline">Student's Profile</h2>
-            <h3 class="pink-header">Staff View - Editing @Model.ProfileName's profile</h3>
+            <h3 class="pink-header">Staff View - Editing @Model.User.UserName's profile</h3>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Approved" /> @Html.DisplayNameFor(model => model.Approved)
@@ -44,11 +45,11 @@
 
         }
 
-        <div class="form-group">
-            <label asp-for="ProfileName" class="control-label">Your Name</label>
-            <input asp-for="ProfileName" class="form-control" />
+        @*<div class="form-group">
+            <label asp-for="User.UserName" class="control-label">Your Name</label>
+            <input asp-for="User.UserName" class="form-control" />
             <span asp-validation-for="ProfileName" class="text-danger"></span>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <label asp-for="Summary" class="control-label">Summary</label>
