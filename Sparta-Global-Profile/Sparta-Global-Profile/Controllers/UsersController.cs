@@ -28,23 +28,23 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
             
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
 
-            if (userTypeId == "1")
+            if (userTypeId == 1)
             {
-                return RedirectToAction("Details", "Profile", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("Details", "Profile", new { id = profileId });
             }
 
             ViewData["CurrentFilter"] = searchString;
 
-            if (userTypeId != "5")
+            if (userTypeId != 5)
             {
                 return RedirectToAction("Index", "Profile");
             }
@@ -124,8 +124,8 @@ namespace Sparta_Global_Profile.Controllers
                         await _context.SaveChangesAsync();
                     }
                     HttpContext context = HttpContext;
-                    var userId = context.Session.GetString("UserId");
-                    var admin = _context.Users.First(u => u.UserId == Int32.Parse(userId));
+                    var userId = context.Session.GetInt32("UserId");
+                    var admin = _context.Users.First(u => u.UserId == userId);
                     SendEmail(user.UserEmail, Helper.DecryptCipherTextToPlainText(user.UserPassword), user.UserName, admin.UserEmail, adminEmailPassword, admin.UserName);
                     return RedirectToAction(nameof(Index));
                 }
@@ -167,14 +167,14 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
         {
             HttpContext context = HttpContext;
-            var loggedInUserId = context.Session.GetString("UserId");
-            var loggedInUserTypeId = context.Session.GetString("UserTypeId");
+            var loggedInUserId = context.Session.GetInt32("UserId");
+            var loggedInUserTypeId = context.Session.GetInt32("UserTypeId");
 
             var user = _context.Users.First(u => u.UserId == id);
 
             if (ModelState.IsValid)
             {
-                if (Int32.Parse(loggedInUserId) == id)
+                if (loggedInUserId == id)
                 {
                     if (currentPassword == Helper.DecryptCipherTextToPlainText(user.UserPassword))
                     {
@@ -195,7 +195,7 @@ namespace Sparta_Global_Profile.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                if(loggedInUserTypeId == "5")
+                if(loggedInUserTypeId == 5)
                 {
                     user.UserName = userName;
                     user.UserTypeId = userTypeId;
