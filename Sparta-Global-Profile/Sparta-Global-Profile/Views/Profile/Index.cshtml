@@ -7,7 +7,7 @@
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
 
-<h1>Index</h1>
+<h1 class="profile">Index</h1>
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
@@ -26,14 +26,18 @@
                 <img class="card-img-top" height="200" width="325" src="@item.ProfilePicture" alt="">
                 <div class="card-body">
                     <h4 class="card-title">@Html.DisplayFor(modelItem => item.User.UserName)</h4>
-                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p> 
-                </div>
-                <div class="card-footer">
-                    <a asp-action="Details" asp-route-id="@item.ProfileId" class="btn btn-primary">Details</a>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
                     @if (userTypeId != "1" && userTypeId != "2")
                     {
-                        @if(item.Approved) { <a class="btn btn-primary">Approved</a> } else { <a class="btn btn-primary">Unapproved</a>}
+                        @if (item.Approved)
+                        {<p>Approved</p>}
+                        else
+                        {<p>Unapproved</p>}
                     }
+                </div>
+                <div class="card-footer">
+                    <a class="profilebutton" asp-action="Details" asp-route-id="@item.ProfileId" ><button >View Profile</button></a>
+
                 </div>
             </div>
         </div>

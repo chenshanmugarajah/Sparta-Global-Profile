@@ -76,6 +76,11 @@ h1.admin {
     font-family: "ddcSparta";
     text-align:center
 }
+
+h1.profile {
+    font-family: "ddcSparta";
+    text-align: center
+}
 h1, h2{
     font-family: "ddcSparta";
 }
@@ -104,6 +109,22 @@ button {
     margin: auto;
     vertical-align: middle;
 }
+
+
+profilebutton {
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
+    text-align: center;
+    margin: auto;
+    vertical-align: middle;
+    justify-content: center;
+    display: flex;
+}
+
 
 input[type=submit] {
     background-color: white;
