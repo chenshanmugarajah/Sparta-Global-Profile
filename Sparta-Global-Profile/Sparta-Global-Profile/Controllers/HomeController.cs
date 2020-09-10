@@ -22,15 +22,15 @@ namespace Sparta_Global_Profile.Controllers
         public IActionResult Index()
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
 
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
-            else if (userTypeId == "1")
+            else if (userTypeId == 1)
             {
                 return RedirectToAction("Details", "Profile", new { id = profileId });
             }

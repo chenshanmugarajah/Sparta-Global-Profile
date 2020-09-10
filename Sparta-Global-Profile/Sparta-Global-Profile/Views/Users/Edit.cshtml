@@ -4,10 +4,8 @@
 
 @{
     ViewData["Title"] = "Edit";
-    var userId = Context.Session.GetString("UserId");
-    var userTypeId = Context.Session.GetString("UserTypeId");
-    var userEmail = Context.Session.GetString("UserEmail");
-
+    var userId = Context.Session.GetInt32("UserId");
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
 
 <h1>Edit</h1>
@@ -30,7 +28,7 @@
                 </dl>
             </div>
             @{
-                if (Int32.Parse(@userId) == Model.UserId)
+                if (@userId == Model.UserId)
                 {
                     if (Model.FirstLogin == true)
                     {
@@ -55,7 +53,7 @@
                     </div>
                 }
 
-                if (@userTypeId == "5")
+                if (@userTypeId == 5)
                 {
                     <div class="form-group">
                         <label class="control-label">User Name</label>
