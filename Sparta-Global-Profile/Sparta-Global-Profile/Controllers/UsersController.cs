@@ -165,14 +165,14 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
+        public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword)
         {
             HttpContext context = HttpContext;
             var loggedInUserId = context.Session.GetString("UserId");
             var loggedInUserTypeId = context.Session.GetString("UserTypeId");
 
             var user = _context.Users.First(u => u.UserId == id);
-
+            
             if (ModelState.IsValid)
             {
                 if (Int32.Parse(loggedInUserId) == id)
@@ -187,16 +187,18 @@ namespace Sparta_Global_Profile.Controllers
                         }
                         else
                         {
-                            
-                            newPasswordConfirmError = "Passwords do not match";
+                            ModelState.AddModelError("UserPassword", "Passwords do not match");
                         }
                     }
                     else
                     {
-                        currentPasswordError = "Password Incorrect";
+                        ModelState.AddModelError("UserPassword", "Incorrect Password");
                     }
-                    return RedirectToAction(nameof(Index));
+                    
+                    
+                    return RedirectToAction("Edit", "Users", new { id = user.UserId });
                 }
+
                 if(loggedInUserTypeId == "5")
                 {
                     user.UserName = userName;
@@ -211,7 +213,8 @@ namespace Sparta_Global_Profile.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            return RedirectToAction(nameof(Index));
+          
+            return RedirectToAction("Edit", "Users", new { id = user.UserId });
         }
 
         // GET: Users/Delete/5

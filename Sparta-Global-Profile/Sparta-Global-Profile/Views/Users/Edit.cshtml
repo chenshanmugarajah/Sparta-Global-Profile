@@ -32,22 +32,24 @@
             @{
                 if (Int32.Parse(@userId) == Model.UserId)
                 {
-                    <div class="form-group">
-                        <label class="control-label"> Current Password</label>
-                        <input class="form-control" type="password" name="currentPassword" />
-                        <span name="currentPasswordError"></span>
-                    </div>
+                        <div class="form-group">
+                            <label class="control-label"> Current Password</label>
+                            <input  class="form-control" type="password" name="currentPassword" />
+                            
+                          
+                        </div>
 
                     <div class="form-group">
                         <label class="control-label">New Password</label>
-                        <input class="form-control" type="password" name="newPassword"  />
-                        <span name="newPasswordError"></span>
+                        <input onchange="PasswordValidate();" class="form-control" type="password" name="newPassword" id="newPassword" />
+                       
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Confirm New Password</label>
-                        <input class="form-control" type="password" name="newPasswordConfirm" />
-                        <span name="newPasswordConfirmError"></span>
+                        <input onchange="PasswordChecker();" class="form-control" type="password" name="newPasswordConfirm" id="newPasswordConfirm" />
+                        <div class="error" id="NoMatchError"></div>
+                        
                     </div>
                 }
 
@@ -60,6 +62,7 @@
                     <div class="form-group">
                         <label class="control-label">User Type</label>
                         <select id="userType" asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId" onchange="showCoursesDropdown();"></select>
+                      
                     </div>
                     <div id="coursesDropdown"></div>
                 }
@@ -74,7 +77,7 @@
 </div>
 
 <div>
-    <a asp-action="Index"><button>Back to List</button></a>
+    <a asp-action="Index"><button>Back</button></a>
 </div>
 
 @section Scripts {
@@ -115,5 +118,23 @@
         }
 
     }
+
+    function PasswordChecker() {
+       
+        var newPassword = document.getElementById("newPassword").value;
+        var newPasswordConfirm = document.getElementById("newPasswordConfirm").value;
+
+        if (newPassword != newPasswordConfirm) {
+            document.getElementById("NoMatchError").innerHTML = "Passwords do not match!";
+           
+        }
+    }
+
+    function PasswordValidate() {
+        var newPassword = document.getElementById("newPassword").value;
+
+        //newPassword.value
+    }
+
 
 </script>
