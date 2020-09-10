@@ -166,12 +166,14 @@ namespace Sparta_Global_Profile.Controllers
             }
 
             var assignment = await _context.Assignments.FindAsync(id);
+
             if (assignment == null)
             {
                 return NotFound();
             }
 
             ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == assignment.ProfileId), "ProfileId", "ProfileName", assignment.ProfileId);
+            var profile = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
 
             HttpContext context = HttpContext;
@@ -184,7 +186,7 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == 1 && profileId != id)
+            if (userTypeId == 1 && profileId != profile.ProfileId)
             {
                 return RedirectToAction("index", "assignments", new { id = profileId });
             }
@@ -248,6 +250,7 @@ namespace Sparta_Global_Profile.Controllers
             }
 
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
+            var profile = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
 
             HttpContext context = HttpContext;
             var userId = context.Session.GetInt32("UserId");
@@ -259,7 +262,7 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == 1 && profileId != id)
+            if (userTypeId == 1 && profileId != profile.ProfileId)
             {
                 return RedirectToAction("index", "assignments", new { id = profileId });
             }
