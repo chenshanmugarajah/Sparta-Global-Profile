@@ -198,6 +198,7 @@ namespace Sparta_Global_Profile.Controllers
                 }
                 if(loggedInUserTypeId == "5")
                 {
+                    user.UserName = userName;
                     user.UserTypeId = userTypeId;
                     if(userTypeId == 1)
                     {
@@ -269,7 +270,7 @@ namespace Sparta_Global_Profile.Controllers
                 Account Email: {newUserEmail}
                 Account Password: {newUserPassword}
 
-                *LINK HERE*
+                https://spartaprofile09092020.azurewebsites.net/
 
                 Kind regards, 
                 {myName}
