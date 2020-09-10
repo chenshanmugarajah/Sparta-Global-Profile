@@ -27,23 +27,38 @@ namespace Sparta_Global_Profile.Controllers
             var userTypeId = context.Session.GetString("UserTypeId");
             var profileId = context.Session.GetString("ProfileId");
 
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             ViewData["Type"] = "Student";
+            var spartaGlobalProfileDbContext = _context.Assignments.Include(s => s.Profile);
+
             if (id != null)
             {
-                if ((userTypeId == "1" && id.ToString() != profileId))
-                {
-                    return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
-                }
-                var spartaGlobalProfileDbContext = _context.Assignments.Where(s => s.ProfileId == id).Include(s => s.Profile);
+                spartaGlobalProfileDbContext = _context.Assignments.Where(s => s.ProfileId == id).Include(s => s.Profile);
                 ViewData["ProfileId"] = id;
                 ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
-                return View(await spartaGlobalProfileDbContext.ToListAsync());
             }
             else
             {
-                var spartaGlobalProfileDbContext = _context.Assignments.Include(s => s.Profile);
-                return await RedirectByUserType(View(await spartaGlobalProfileDbContext.ToListAsync()));
+                spartaGlobalProfileDbContext = _context.Assignments.Include(s => s.Profile);
             }
+
+            
+
+            return View(await spartaGlobalProfileDbContext.ToListAsync());
         }
         //public async Task<IActionResult> RedirectByUserType(string userId, string userTypeId, string profileId, IIncludableQueryable<out TEntity, out TProfile)
         public async Task<IActionResult> RedirectByUserType(ViewResult view)
@@ -93,6 +108,11 @@ namespace Sparta_Global_Profile.Controllers
         // GET: Assignments/Create
         public IActionResult Create(int? id)
         {
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");            
+
             if (id != null)
             {
                 ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == id), "ProfileId", "ProfileName");
@@ -102,6 +122,21 @@ namespace Sparta_Global_Profile.Controllers
             {
                 ViewData["ProfileId"] = new SelectList(_context.Profiles, "ProfileId", "ProfileName");
                 ViewData["Profile"] = "0";
+            }
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("create", "assignments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
             }
 
             return View();
@@ -138,6 +173,27 @@ namespace Sparta_Global_Profile.Controllers
 
             ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == assignment.ProfileId), "ProfileId", "ProfileName", assignment.ProfileId);
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "assignments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(assignment);
         }
 
@@ -192,6 +248,27 @@ namespace Sparta_Global_Profile.Controllers
             }
 
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
+
+            HttpContext context = HttpContext;
+            var userId = context.Session.GetString("UserId");
+            var userTypeId = context.Session.GetString("UserTypeId");
+            var profileId = context.Session.GetString("ProfileId");
+
+            if (userTypeId == null)
+            {
+                return RedirectToAction("index", "login");
+            }
+
+            if (userTypeId == "1" && profileId != id.ToString())
+            {
+                return RedirectToAction("index", "assignments", new { id = Int32.Parse(profileId) });
+            }
+
+            if (userTypeId == "2")
+            {
+                return RedirectToAction("index", "profile");
+            }
+
             return View(assignment);
         }
 

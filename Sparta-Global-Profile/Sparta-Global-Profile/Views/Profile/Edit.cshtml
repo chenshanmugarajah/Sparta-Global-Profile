@@ -8,7 +8,7 @@
     // AmazonUpload amazonUpload = new AmazonUpload();
 }
 
-<div class="profile-section" style="background-image: url(~/wwwroot/assets/brick-wall-2.jpg)">
+<div class="profile-section">
 
     @if (userTypeId == "1")
     {
@@ -258,8 +258,6 @@
         <a asp-action="Index"><button>View Profile</button></a>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
