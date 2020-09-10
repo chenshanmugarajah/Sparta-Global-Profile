@@ -5,12 +5,7 @@
     ViewData["Title"] = "Index";
     var userTypeId = Context.Session.GetString("UserTypeId");
 }
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> e4bd7bcad749f58e3b333de22fcfd9a9609f7dd3
 <h1>Index</h1>
 
 <form asp-action="Index" method="get">
@@ -27,11 +22,9 @@
     {
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card h-100">
-<<<<<<< HEAD
+
                 <img class="profile-background-image" style="height:300px" src="@item.ProfilePicture" alt="">
-=======
-                <img class="profile-background-image" height="150" src="@item.ProfilePicture" alt="">
->>>>>>> e4bd7bcad749f58e3b333de22fcfd9a9609f7dd3
+
                 <div class="card-body">
                     <h4 class="card-title">@Html.DisplayFor(modelItem => item.User.UserName)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
