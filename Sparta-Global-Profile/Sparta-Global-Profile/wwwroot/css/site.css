@@ -110,7 +110,6 @@ button {
     vertical-align: middle;
 }
 
-
 profilebutton {
     background-color: white;
     color: black;
@@ -142,15 +141,8 @@ input[type=reset] {
     border-radius: 7px;
     border-color: #e33661;
     height: 30px;
-}*/*/
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
 }
+
 .academy-stream{
     color: #E33661;
 }
@@ -174,14 +166,13 @@ input[type=reset] {
 
 .approved-pill {
     font-family: "glennSparta";
-/*    display: inline-block;*/
     color:#E33661;
     font-size: 20px;
     padding: 3px;
     border-style:solid;
     border-color: #E33661;
     border-radius: 10px;
-
+    margin-bottom: 100px;
 }
 
 .body-card {
@@ -197,8 +188,13 @@ input[type=reset] {
     margin-top: -50px;
 }
 
+.body-card-space {
+    padding-top: 60px
+
+}
+
 .video {
-    margin-top: 60px;
+    
     padding-bottom: 30px;
     width: 100%;
     height: 600px;
@@ -207,6 +203,8 @@ input[type=reset] {
 .profile-image{
     border-radius: 100px;
     border-style: solid;
+    float:left;
+    margin-right: 20px;
 }
 
 .inline{
@@ -226,22 +224,6 @@ input[type=reset] {
     font-family: glennSparta;
     src: url(bwglennsansdemo-661278/Bw\ Glenn\ Sans\ DEMO/BwGlennSansDEMO-Black.otf)
 }
-
-/*
-
-sparta-bright-pink: #E33661;
-
-sparta-mid-gold: #EBAA1C;
-
-sparta-deep-pink: #94244A;
-
-sparta-purple: #411F50;
-
-sparta-midnight: #1B0E1D;
-
-sparta-green-navbar: #01181B;
-
-*/
 
 .navbar-sparta{
     background-color: #01181B !important;
@@ -284,29 +266,11 @@ sparta-green-navbar: #01181B;
     padding: 4px;
 }
 
-/*.body-card-login {
-    width: 80vw;
-    border-style: solid;
-    border-width: 10px;
-    border-color: #E33661;
-    border-top-style: none;
-    border-radius: 10px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    padding: 0 20px 20px 20px;
-    margin-top: -10px;
-    background-image:url('~/assets/brick-wall-2.jpg');
-
-}*/
-
-
 .brick-wall {
     background-image: url('../assets/brick-wall.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-
-/*src="~/Assets/sparta-global-logo-white.svg"*/
 
 .profile-section {
     width: 60vw;

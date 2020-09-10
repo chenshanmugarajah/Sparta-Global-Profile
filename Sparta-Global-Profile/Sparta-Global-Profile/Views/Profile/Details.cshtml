@@ -6,20 +6,21 @@
     var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
 
-<div class="body-card">
+<div class="body-card body-card-space">
+    
+    @if (Model.ProfileVideo != null)
+    {
+        <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
+    }
 
-    <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
-
-    <h1>
-
-        <a>
-            <img width="100" height="100" class="profile-image" src="@Model.ProfilePicture">
-            <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.User.UserName)
-        </a>
+  <div>
+    <img width="100" height="100" class="profile-image" src="@Model.ProfilePicture">
+    <div style="height:100px">
+        <h2><span class="academy-stream">Meet </span>@Html.DisplayFor(model => model.User.UserName)</h2>
         <a class="approved-pill">
 
             @if (userTypeId != 2)
-
+          
             {
                 if (@Model.Approved)
                 {
@@ -30,10 +31,11 @@
                     <span>Unapproved</span>
                 }
             }
-
         </a>
-    </h1>
 
+    </div>
+    
+  </div>
     <hr />
     <h2><span class="academy-stream">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
 
