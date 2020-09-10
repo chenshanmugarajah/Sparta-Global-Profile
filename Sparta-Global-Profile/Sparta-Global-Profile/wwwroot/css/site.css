@@ -271,6 +271,14 @@ sparta-green-navbar: #01181B;
     object-fit: contain;
 }
 
+.dropdown-sparta {
+    color: white;
+}
+
+.dropdown-sparta:hover {
+    color: white;
+}
+
 .error {
     margin: 14px;
     padding: 4px;
