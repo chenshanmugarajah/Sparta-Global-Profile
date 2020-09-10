@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label class="control-label">New Password</label>
                         <input onchange="PasswordValidate();" class="form-control" type="password" name="newPassword" id="newPassword" />
-                       
+                       <div class="error" id="NotValidError"></div>
                     </div>
 
                     <div class="form-group">
@@ -132,7 +132,12 @@
 
     function PasswordValidate() {
         var newPassword = document.getElementById("newPassword").value;
-
+       
+        var regex = RegExp("(?=.*\d)(?=.* [a - z])(?=.* [A - Z]).{ 8, 50}")
+        if (!regex.test(newPassword))
+        {
+            document.getElementById("NotValidError").innerHTML = "Password must be atleast 8 characters long and container both upper and lower case letters and atleast 1 number";
+        }
         //newPassword.value
     }
 
