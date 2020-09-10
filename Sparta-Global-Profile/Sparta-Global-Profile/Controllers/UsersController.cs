@@ -171,6 +171,7 @@ namespace Sparta_Global_Profile.Controllers
 
             var loggedInUserId = context.Session.GetInt32("UserId");
             var loggedInUserTypeId = context.Session.GetInt32("UserTypeId");
+            var loggedInUserProfileId = context.Session.GetInt32("ProfileId");
 
             var user = _context.Users.First(u => u.UserId == id);
 
@@ -187,7 +188,7 @@ namespace Sparta_Global_Profile.Controllers
                             _context.Update(user);
                             await _context.SaveChangesAsync();
 
-                            if (loggedInUserTypeId == "1")
+                            if (loggedInUserTypeId == 1)
                             {
                                 return RedirectToAction("Details", "Profile", new { id = loggedInUserProfileId });
                             }
