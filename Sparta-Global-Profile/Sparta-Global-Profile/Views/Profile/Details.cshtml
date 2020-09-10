@@ -11,6 +11,7 @@
     <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
 
     <h1>
+
         <a>
             <img width="100" height="100" class="profile-image" src="@Model.ProfilePicture">
             <span class="pink-header">Meet </span>@Html.DisplayFor(model => model.User.UserName)
@@ -18,6 +19,7 @@
         <a class="approved-pill">
 
             @if (userTypeId != 2)
+
             {
                 if (@Model.Approved)
                 {
