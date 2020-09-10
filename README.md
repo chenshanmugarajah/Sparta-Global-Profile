@@ -320,18 +320,21 @@ Notes:
 - 9:30 Stand up
 - 10:00 
   - Chris Refactored Sessions, user deletion
+  - Chen added permissions to all profile sections and merged into Dev branch
+- 11:00
+  - Chen added styles to all the profile sections
 - 12:30 Lunch
 - 13:30 
   - Chris added first time user password change
-
+- 14:00
+  - Chen fixed a permissions issue
 - 15:00
   - Final Merge of all branches
 
 * Friday
-
+- PRESENTATION
 
 
 ## MVP
-
 ### MVP Description
 * Creating a page with input boxes to create a online Sparta Profile and view all the profiles based on the layout given by product owner
