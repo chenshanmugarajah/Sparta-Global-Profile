@@ -72,7 +72,10 @@ body {
     margin-bottom: 60px;
     font-family: "tahomaSparta";
 }
-
+h1.admin {
+    font-family: "ddcSparta";
+    text-align:center
+}
 h1, h2{
     font-family: "ddcSparta";
 }
@@ -210,6 +213,16 @@ sparta-green-navbar: #01181B;
 
 .profile-section {
     width: 60vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.adminpanel-section {
+    width: 75vw;
     border-style: solid;
     border-width: 10px;
     border-color: #E33661;
