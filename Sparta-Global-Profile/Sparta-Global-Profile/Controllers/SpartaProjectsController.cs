@@ -147,6 +147,8 @@ namespace Sparta_Global_Profile.Controllers
             }
             ViewData["ProfileId"] = new SelectList(_context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId), "ProfileId", "ProfileName", spartaProject.ProfileId);
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == spartaProject.ProfileId).First();
+            ViewData["ProjectLinks"] = _context.ProjectLinks.Where(pl => pl.SpartaProjectId == id);
+            ViewData["ProjectId"] = id;
 
             HttpContext context = HttpContext;
             var userId = context.Session.GetString("UserId");
