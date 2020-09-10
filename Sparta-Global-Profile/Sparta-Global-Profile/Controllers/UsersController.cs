@@ -117,10 +117,8 @@ namespace Sparta_Global_Profile.Controllers
                             StatusId = 1,
                             ProfileName = "New Student",
                             ProfilePicture = @"/assets/default-profile-image.png",
-                            Summary = "PLEASE DELETE THIS TEXT! ALL BODY TEXT SHOULD BE VERDANA SIZE 8 – PLEASE DO NOT EDIT FONT SIZES. HEADINGS ARE VERDANA 12 (I.E. SUMMARY, ACADEMY EXPERIENCE, ETC). SUBHEADINGS ARE VERDANA SIZE 9 (I.E. BUSINESS SKILLS, AUTOMATION, ETC.)" 
-                            + "\nThis should be around 80 – 100 words and express your work ethics, personality, what you are like to work with in a team, what skills you are going to bring to the table and help the clients projects succeed.Example:"
-                            + "Lee’s infectiously positive personality means he works very well within teams and provides motivation and direction towards the successful completion of projects. He is a person who can break down a problem into its constituent parts and provide effective solutions to tackle any issue at hand, it’s a winning formula when combining the ability to explain complex ideas concisely to audiences of varying levels in an engaging manner.",
-                            CourseId =  courseId,
+                            Summary = "",
+                            CourseId = courseId,
                             Approved = false
                         };
                         _context.Profiles.Add(profile);
@@ -154,6 +152,11 @@ namespace Sparta_Global_Profile.Controllers
             }
             ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
             ViewData["Courses"] = _context.Courses.ToList();
+            var profile = _context.Profiles.FirstOrDefault(p => p.UserId == id);
+            if(profile != null)
+            {
+                ViewData["CourseId"] = profile.CourseId;
+            }
             return View(user);
         }
 
@@ -162,21 +165,22 @@ namespace Sparta_Global_Profile.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int UserId, string UserName, string UserEmail, int UserTypeId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
+        public async Task<IActionResult> Edit(int id, string userName, int userTypeId, int courseId, string newPassword, string newPasswordConfirm, string currentPassword, string currentPasswordError, string newPasswordConfirmError)
         {
-            var user = _context.Users.First(u => u.UserId == UserId);
-            if (id != user.UserId)
-            {
-                return NotFound();
-            }
+            HttpContext context = HttpContext;
+            var loggedInUserId = context.Session.GetString("UserId");
+            var loggedInUserTypeId = context.Session.GetString("UserTypeId");
+
+            var user = _context.Users.First(u => u.UserId == id);
 
             if (ModelState.IsValid)
             {
-                try
+                if (Int32.Parse(loggedInUserId) == id)
                 {
                     if (currentPassword == Helper.DecryptCipherTextToPlainText(user.UserPassword))
                     {
-                        if (newPassword == newPasswordConfirm) {
+                        if (newPassword == newPasswordConfirm)
+                        {
                             user.UserPassword = Helper.EncryptPlainTextToCipherText(newPassword);
                             _context.Update(user);
                             await _context.SaveChangesAsync();
@@ -190,23 +194,23 @@ namespace Sparta_Global_Profile.Controllers
                     {
                         currentPasswordError = "Password Incorrect";
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                if(loggedInUserTypeId == "5")
                 {
-                    if (!UserExists(user.UserId))
+                    user.UserName = userName;
+                    user.UserTypeId = userTypeId;
+                    if(userTypeId == 1)
                     {
-                        return NotFound();
+                        var profile = _context.Profiles.First(p => p.UserId == id);
+                        profile.CourseId = courseId;
+                        _context.Update(profile);
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["UserTypeId"] = new SelectList(_context.UserTypes, "UserTypeId", "UserTypeName", user.UserTypeId);
-            ViewData["Courses"] = _context.Courses.ToList();
-            return View(user);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Users/Delete/5
@@ -261,12 +265,12 @@ namespace Sparta_Global_Profile.Controllers
             {
                 Text = @$"Hi {newUserName},
 
-                You have recieved an invite to access Sparta Global's profile portal. Please follow the link below and enter the following account details to access the portal.
+                You have received an invite to access Sparta Global's profile portal. Please follow the link below and enter the following account details to access the portal.
                 
                 Account Email: {newUserEmail}
                 Account Password: {newUserPassword}
 
-                *LINK HERE*
+                https://spartaprofile09092020.azurewebsites.net/
 
                 Kind regards, 
                 {myName}

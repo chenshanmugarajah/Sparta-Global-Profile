@@ -8,10 +8,11 @@
     // AmazonUpload amazonUpload = new AmazonUpload();
 }
 
-<div class="profile-section" style="background-image: url(~/wwwroot/assets/brick-wall-2.jpg)">
+<div class="profile-section">
 
     @if (userTypeId == "1")
     {
+
         <h1>Welcome @Html.DisplayFor(model => model.User.UserName)</h1>
         <h1 class="pink-header">Edit your profile here</h1>
         <hr />
@@ -64,10 +65,6 @@
             <span asp-validation-for="ProfileVideo" class="text-danger"/>
          </div>
     }
-<!--     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-</form> -->
 
         <div class="form-group">
             <button id="profileSubmit" type="submit">Save</button>
@@ -198,21 +195,6 @@
                 <h5 class="deep-pink-header">@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h5>
                 <h5 class="pink-header">@education.Establishment</h5>
                 <h5 class="pink-header">@education.Qualification: @education.Grade</h5>
-                <h5>Modules</h5>
-                @if (education.Modules.Count != 0)
-                {
-                    <ul>
-                        @foreach (var module in education.Modules)
-                        {
-                            <li>@module.CourseYear: @module.ModuleName</li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p class="pink-header">You have currently have no modules added for this establishment</p>
-                    <p class="pink-header">Edit education to add modules</p>
-                }
             }
             <a asp-controller="educations" asp-action="index" asp-route-id="@Model.ProfileId"><button>Edit Education History</button></a>
         }
@@ -277,8 +259,6 @@
         <a asp-action="Index"><button>View Profile</button></a>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
