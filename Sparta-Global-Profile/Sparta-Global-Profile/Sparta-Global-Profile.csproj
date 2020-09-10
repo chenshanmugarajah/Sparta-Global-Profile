@@ -4,6 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Sparta_Global_Profile</RootNamespace>
+		<UserSecretsId>e2538348-8350-40f6-b1c1-09355f7c6f34</UserSecretsId>
 	</PropertyGroup>
 	
 	<ItemGroup>
