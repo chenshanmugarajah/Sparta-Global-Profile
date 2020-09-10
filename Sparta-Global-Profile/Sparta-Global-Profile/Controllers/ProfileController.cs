@@ -38,16 +38,16 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Index(string searchString,  int? pageNumber, string currentFilter)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
 
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
             
-            if(userTypeId == "1")
+            if(userTypeId == 1)
             {
                 return RedirectToAction("Details", "Profile", new { id = profileId });
             }
@@ -66,7 +66,7 @@ namespace Sparta_Global_Profile.Controllers
             var profiles = from profile in _context.Profiles.Include(p => p.Course).Include(p => p.User)
                            select profile;
 
-            if(userTypeId == "2")
+            if(userTypeId == 2)
             {
                 profiles = from profile in _context.Profiles.Include(p => p.Course).Include(p => p.User).Where(p => p.Approved == true)
                            select profile;
@@ -85,7 +85,7 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
+            var userId = context.Session.GetInt32("UserId");
 
             if (userId == null)
             {
@@ -135,7 +135,7 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Create([Bind("ProfileId,UserId,StatusId,ProfileName,ProfilePicture,Summary,CourseId,Approved")] Profile profile)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
+            var userId = context.Session.GetInt32("UserId");
 
             if (userId == null)
             {
@@ -159,15 +159,15 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
 
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
 
-            if(userTypeId == "2")
+            if(userTypeId == 2)
             {
                 return RedirectToAction("Index", "Profile");
             }
@@ -208,7 +208,7 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Edit(int id, int UserId, int ProfileId, int StatusId, string ProfileName, string ProfileVideo, string Summary, int CourseId, bool Approved)
         {
             HttpContext context = HttpContext;
-            var userTypeId = Int32.Parse(context.Session.GetString("UserTypeId"));
+            var userTypeId = context.Session.GetInt32("UserTypeId");
 
             var studentProfile = _context.Profiles.First(p => p.ProfileId == ProfileId);
 

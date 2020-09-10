@@ -43,24 +43,30 @@ namespace Sparta_Global_Profile.Controllers
             else 
             {
                 ViewData["UserEmail"] = user.UserEmail;
-                HttpContext.Session.SetString("UserId", user.UserId.ToString());
-                HttpContext.Session.SetString("UserTypeId", user.UserTypeId.ToString());
+                HttpContext.Session.SetInt32("UserId", user.UserId);
+                HttpContext.Session.SetInt32("UserTypeId", user.UserTypeId);
                 HttpContext.Session.SetString("UserEmail", user.UserEmail);
-                if(profile != null)
+                if (profile != null)
                 {
-                    HttpContext.Session.SetString("ProfileId", profile.ProfileId.ToString());
+                    HttpContext.Session.SetInt32("ProfileId", profile.ProfileId);
                 }
-
-                if (user.UserTypeId == 2 || user.UserTypeId == 3 || user.UserTypeId == 4 || user.UserTypeId == 5)
+                
+                if (user.FirstLogin == true)
                 {
-                    return RedirectToAction("Index", "Profile");
+                    return RedirectToAction("Edit", "Users", new { id = user.UserId });
                 }
+               
                 if (user.UserTypeId == 1)
                 {
                     var routeId = profile.ProfileId;
-                    return RedirectToAction("Details", "Profile", new { id = routeId  });
+                    return RedirectToAction("Details", "Profile", new { id = routeId });
                 }
-                return View("Index");
+
+                else
+                {
+                    return RedirectToAction("Index", "Profile");
+                }
+                
             }
         }
 

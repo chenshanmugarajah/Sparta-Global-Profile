@@ -23,21 +23,21 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
 
             if (userTypeId == null)
             {
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == "1" && profileId != id.ToString())
+            if (userTypeId == 1 && profileId != id)
             {
-                return RedirectToAction("create", "spartaprojects", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("create", "spartaprojects", new { id = profileId });
             }
 
-            if (userTypeId == "2")
+            if (userTypeId == 2)
             {
                 return RedirectToAction("index", "profile");
             }
@@ -64,19 +64,19 @@ namespace Sparta_Global_Profile.Controllers
         public async Task<IActionResult> RedirectByUserType(ViewResult view)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
 
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
-            if (userTypeId == "1")
+            if (userTypeId == 1)
             {
-                return RedirectToAction("Index", "Assignments", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("Index", "Assignments", new { id = profileId });
             }
-            if (userTypeId == "2")
+            if (userTypeId == 2)
             {
                 return RedirectToAction("Index", "Profiles");
             }
@@ -109,9 +109,9 @@ namespace Sparta_Global_Profile.Controllers
         public IActionResult Create(int? id)
         {
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");            
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");            
 
             if (id != null)
             {
@@ -129,12 +129,12 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == "1" && profileId != id.ToString())
+            if (userTypeId == 1 && profileId != id)
             {
-                return RedirectToAction("create", "assignments", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("create", "assignments", new { id = profileId });
             }
 
-            if (userTypeId == "2")
+            if (userTypeId == 2)
             {
                 return RedirectToAction("index", "profile");
             }
@@ -175,21 +175,21 @@ namespace Sparta_Global_Profile.Controllers
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
 
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
 
             if (userTypeId == null)
             {
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == "1" && profileId != id.ToString())
+            if (userTypeId == 1 && profileId != id)
             {
-                return RedirectToAction("index", "assignments", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("index", "assignments", new { id = profileId });
             }
 
-            if (userTypeId == "2")
+            if (userTypeId == 2)
             {
                 return RedirectToAction("index", "profile");
             }
@@ -250,21 +250,21 @@ namespace Sparta_Global_Profile.Controllers
             ViewData["Profile"] = _context.Profiles.Where(p => p.ProfileId == assignment.ProfileId).First();
 
             HttpContext context = HttpContext;
-            var userId = context.Session.GetString("UserId");
-            var userTypeId = context.Session.GetString("UserTypeId");
-            var profileId = context.Session.GetString("ProfileId");
+            var userId = context.Session.GetInt32("UserId");
+            var userTypeId = context.Session.GetInt32("UserTypeId");
+            var profileId = context.Session.GetInt32("ProfileId");
 
             if (userTypeId == null)
             {
                 return RedirectToAction("index", "login");
             }
 
-            if (userTypeId == "1" && profileId != id.ToString())
+            if (userTypeId == 1 && profileId != id)
             {
-                return RedirectToAction("index", "assignments", new { id = Int32.Parse(profileId) });
+                return RedirectToAction("index", "assignments", new { id = profileId });
             }
 
-            if (userTypeId == "2")
+            if (userTypeId == 2)
             {
                 return RedirectToAction("index", "profile");
             }

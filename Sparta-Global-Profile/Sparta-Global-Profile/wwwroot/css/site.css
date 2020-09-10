@@ -71,13 +71,15 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     font-family: "tahomaSparta";
-    background-image:url('../assets/brick-wall.jpg');
-    background-repeat:no-repeat;
-    background-attachment:fixed;
 }
 h1.admin {
     font-family: "ddcSparta";
     text-align:center
+}
+
+h1.profile {
+    font-family: "ddcSparta";
+    text-align: center
 }
 h1, h2{
     font-family: "ddcSparta";
@@ -86,23 +88,61 @@ h1, h2{
 h3, h4, h5, h6{
     font-family: "glennSparta";
 }
-/*
-button {
-    background-color: #E33661 !important;
-    border-style: none;
-    border-radius: 2px;
-    color: #fff;
+
+.userbutton {
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
 }
 
+button {
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
+    text-align: center;
+    margin: auto;
+    vertical-align: middle;
+}
+
+
+profilebutton {
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
+    text-align: center;
+    margin: auto;
+    vertical-align: middle;
+    justify-content: center;
+    display: flex;
+}
+
+
 input[type=submit] {
-    background-color: #E33661 !important;
-    color: #fff;
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
 }
 
 input[type=reset] {
-    background-color: #411F50 !important;
-    color: #fff;
-}*/
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
+}*/*/
 
 .footer {
     position: absolute;
@@ -134,7 +174,7 @@ input[type=reset] {
 
 .approved-pill {
     font-family: "glennSparta";
-    display: inline-block;
+/*    display: inline-block;*/
     color:#E33661;
     font-size: 20px;
     padding: 3px;
@@ -156,6 +196,7 @@ input[type=reset] {
     padding: 0 20px 20px 20px;
     margin-top: -50px;
 }
+
 .video {
     margin-top: 60px;
     padding-bottom: 30px;
@@ -164,8 +205,12 @@ input[type=reset] {
 }
 
 .profile-image{
-    border-radius: 50px;
+    border-radius: 100px;
     border-style: solid;
+}
+
+.inline{
+    float: left;
 }
 @font-face { /* Used as titular font, headlines etc. */
     font-family: ddcSparta;
@@ -218,11 +263,12 @@ sparta-green-navbar: #01181B;
     min-height: 80vh;
 }
 
-.background-image {
-    max-width: 100%;
-    max-height: 100%;
-    display: block; 
+.sparta-logo {
+    width: 100%;
+    height: auto;
+    display: block;
     padding: 4px;
+    object-fit: contain;
 }
 
 .error {
@@ -247,7 +293,9 @@ sparta-green-navbar: #01181B;
 
 
 .brick-wall {
-    background-image: url("~/Assets/brick-wall.jpg");
+    background-image: url('../assets/brick-wall.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /*src="~/Assets/sparta-global-logo-white.svg"*/

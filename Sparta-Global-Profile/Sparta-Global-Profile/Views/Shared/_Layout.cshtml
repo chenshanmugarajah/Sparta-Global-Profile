@@ -14,8 +14,8 @@
 </head>
 <body>
     @{
-        var userId = Context.Session.GetString("UserId");
-        var userTypeId = Context.Session.GetString("UserTypeId");
+        var userId = Context.Session.GetInt32("UserId");
+        var userTypeId = Context.Session.GetInt32("UserTypeId");
         var userEmail = Context.Session.GetString("UserEmail");
     }
     <header>
@@ -32,14 +32,14 @@
                     {
                         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                             <ul class="navbar-nav flex-grow-1">
-                                @if (@userTypeId != "1")
+                                @if (@userTypeId != 1)
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-sparta" asp-area="" asp-controller="Profile" asp-action="Index">Sparta Profiles</a>
                                     </li>
                                 }
 
-                                @if (@userTypeId == "5")
+                                @if (@userTypeId == 5)
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-sparta" asp-area="" asp-controller="Users" asp-action="Index">Admin Panel</a>
