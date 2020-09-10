@@ -83,7 +83,8 @@ h1, h2{
 h3, h4, h5, h6{
     font-family: "glennSparta";
 }
-/*
+
+
 button {
     background-color: #E33661 !important;
     border-style: none;
@@ -92,14 +93,22 @@ button {
 }
 
 input[type=submit] {
-    background-color: #E33661 !important;
-    color: #fff;
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
 }
 
 input[type=reset] {
-    background-color: #411F50 !important;
-    color: #fff;
-}*/
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: #e33661;
+    height: 30px;
+}*/*/
 
 .footer {
     position: absolute;
@@ -131,7 +140,7 @@ input[type=reset] {
 
 .approved-pill {
     font-family: "glennSparta";
-    display: inline-block;
+/*    display: inline-block;*/
     color:#E33661;
     font-size: 20px;
     padding: 3px;
@@ -153,6 +162,7 @@ input[type=reset] {
     padding: 0 20px 20px 20px;
     margin-top: -50px;
 }
+
 .video {
     margin-top: 60px;
     padding-bottom: 30px;
@@ -161,8 +171,12 @@ input[type=reset] {
 }
 
 .profile-image{
-    border-radius: 50px;
+    border-radius: 100px;
     border-style: solid;
+}
+
+.inline{
+    float: left;
 }
 @font-face { /* Used as titular font, headlines etc. */
     font-family: ddcSparta;
@@ -206,9 +220,48 @@ sparta-green-navbar: #01181B;
 
 /*Login*/
 
+.field-validation-error {
+    color: grey;
+    font-weight: lighter;
+}
+
+.login {
+    min-height: 80vh;
+}
+
+.sparta-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+    padding: 4px;
+    object-fit: contain;
+}
+
+.error {
+    margin: 14px;
+    padding: 4px;
+}
+
+/*.body-card-login {
+    width: 80vw;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #E33661;
+    border-top-style: none;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 0 20px 20px 20px;
+    margin-top: -10px;
+    background-image:url('~/assets/brick-wall-2.jpg');
+
+}*/
+
 
 .brick-wall {
-    background-image: url("~/Assets/brick-wall.jpg");
+    background-image: url('../assets/brick-wall.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /*src="~/Assets/sparta-global-logo-white.svg"*/

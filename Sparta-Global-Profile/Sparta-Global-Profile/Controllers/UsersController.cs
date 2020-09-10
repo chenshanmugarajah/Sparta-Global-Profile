@@ -49,21 +49,20 @@ namespace Sparta_Global_Profile.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            var users = from user in _context.Users.Include(u => u.UserType)
-                           select user;
-            
+            var users = from user in _context.Users.Include(u => u.UserType).OrderBy(u => u.UserName)
+                        select user;
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                users = users.Where(u => u.UserEmail.Contains(searchString));
+                users = users.Where(u => u.UserName.Contains(searchString));
             }
+            
 
-            //var spartaGlobalProfileDbContext = _context.Users.Include(u => u.UserType);
             return View(await users.ToListAsync());
         }
 
         // GET: Users/Details/5
 
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
