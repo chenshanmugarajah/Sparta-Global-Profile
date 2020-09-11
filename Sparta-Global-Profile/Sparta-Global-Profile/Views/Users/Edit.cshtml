@@ -1,0 +1,152 @@
+
+﻿@using Microsoft.AspNetCore.Http
+@model Sparta_Global_Profile.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+    var userId = Context.Session.GetInt32("UserId");
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
+}
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserEmail):
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserEmail)
+                    </dd>
+                </dl>
+            </div>
+            @{
+                if (@userId == Model.UserId)
+                {
+
+                    if (Model.FirstLogin == true)
+                    {
+                        <label class="text-danger">You must change your password.</label>
+                    }
+                    <div class="form-group">
+                            <label class="control-label"> Current Password</label>
+                            <input  class="form-control" type="password" name="currentPassword" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">New Password</label>
+                        <input onchange="PasswordValidate();" class="form-control" type="password" name="newPassword" id="newPassword" />
+                       <div class="error" id="NotValidError"></div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Confirm New Password</label>
+                        <input onchange="PasswordChecker();" class="form-control" type="password" name="newPasswordConfirm" id="newPasswordConfirm" />
+                        <div class="error" id="NoMatchError"></div>
+                        
+                    </div>
+                }
+
+                if (@userTypeId == 5)
+                {
+                    <div class="form-group">
+                        <label class="control-label">User Name</label>
+                        <input class="form-control" name="userName" asp-for="UserName" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">User Type</label>
+                        <select id="userType" asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId" onchange="showCoursesDropdown();"></select>
+                      
+                    </div>
+                    <div id="coursesDropdown"></div>
+                }
+            }
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="button" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+
+    @if (Model.FirstLogin != true)
+    {
+        <a asp-action="Index"><button>Back</button></a>
+    }
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    showCoursesDropdown();
+
+    function showCoursesDropdown() {
+
+        var userTypeId = document.getElementById("userType").value;
+        var coursesDropdown = document.getElementById("coursesDropdown");
+
+        if (userTypeId == 1) {
+             coursesDropdown.innerHTML = `<div class="form-group">
+                                                <label class="control-label">Course Name</label>
+                                                <select class="form-control" name="courseId">
+                                                    @{
+                                                        var courseId = @ViewData["CourseId"];
+                                                        foreach(var item in ViewBag.Courses)
+                                                        {
+                                                            if (courseId != null && (int)courseId == (int)item.CourseId)
+                                                            {
+                                                                <option value="@item.CourseId" selected>@item.CourseName</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CourseId">@item.CourseName</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>`;
+
+        } else {
+            coursesDropdown.innerHTML = "";
+        }
+
+    }
+
+    function PasswordChecker() {
+       
+        var newPassword = document.getElementById("newPassword").value;
+        var newPasswordConfirm = document.getElementById("newPasswordConfirm").value;
+
+        if (newPassword != newPasswordConfirm) {
+            document.getElementById("NoMatchError").innerHTML = "Passwords do not match!";
+           
+        }
+    }
+
+    function PasswordValidate() {
+        var newPassword = document.getElementById("newPassword").value;
+       
+        var regex = RegExp("(?=.*\d)(?=.* [a - z])(?=.* [A - Z]).{ 8, 50}")
+        if (!regex.test(newPassword))
+        {
+            document.getElementById("NotValidError").innerHTML = "Password must be atleast 8 characters long and container both upper and lower case letters and atleast 1 number";
+        }
+        //newPassword.value
+    }
+
+
+</script>

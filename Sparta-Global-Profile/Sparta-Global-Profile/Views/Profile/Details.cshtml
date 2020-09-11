@@ -1,0 +1,144 @@
+﻿@model Sparta_Global_Profile.Models.Profile
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = $"{Model.User.UserName}'s Profile";
+    var userTypeId = Context.Session.GetInt32("UserTypeId");
+}
+
+<div class="body-card body-card-space">
+
+
+    @if (Model.ProfileVideo != null)
+    {
+        <iframe class="video" width="640" height="360" src="@Model.ProfileVideo" allowfullscreen style="border:none;"></iframe>
+    }
+
+    <div style="height:110px">
+        <img style="width:100px; height:100px;" class="profile-image" src="@Model.ProfilePicture">
+        <div>
+            <h2><span class="academy-stream">Meet </span>@Html.DisplayFor(model => model.User.UserName)</h2>
+            <h5>@Model.Status.StatusName</h5>
+            @if (userTypeId != 2)
+            {
+                <a class="approved-pill">
+                    @if (@Model.Approved)
+                    {
+                        <span>Approved</span>
+                    }
+                    else
+                    {
+                        <span>Unapproved</span>
+                    }
+                </a>
+            }
+        </div>
+
+    </div>
+    <hr />
+    <h2><span class="academy-stream">Academy Stream | </span>@Html.DisplayFor(model => model.Course.CourseName)</h2>
+
+    <br />
+    <p>@Html.DisplayFor(model => model.Summary)</p>
+
+    @if (Model.Skills.Count != 0)
+    {
+        <h5>Skills:</h5>
+
+        <ul>
+            @foreach (var skill in Model.Skills)
+            {
+                <li>@skill.SkillName</li>
+            }
+        </ul>
+    }
+
+    @if (Model.Assignments.Count != 0)
+    {
+        <h2 style="text-decoration:underline">Client Assignments</h2>
+
+        @foreach (var assignment in Model.Assignments)
+        {
+            <h5 class="deep-pink-header">@assignment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @assignment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
+            <h5 class="pink-header">@assignment.CompanyName.ToUpper()</h5>
+            <h5 class="pink-header">@assignment.Position.ToUpper()</h5>
+            <p>@assignment.Summary</p>
+            <br />
+        }
+    }
+
+    @if (Model.SpartaProjects.Count != 0)
+    {
+        <h2 style="text-decoration:underline">Academy Projects</h2>
+        @foreach (var project in Model.SpartaProjects)
+        {
+            <h5 class="pink-header">@project.ProjectName.ToUpper()</h5>
+            <p>@project.ProjectBio</p>
+            <ul>
+                @foreach (var link in project.ProjectLinks)
+                {
+                    <li><a class="pink-link-text" href=@link.Url>@link.LinkText</a></li>
+                }
+            </ul>
+            <br />
+        }
+    }
+
+    @if (Model.Employment.Count != 0)
+    {
+        <h2 style="text-decoration:underline">Employment History</h2>
+        @foreach (var employment in Model.Employment)
+        {
+            <h5 class="deep-pink-header">@employment.StartDate.ToString("dd MMMM yyyy").ToUpper() - @employment.EndDate.ToString("dd MMMM yyyy").ToUpper()</h5>
+            <h5 class="pink-header">@employment.CompanyName.ToUpper()</h5>
+            <h5 class="pink-header ">@employment.Position.ToUpper()</h5>
+            <p>@employment.Summary</p>
+            <br />
+        }
+    }
+
+    @if (Model.Education.Count != 0)
+    {
+        <h2 style="text-decoration:underline">Education</h2>
+        @foreach (var education in Model.Education)
+        {
+            <h5 class="deep-pink-header">@education.StartDate.ToString("dd MMMM yyyy") - @education.EndDate.ToString("dd MMMM yyyy")</h5>
+            <h5 class="pink-header">@education.Establishment</h5>
+            <h5 class="pink-header">@education.Qualification: @education.Grade</h5>
+            <br />
+        }
+    }
+
+    @if (Model.Certifications.Count != 0)
+    {
+        <h2 style="text-decoration:underline">Certifications</h2>
+        @foreach (var certification in Model.Certifications)
+        {
+            <h5>@certification.CertificationName</h5>
+            <p>@certification.Summary</p>
+            <br />
+        }
+    }
+
+    @if (Model.Hobbies.Count != 0)
+    {
+        <h2 style="text-decoration:underline">Hobbies/Extra Curricular Activities</h2>
+        <ul>
+            @foreach (var hobby in Model.Hobbies)
+            {
+                <li><span class="hobby">@hobby.HobbyName.ToUpper()</span> - @hobby.HobbyDescription</li>
+            }
+        </ul>
+    }
+
+    @if (userTypeId != 2)
+
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ProfileId"><button>Edit</button></a>
+    }
+    @if (userTypeId != 1)
+    {
+        <a asp-action="Index"><button>Back to List</button></a>
+    }
+
+</div>

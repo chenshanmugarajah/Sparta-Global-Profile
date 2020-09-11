@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Sparta_Global_Profile.Models.Assignment>
+
+@{
+    ViewData["Title"] = "Assignments";
+}
+
+<div class="profile-section">
+
+    @if ("All" == ViewBag.Type)
+    {
+        <h1>All Assignments</h1>
+        <p>
+            <a asp-action="Create">Create Assignment</a>
+        </p>
+    }
+    else
+    {
+        <h1>@ViewBag.ProfileName's assignments</h1>
+    }
+
+    @if (ViewBag.Type == "Student")
+    {
+        <p>
+            <a asp-action="Create" asp-route-id=@ViewBag.ProfileId><button>Create Assignment</button></a>
+        </p>
+    }
+
+    @if (Model.Count() != 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    @*<th>
+                        Profile Name
+                    </th>*@
+                    <th>
+                        Company Name
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                    <th>
+                        Summary
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Profile.ProfileName)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Position)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Summary)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.AssignmentId"><button>Edit</button></a>
+                            <a asp-action="Delete" asp-route-id="@item.AssignmentId"><button>Delete</button></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>You have no assignments listed at the moment</h3>
+    }
+
+    <a asp-controller="profile" asp-action="edit" asp-route-id="@ViewBag.ProfileId"><button>Back to Edit Profile</button></a>
+
+</div>

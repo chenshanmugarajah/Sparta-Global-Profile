@@ -1,31 +1,78 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sparta_Global_Profile</title>
+    <title>@ViewData["Title"] - Sparta Global Profile</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/Theme/vendor/bootstrap/css/bootstrap-grid.css" />
+    <link rel="stylesheet" href="~/Theme/vendor/bootstrap/css/bootstrap-grid.min.css" />
+
 </head>
 <body>
+    @{
+        var userId = Context.Session.GetInt32("UserId");
+        var userTypeId = Context.Session.GetInt32("UserTypeId");
+        var userEmail = Context.Session.GetString("UserEmail");
+    }
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-sparta border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sparta_Global_Profile</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/sparta-global-logo-white.svg" height="70"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+                @{
+                    if (@userId != null)
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                            <ul class="navbar-nav flex-grow-1">
+                                @if (@userTypeId != 1)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-sparta" asp-area="" asp-controller="Profile" asp-action="Index">Sparta Profiles</a>
+                                    </li>
+                                }
+
+                                @if (@userTypeId == 5)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-sparta" asp-area="" asp-controller="Users" asp-action="Index">Admin Panel</a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    }
+                }
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (@userId != null)
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-sparta" data-toggle="dropdown">
+                                    <strong asp-action="Index" method="get">@userEmail</strong>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    
+                                    <li><a asp-area="" asp-controller="Users" asp-action="Edit" asp-route-id="@userId">Change Password</a></li>
+
+                                    <li><a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @*else
+                    {
+                        <li><a asp-area="" asp-controller="Login" asp-action="Index">Login</a></li>
+                    }*@
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
@@ -36,13 +83,12 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Sparta_Global_Profile - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
