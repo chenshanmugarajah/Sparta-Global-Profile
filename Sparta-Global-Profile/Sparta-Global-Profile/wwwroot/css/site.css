@@ -179,7 +179,6 @@ button:hover {
     border-style:solid;
     border-color: #E33661;
     border-radius: 10px;
-    margin-bottom: 100px;
 }
 
 .body-card {
@@ -197,7 +196,6 @@ button:hover {
 
 .body-card-space {
     padding-top: 60px
-
 }
 
 .video {
@@ -212,6 +210,10 @@ button:hover {
     border-style: solid;
     float:left;
     margin-right: 20px;
+}
+
+.header-container{
+    height: 180px;
 }
 
 .inline{
