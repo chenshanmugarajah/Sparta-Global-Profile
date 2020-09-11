@@ -303,7 +303,7 @@ Notes:
   
 - 16:00 Daily review and merge
   - Made decision to put export functionality on the back burner for the time being as it has been consuming a lot of time and effort from the team which could be better utilised on other user stories.
-  - Leo can export a Word file, but having a blocker to export a Power Point file
+  - Leo can export a Word file, but had a blocker to export a PowerPoint file.
 * Wednesday
 - 9:30 Stand up
 - 10:00 
@@ -314,7 +314,7 @@ Notes:
 - 13:30 
 
   - Chris assisted Bryn with Password validification, and worked on fixes for the admin panel
-  - Alex added styling to the Admin Panel page and updated a user's name within.
+  - Alex added styling to the Admin Panel page and included usernames within the admin panel table.
   - Bruno implemented youtube/streams uploads
 - 16:30 
   
@@ -325,14 +325,17 @@ Notes:
   - Chris Refactored Sessions, user deletion
   - Chen added permissions to all profile sections and merged into Dev branch
   - Bruno worked on bug hunting
+  - Alex focused on fixing bugs within the Admin Panel and Profile Page. Search bar was not working as intended.
 - 11:00
   - Chen added styles to all the profile sections
 - 12:30 Lunch
 - 13:30 
   - Chris added first time user password change
+  - Alex focused on styling both the Admin Panel and Profile Page, then converted most links into styled buttons.
 - 14:00
   - Chen fixed a permissions issue
   - Bruno helped with Bryn and leo
+  - Alex added a search button next to search bar for clarity.
 - 15:00
   - Final Merge of all branches
 
