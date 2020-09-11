@@ -28,7 +28,6 @@ a {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-   
 }
 
 /* Sticky footer styles
@@ -175,6 +174,7 @@ button:hover {
     margin: 20px;
 }
 
+
 .approved-pill {
     font-family: "glennSparta";
     color: #E33661;
@@ -186,7 +186,7 @@ button:hover {
 }
 
 .body-card {
-    width: 60vw;
+    width: 100%;
     border-style: solid;
     border-width: 10px;
     border-color: #E33661;
@@ -292,7 +292,7 @@ button:hover {
 }       
 
 .profile-section {
-    width: 60vw;
+    width: 100%;
     border-style: solid;
     border-width: 10px;
     border-color: #E33661;
@@ -302,7 +302,7 @@ button:hover {
 }
 
 .adminpanel-section {
-    width: 75vw;
+    width: 100%;
     border-style: solid;
     border-width: 10px;
     border-color: #E33661;
