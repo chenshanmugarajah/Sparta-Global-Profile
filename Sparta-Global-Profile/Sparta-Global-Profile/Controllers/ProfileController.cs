@@ -231,6 +231,12 @@ namespace Sparta_Global_Profile.Controllers
                     ProfileVideo = "https://www.youtube.com/embed/" + key;
                     studentProfile.ProfileVideo = ProfileVideo;
                 }
+                else if(ProfileVideo.Contains("youtu.be"))
+                {
+                    var key = ProfileVideo.Split("be/")[1];
+                    ProfileVideo = "https://www.youtube.com/embed/" + key;
+                    studentProfile.ProfileVideo = ProfileVideo;
+                }
                 else if (ProfileVideo.Contains("microsoftstream"))
                 {
                     var key = ProfileVideo.Split("video/")[1];
