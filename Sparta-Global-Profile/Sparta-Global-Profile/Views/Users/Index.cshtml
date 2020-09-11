@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Index";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="adminpanel-section">
     <h1 class="admin">Admin Panel</h1>
 
@@ -10,10 +12,11 @@
         <a asp-action="Create"><button>Create New</button></a>
     </p>
 
-    <form asp-action="Index" method="get">
+    <form class="searchbar" asp-action="Index" method="get">
         <div class="form-actions no-color">
             <p>
-                Search by Name: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" /> |
+                Search by Name: <input type="text" name="searchString" placeholder="Search.." value="@ViewData["CurrentFilter"]" />
+                <button type="submit"><i class="fa fa-search"></i></button>
                 <a asp-action="Index">Back to Full List</a>
             </p>
         </div>

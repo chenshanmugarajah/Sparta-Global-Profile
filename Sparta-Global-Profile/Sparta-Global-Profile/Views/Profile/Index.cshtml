@@ -5,14 +5,15 @@
     ViewData["Title"] = "Profiles";
     var userTypeId = Context.Session.GetInt32("UserTypeId");
 }
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <h1 class="profile">Profiles</h1>
 
-<form asp-action="Index" method="get">
+<form class="searchbar" asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find By Course: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" /> |
+            Find By Course: <input type="text" name="searchString" placeholder="Search.." value="@ViewData["CurrentFilter"]" />
+            <button type="submit"><i class="fa fa-search"></i></button>
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
