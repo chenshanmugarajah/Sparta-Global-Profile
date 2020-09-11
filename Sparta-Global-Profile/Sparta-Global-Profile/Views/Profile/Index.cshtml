@@ -32,15 +32,12 @@
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Course.CourseName)</p>
 
                 </div>
-                <div class="card-footer">
+                <div>
                     @if (userTypeId != 1 && userTypeId != 2)
 
                     {
-                        @if (item.Approved)
-                        {<p>Approved</p>}
-                        else
-                        {<p>Unapproved</p>}
-
+                        if (item.Approved)
+                        {<p class="pink-header approved-margin"><strong>✔ Approved</strong></p>}
                     }
                 </div>
                 <div class="card-footer">
