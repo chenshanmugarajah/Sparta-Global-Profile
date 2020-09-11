@@ -30,26 +30,28 @@
             @{
                 if (@userId == Model.UserId)
                 {
+
                     if (Model.FirstLogin == true)
                     {
                         <label class="text-danger">You must change your password.</label>
                     }
                     <div class="form-group">
-                        <label class="control-label"> Current Password</label>
-                        <input class="form-control" type="password" name="currentPassword"/>
-                        <span name="currentPasswordError"></span>
+                            <label class="control-label"> Current Password</label>
+                            <input  class="form-control" type="password" name="currentPassword" />
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">New Password</label>
-                        <input class="form-control" type="password" name="newPassword" />
-                        <span name="newPasswordError"></span>
+                        <input onchange="PasswordValidate();" class="form-control" type="password" name="newPassword" id="newPassword" />
+                       <div class="error" id="NotValidError"></div>
+
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Confirm New Password</label>
-                        <input class="form-control" type="password" name="newPasswordConfirm" />
-                        <span name="newPasswordConfirmError"></span>
+                        <input onchange="PasswordChecker();" class="form-control" type="password" name="newPasswordConfirm" id="newPasswordConfirm" />
+                        <div class="error" id="NoMatchError"></div>
+                        
                     </div>
                 }
 
@@ -62,6 +64,7 @@
                     <div class="form-group">
                         <label class="control-label">User Type</label>
                         <select id="userType" asp-for="UserTypeId" class="form-control" asp-items="ViewBag.UserTypeId" onchange="showCoursesDropdown();"></select>
+                      
                     </div>
                     <div id="coursesDropdown"></div>
                 }
@@ -76,10 +79,12 @@
 </div>
 
 <div>
+
     @if (Model.FirstLogin != true)
     {
-        <a asp-action="Index"><button>Back to List</button></a>
+        <a asp-action="Index"><button>Back</button></a>
     }
+
 </div>
 
 @section Scripts {
@@ -120,5 +125,28 @@
         }
 
     }
+
+    function PasswordChecker() {
+       
+        var newPassword = document.getElementById("newPassword").value;
+        var newPasswordConfirm = document.getElementById("newPasswordConfirm").value;
+
+        if (newPassword != newPasswordConfirm) {
+            document.getElementById("NoMatchError").innerHTML = "Passwords do not match!";
+           
+        }
+    }
+
+    function PasswordValidate() {
+        var newPassword = document.getElementById("newPassword").value;
+       
+        var regex = RegExp("(?=.*\d)(?=.* [a - z])(?=.* [A - Z]).{ 8, 50}")
+        if (!regex.test(newPassword))
+        {
+            document.getElementById("NotValidError").innerHTML = "Password must be atleast 8 characters long and container both upper and lower case letters and atleast 1 number";
+        }
+        //newPassword.value
+    }
+
 
 </script>
