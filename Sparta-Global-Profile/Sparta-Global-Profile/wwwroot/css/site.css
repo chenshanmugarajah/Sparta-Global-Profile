@@ -110,21 +110,16 @@ button {
     vertical-align: middle;
 }
 
-profilebutton {
-    background-color: white;
-    color: black;
-    border-style: solid;
-    border-radius: 7px;
-    border-color: #e33661;
-    height: 30px;
-    text-align: center;
+.profilebutton {
     margin: auto;
     vertical-align: middle;
     justify-content: center;
     display: flex;
 }
 
-
+.profilebutton:hover{
+    color: #e33661;
+}
 input[type=submit] {
     background-color: white;
     color: black;
@@ -143,7 +138,19 @@ input[type=reset] {
     height: 30px;
 }
 
-.academy-stream{
+input[type=submit]:hover{
+    color: #e33661;
+}
+
+input[type=reset]:hover {
+    color: #e33661;
+}
+
+button:hover {
+    color: #e33661;
+}
+
+.academy-stream {
     color: #E33661;
 }
 
