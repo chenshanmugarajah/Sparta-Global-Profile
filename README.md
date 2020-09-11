@@ -61,6 +61,7 @@ The proof of concept project has a deadline of 2 weeks to be completed, from pla
 ### Types of Users
 * Admin
 * Resource manager
+* Staff
 * Client
 * Spartan Student
 
