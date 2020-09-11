@@ -61,6 +61,7 @@ The proof of concept project has a deadline of 2 weeks to be completed, from pla
 ### Types of Users
 * Admin
 * Resource manager
+* Staff
 * Client
 * Spartan Student
 
@@ -308,11 +309,13 @@ Notes:
 - 10:00 
   - Leo working on styling login page
   - Chris working on automated email system
+  - Bruno worked on video uploads
 - 12:30 Lunch
 - 13:30 
 
   - Chris assisted Bryn with Password validification, and worked on fixes for the admin panel
   - Alex added styling to the Admin Panel page and updated a user's name within.
+  - Bruno implemented youtube/streams uploads
 - 16:30 
   
 
@@ -321,6 +324,7 @@ Notes:
 - 10:00 
   - Chris Refactored Sessions, user deletion
   - Chen added permissions to all profile sections and merged into Dev branch
+  - Bruno worked on bug hunting
 - 11:00
   - Chen added styles to all the profile sections
 - 12:30 Lunch
@@ -328,6 +332,7 @@ Notes:
   - Chris added first time user password change
 - 14:00
   - Chen fixed a permissions issue
+  - Bruno helped with Bryn and leo
 - 15:00
   - Final Merge of all branches
 

@@ -171,12 +171,16 @@ button:hover {
     font-weight: bold;
 }
 
+.approved-margin {
+    margin: 20px;
+}
+
 .approved-pill {
     font-family: "glennSparta";
-    color:#E33661;
+    color: #E33661;
     font-size: 20px;
     padding: 3px;
-    border-style:solid;
+    border-style: solid;
     border-color: #E33661;
     border-radius: 10px;
 }
@@ -279,7 +283,7 @@ button:hover {
     background-image: url('../assets/brick-wall.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
+}       
 
 .profile-section {
     width: 60vw;
@@ -312,4 +316,8 @@ button:hover {
     object-fit: cover;
     display: block;
     padding: 4px;
+}
+
+.searchbar input[type=text]  {
+    background: #f1f1f1;
 }
