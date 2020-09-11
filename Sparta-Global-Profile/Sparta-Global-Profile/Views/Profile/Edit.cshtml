@@ -73,7 +73,7 @@
         @Html.ValidationSummary(true)
         <fieldset>
             <h2 style="text-decoration:underline">Your Profile Image</h2>
-            <img src="@Model.ProfilePicture" height="200px" width="200px" />
+            <img class="profile-background-image" src="@Model.ProfilePicture" style="width:200px; height:300px;" />
             <br /><br />
             <input type="file" name="file" id="filechosen" multiple />
             <input type="hidden" name="profileId" value="@Model.ProfileId" />
