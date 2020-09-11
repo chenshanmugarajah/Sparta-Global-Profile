@@ -287,8 +287,7 @@ button:hover {
 
 .brick-wall {
     background-image: url('../assets/brick-wall.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-size: cover;
 }       
 
 .profile-section {
