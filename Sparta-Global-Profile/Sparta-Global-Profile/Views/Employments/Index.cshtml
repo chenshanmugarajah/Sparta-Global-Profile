@@ -30,9 +30,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>
+                    @*<th>
                         Profile Name
-                    </th>
+                    </th>*@
                     <th>
                         Company Name
                     </th>
@@ -55,9 +55,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(modelItem => item.Profile.ProfileName)
-                        </td>
+                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.CompanyName)
                         </td>

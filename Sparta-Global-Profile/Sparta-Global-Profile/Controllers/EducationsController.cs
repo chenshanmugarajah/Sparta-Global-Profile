@@ -49,7 +49,8 @@ namespace Sparta_Global_Profile.Controllers
             {
                 spartaGlobalProfileDbContext = _context.Educations.Where(s => s.ProfileId == id).Include(s => s.Profile);
                 ViewData["ProfileId"] = id;
-                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
+                var thisUserId = (_context.Profiles.First(p => p.ProfileId == id)).UserId;
+                ViewData["ProfileName"] = (_context.Users.Where(u => u.UserId == thisUserId).First()).UserName;
             }
             else
             {

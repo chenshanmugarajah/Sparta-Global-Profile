@@ -55,7 +55,8 @@ namespace Sparta_Global_Profile.Controllers
                 var education = _context.Educations.Where(e => e.EducationId == id).FirstOrDefault();
                 ViewData["ProfileId"] = education.ProfileId;
                 ViewData["EducationId"] = education.EducationId;
-                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == education.ProfileId).First()).ProfileName;
+                var thisUserId = (_context.Profiles.First(p => p.ProfileId == id)).UserId;
+                ViewData["ProfileName"] = (_context.Users.Where(u => u.UserId == thisUserId).First()).UserName;
             }
 
             return View(await spartaGlobalProfileDbContext.ToListAsync());

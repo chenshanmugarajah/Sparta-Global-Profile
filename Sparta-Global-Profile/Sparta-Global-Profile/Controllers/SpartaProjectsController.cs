@@ -50,7 +50,7 @@ namespace Sparta_Global_Profile.Controllers
             {
                 spartaGlobalProfileDbContext = _context.SpartaProjects.Where(s => s.ProfileId == id).Include(s => s.Profile);
                 ViewData["ProfileId"] = id;
-                ViewData["ProfileName"] = (_context.Profiles.Where(p => p.ProfileId == id).First()).ProfileName;
+                ViewData["ProfileName"] = (_context.Users.Where(u => u.UserId == userId).First()).UserName;
             }
             else
             {
